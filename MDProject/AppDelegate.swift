@@ -80,7 +80,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func createDefaultProfile() -> ProfileProto {
         let defaultProfile = ProfileProto.with {
             $0.sessionName = "DefaultSession"
-            $0.serverAddress = "192.168.1.181"
+            $0.serverAddress = "192.168.1.58"
             $0.serverPort = 9099
             $0.sensor = [ SensorProto.with {
                 $0.name = "Accelerometer"
@@ -126,6 +126,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         $0.value = SensorParameterValueProto.with {
                             $0.doubleValue = 1080
                         }
+                        }, SensorParameterProto.with {
+                            $0.key = "Compression"
+                            $0.value = SensorParameterValueProto.with {
+                                $0.doubleValue = 1
+                            }
+                        }, SensorParameterProto.with {
+                            $0.key = "FPS"
+                            $0.value = SensorParameterValueProto.with {
+                                $0.doubleValue = 30
+                            }
                         }]
                 }, SensorProto.with {
                     $0.name = "ARkit 6d poses"

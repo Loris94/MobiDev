@@ -8,6 +8,8 @@ from pymongo import MongoClient
 from protobuf_to_dict import protobuf_to_dict
 from bson import json_util
 
+
+
 # Mongo init
 mongoClient = MongoClient('localhost', 27017)
 db = mongoClient['MDsensorsDB']
@@ -58,10 +60,12 @@ def getLastTimestamp(sid):
 
 @sio.event
 def sensorUpdate(sid, buffer):
-    print("Sensor data received", buffer)
+    #print("Sensor data received", buffer)
+    print("Data array quantity received: ", len(buffer))
     for data in buffer:
         # Received a sensor data update
-        print("Sample:" , data)
+        #print("Sample:" , data)
+        print("len sensor update: ", len(data))
         unwrapped = classes_pb2.SensorUpdate()
         unwrapped.ParseFromString(data)
         storeSensorUpdate(sid, unwrapped)
@@ -69,7 +73,19 @@ def sensorUpdate(sid, buffer):
     return "LAST_TIMESTAMP", last_received_data[sid]
 
 def storeSensorUpdate(sid, sensor_update):
+    
+    #for key,value in last_received_data:
+    #print(" >>> LRS Key: ", key, " Value: ", value)
+    #print(">>> LRS LEN: ",len(last_received_data))
+    
+    #print(">>> OLD TS: ", last_received_data[sid])
+    #print(">>> NEW TS: ", lsensor_update.timestamp)
     last_received_data[sid] = sensor_update.timestamp
+        #for key,value in last_received_data:
+        #print(" >>> LRS Key: ", key, " Value: ", value)
+        #print(">>> LRS LEN: ",len(last_received_data))
+
+        #print(">>> RENEWED TS: ", last_received_data[sid])
     session = session_map[sid]['session']
     uuid = session_map[sid]['uuid']
 
@@ -82,7 +98,7 @@ def storeSensorUpdate(sid, sensor_update):
     }
 
     collection.insert_one(data)
-    print("Storing sensor Update: ", data)    
+#print("Storing sensor Update: ", data)
 
 
 eventlet.wsgi.server(eventlet.listen(('0.0.0.0', 9099)), app)

@@ -58,6 +58,10 @@ message ImageProto {
     string base64 = 1;
 }
 
+message ImageProto2 {
+    bytes JpegImage = 1;
+}
+
 message MagnetometerDataProto {
     double x = 1;
     double y = 2;
@@ -80,6 +84,7 @@ message SensorUpdate {
     AccelerationDataProto2 accelerationData = 4;
     GyroDataProto2 gyroData = 5;
     ImageProto ImageData = 6;
+    ImageProto2 JpegImage = 7;
 }
 
 // protoc --swift_out=. DataModel.proto

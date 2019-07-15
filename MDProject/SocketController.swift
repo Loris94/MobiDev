@@ -2,7 +2,7 @@
 //  SocketManager.swift
 //  MDProject
 //
-//  Created by duri on 06/07/2019.
+//  Created by Loris D'Auria on 06/07/2019.
 //  Copyright © 2019 Loris D'Auria. All rights reserved.
 //
 

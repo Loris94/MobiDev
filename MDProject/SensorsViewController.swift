@@ -226,7 +226,7 @@ class SensorsViewController: UIViewController, UITableViewDelegate, UITableViewD
         
             
         else if segue.identifier == "goToStart"{
-            if #available(iOS 11.0, *) {
+            if #available(iOS 11.3, *) {
                 if let destinationVC = segue.destination as? ViewController{
                     destinationVC.profile = self.profile
                     //                destinationVC.sensorList = profile.sensorList

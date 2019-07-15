@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n\rclasses.proto\"l\n\x0cProfileProto\x12\x15\n\rserverAddress\x18\x01 \x01(\t\x12\x12\n\nserverPort\x18\x02 \x01(\r\x12\x13\n\x0bsessionName\x18\x03 \x01(\t\x12\x1c\n\x06sensor\x18\x04 \x03(\x0b\x32\x0c.SensorProto\"U\n\x0bSensorProto\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0e\n\x06status\x18\x02 \x01(\x08\x12(\n\tparameter\x18\x03 \x03(\x0b\x32\x15.SensorParameterProto\"N\n\x14SensorParameterProto\x12\x0b\n\x03key\x18\x01 \x01(\t\x12)\n\x05value\x18\x02 \x01(\x0b\x32\x1a.SensorParameterValueProto\"B\n\x19SensorParameterValueProto\x12\x13\n\x0b\x64oubleValue\x18\x01 \x01(\x01\x12\x10\n\x08strValue\x18\x02 \x01(\t\"K\n\x15\x41\x63\x63\x65lerationDataProto\x12\t\n\x01x\x18\x01 \x01(\x01\x12\t\n\x01y\x18\x02 \x01(\x01\x12\t\n\x01z\x18\x03 \x01(\x01\x12\x11\n\ttimestamp\x18\x04 \x01(\x01\"C\n\rGyroDataProto\x12\t\n\x01x\x18\x01 \x01(\x01\x12\t\n\x01y\x18\x02 \x01(\x01\x12\t\n\x01z\x18\x03 \x01(\x01\x12\x11\n\ttimestamp\x18\x04 \x01(\x01\"_\n\tDataProto\x12\x30\n\x10\x61\x63\x63\x65lerationData\x18\x01 \x03(\x0b\x32\x16.AccelerationDataProto\x12 \n\x08gyroData\x18\x02 \x03(\x0b\x32\x0e.GyroDataProto\"1\n\x0eGyroDataProto2\x12\t\n\x01x\x18\x01 \x01(\x01\x12\t\n\x01y\x18\x02 \x01(\x01\x12\t\n\x01z\x18\x03 \x01(\x01\"9\n\x16\x41\x63\x63\x65lerationDataProto2\x12\t\n\x01x\x18\x01 \x01(\x01\x12\t\n\x01y\x18\x02 \x01(\x01\x12\t\n\x01z\x18\x03 \x01(\x01\"\x96\x01\n\x0cSensorUpdate\x12\x11\n\ttimestamp\x18\x01 \x01(\x01\x12\x0f\n\x07session\x18\x02 \x01(\t\x12\x0c\n\x04type\x18\x03 \x01(\t\x12\x31\n\x10\x61\x63\x63\x65lerationData\x18\x04 \x01(\x0b\x32\x17.AccelerationDataProto2\x12!\n\x08gyroData\x18\x05 \x01(\x0b\x32\x0f.GyroDataProto2b\x06proto3')
+  serialized_pb=_b('\n\rclasses.proto\"l\n\x0cProfileProto\x12\x15\n\rserverAddress\x18\x01 \x01(\t\x12\x12\n\nserverPort\x18\x02 \x01(\r\x12\x13\n\x0bsessionName\x18\x03 \x01(\t\x12\x1c\n\x06sensor\x18\x04 \x03(\x0b\x32\x0c.SensorProto\"U\n\x0bSensorProto\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0e\n\x06status\x18\x02 \x01(\x08\x12(\n\tparameter\x18\x03 \x03(\x0b\x32\x15.SensorParameterProto\"N\n\x14SensorParameterProto\x12\x0b\n\x03key\x18\x01 \x01(\t\x12)\n\x05value\x18\x02 \x01(\x0b\x32\x1a.SensorParameterValueProto\"B\n\x19SensorParameterValueProto\x12\x13\n\x0b\x64oubleValue\x18\x01 \x01(\x01\x12\x10\n\x08strValue\x18\x02 \x01(\t\"K\n\x15\x41\x63\x63\x65lerationDataProto\x12\t\n\x01x\x18\x01 \x01(\x01\x12\t\n\x01y\x18\x02 \x01(\x01\x12\t\n\x01z\x18\x03 \x01(\x01\x12\x11\n\ttimestamp\x18\x04 \x01(\x01\"C\n\rGyroDataProto\x12\t\n\x01x\x18\x01 \x01(\x01\x12\t\n\x01y\x18\x02 \x01(\x01\x12\t\n\x01z\x18\x03 \x01(\x01\x12\x11\n\ttimestamp\x18\x04 \x01(\x01\"_\n\tDataProto\x12\x30\n\x10\x61\x63\x63\x65lerationData\x18\x01 \x03(\x0b\x32\x16.AccelerationDataProto\x12 \n\x08gyroData\x18\x02 \x03(\x0b\x32\x0e.GyroDataProto\"1\n\x0eGyroDataProto2\x12\t\n\x01x\x18\x01 \x01(\x01\x12\t\n\x01y\x18\x02 \x01(\x01\x12\t\n\x01z\x18\x03 \x01(\x01\"9\n\x16\x41\x63\x63\x65lerationDataProto2\x12\t\n\x01x\x18\x01 \x01(\x01\x12\t\n\x01y\x18\x02 \x01(\x01\x12\t\n\x01z\x18\x03 \x01(\x01\"\x1c\n\nImageProto\x12\x0e\n\x06\x62\x61se64\x18\x01 \x01(\t\" \n\x0bImageProto2\x12\x11\n\tJpegImage\x18\x01 \x01(\x0c\"J\n\x15MagnetometerDataProto\x12\t\n\x01x\x18\x01 \x01(\x01\x12\t\n\x01y\x18\x02 \x01(\x01\x12\t\n\x01z\x18\x03 \x01(\x01\x12\x10\n\x08\x61\x63\x63uracy\x18\x04 \x01(\x05\"a\n\x10\x43ompassDataProto\x12\t\n\x01x\x18\x01 \x01(\x01\x12\t\n\x01y\x18\x02 \x01(\x01\x12\t\n\x01z\x18\x03 \x01(\x01\x12\x13\n\x0btrueHeading\x18\x04 \x01(\x01\x12\x17\n\x0fmagneticHeading\x18\x05 \x01(\x01\"\xd7\x01\n\x0cSensorUpdate\x12\x11\n\ttimestamp\x18\x01 \x01(\x01\x12\x0f\n\x07session\x18\x02 \x01(\t\x12\x0c\n\x04type\x18\x03 \x01(\t\x12\x31\n\x10\x61\x63\x63\x65lerationData\x18\x04 \x01(\x0b\x32\x17.AccelerationDataProto2\x12!\n\x08gyroData\x18\x05 \x01(\x0b\x32\x0f.GyroDataProto2\x12\x1e\n\tImageData\x18\x06 \x01(\x0b\x32\x0b.ImageProto\x12\x1f\n\tJpegImage\x18\x07 \x01(\x0b\x32\x0c.ImageProto2b\x06proto3')
 )
 
 
@@ -431,6 +431,179 @@ _ACCELERATIONDATAPROTO2 = _descriptor.Descriptor(
 )
 
 
+_IMAGEPROTO = _descriptor.Descriptor(
+  name='ImageProto',
+  full_name='ImageProto',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='base64', full_name='ImageProto.base64', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=715,
+  serialized_end=743,
+)
+
+
+_IMAGEPROTO2 = _descriptor.Descriptor(
+  name='ImageProto2',
+  full_name='ImageProto2',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='JpegImage', full_name='ImageProto2.JpegImage', index=0,
+      number=1, type=12, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b(""),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=745,
+  serialized_end=777,
+)
+
+
+_MAGNETOMETERDATAPROTO = _descriptor.Descriptor(
+  name='MagnetometerDataProto',
+  full_name='MagnetometerDataProto',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='x', full_name='MagnetometerDataProto.x', index=0,
+      number=1, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='y', full_name='MagnetometerDataProto.y', index=1,
+      number=2, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='z', full_name='MagnetometerDataProto.z', index=2,
+      number=3, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='accuracy', full_name='MagnetometerDataProto.accuracy', index=3,
+      number=4, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=779,
+  serialized_end=853,
+)
+
+
+_COMPASSDATAPROTO = _descriptor.Descriptor(
+  name='CompassDataProto',
+  full_name='CompassDataProto',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='x', full_name='CompassDataProto.x', index=0,
+      number=1, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='y', full_name='CompassDataProto.y', index=1,
+      number=2, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='z', full_name='CompassDataProto.z', index=2,
+      number=3, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='trueHeading', full_name='CompassDataProto.trueHeading', index=3,
+      number=4, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='magneticHeading', full_name='CompassDataProto.magneticHeading', index=4,
+      number=5, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=855,
+  serialized_end=952,
+)
+
+
 _SENSORUPDATE = _descriptor.Descriptor(
   name='SensorUpdate',
   full_name='SensorUpdate',
@@ -473,6 +646,20 @@ _SENSORUPDATE = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='ImageData', full_name='SensorUpdate.ImageData', index=5,
+      number=6, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='JpegImage', full_name='SensorUpdate.JpegImage', index=6,
+      number=7, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -485,8 +672,8 @@ _SENSORUPDATE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=716,
-  serialized_end=866,
+  serialized_start=955,
+  serialized_end=1170,
 )
 
 _PROFILEPROTO.fields_by_name['sensor'].message_type = _SENSORPROTO
@@ -496,6 +683,8 @@ _DATAPROTO.fields_by_name['accelerationData'].message_type = _ACCELERATIONDATAPR
 _DATAPROTO.fields_by_name['gyroData'].message_type = _GYRODATAPROTO
 _SENSORUPDATE.fields_by_name['accelerationData'].message_type = _ACCELERATIONDATAPROTO2
 _SENSORUPDATE.fields_by_name['gyroData'].message_type = _GYRODATAPROTO2
+_SENSORUPDATE.fields_by_name['ImageData'].message_type = _IMAGEPROTO
+_SENSORUPDATE.fields_by_name['JpegImage'].message_type = _IMAGEPROTO2
 DESCRIPTOR.message_types_by_name['ProfileProto'] = _PROFILEPROTO
 DESCRIPTOR.message_types_by_name['SensorProto'] = _SENSORPROTO
 DESCRIPTOR.message_types_by_name['SensorParameterProto'] = _SENSORPARAMETERPROTO
@@ -505,77 +694,109 @@ DESCRIPTOR.message_types_by_name['GyroDataProto'] = _GYRODATAPROTO
 DESCRIPTOR.message_types_by_name['DataProto'] = _DATAPROTO
 DESCRIPTOR.message_types_by_name['GyroDataProto2'] = _GYRODATAPROTO2
 DESCRIPTOR.message_types_by_name['AccelerationDataProto2'] = _ACCELERATIONDATAPROTO2
+DESCRIPTOR.message_types_by_name['ImageProto'] = _IMAGEPROTO
+DESCRIPTOR.message_types_by_name['ImageProto2'] = _IMAGEPROTO2
+DESCRIPTOR.message_types_by_name['MagnetometerDataProto'] = _MAGNETOMETERDATAPROTO
+DESCRIPTOR.message_types_by_name['CompassDataProto'] = _COMPASSDATAPROTO
 DESCRIPTOR.message_types_by_name['SensorUpdate'] = _SENSORUPDATE
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
-ProfileProto = _reflection.GeneratedProtocolMessageType('ProfileProto', (_message.Message,), dict(
-  DESCRIPTOR = _PROFILEPROTO,
-  __module__ = 'classes_pb2'
+ProfileProto = _reflection.GeneratedProtocolMessageType('ProfileProto', (_message.Message,), {
+  'DESCRIPTOR' : _PROFILEPROTO,
+  '__module__' : 'classes_pb2'
   # @@protoc_insertion_point(class_scope:ProfileProto)
-  ))
+  })
 _sym_db.RegisterMessage(ProfileProto)
 
-SensorProto = _reflection.GeneratedProtocolMessageType('SensorProto', (_message.Message,), dict(
-  DESCRIPTOR = _SENSORPROTO,
-  __module__ = 'classes_pb2'
+SensorProto = _reflection.GeneratedProtocolMessageType('SensorProto', (_message.Message,), {
+  'DESCRIPTOR' : _SENSORPROTO,
+  '__module__' : 'classes_pb2'
   # @@protoc_insertion_point(class_scope:SensorProto)
-  ))
+  })
 _sym_db.RegisterMessage(SensorProto)
 
-SensorParameterProto = _reflection.GeneratedProtocolMessageType('SensorParameterProto', (_message.Message,), dict(
-  DESCRIPTOR = _SENSORPARAMETERPROTO,
-  __module__ = 'classes_pb2'
+SensorParameterProto = _reflection.GeneratedProtocolMessageType('SensorParameterProto', (_message.Message,), {
+  'DESCRIPTOR' : _SENSORPARAMETERPROTO,
+  '__module__' : 'classes_pb2'
   # @@protoc_insertion_point(class_scope:SensorParameterProto)
-  ))
+  })
 _sym_db.RegisterMessage(SensorParameterProto)
 
-SensorParameterValueProto = _reflection.GeneratedProtocolMessageType('SensorParameterValueProto', (_message.Message,), dict(
-  DESCRIPTOR = _SENSORPARAMETERVALUEPROTO,
-  __module__ = 'classes_pb2'
+SensorParameterValueProto = _reflection.GeneratedProtocolMessageType('SensorParameterValueProto', (_message.Message,), {
+  'DESCRIPTOR' : _SENSORPARAMETERVALUEPROTO,
+  '__module__' : 'classes_pb2'
   # @@protoc_insertion_point(class_scope:SensorParameterValueProto)
-  ))
+  })
 _sym_db.RegisterMessage(SensorParameterValueProto)
 
-AccelerationDataProto = _reflection.GeneratedProtocolMessageType('AccelerationDataProto', (_message.Message,), dict(
-  DESCRIPTOR = _ACCELERATIONDATAPROTO,
-  __module__ = 'classes_pb2'
+AccelerationDataProto = _reflection.GeneratedProtocolMessageType('AccelerationDataProto', (_message.Message,), {
+  'DESCRIPTOR' : _ACCELERATIONDATAPROTO,
+  '__module__' : 'classes_pb2'
   # @@protoc_insertion_point(class_scope:AccelerationDataProto)
-  ))
+  })
 _sym_db.RegisterMessage(AccelerationDataProto)
 
-GyroDataProto = _reflection.GeneratedProtocolMessageType('GyroDataProto', (_message.Message,), dict(
-  DESCRIPTOR = _GYRODATAPROTO,
-  __module__ = 'classes_pb2'
+GyroDataProto = _reflection.GeneratedProtocolMessageType('GyroDataProto', (_message.Message,), {
+  'DESCRIPTOR' : _GYRODATAPROTO,
+  '__module__' : 'classes_pb2'
   # @@protoc_insertion_point(class_scope:GyroDataProto)
-  ))
+  })
 _sym_db.RegisterMessage(GyroDataProto)
 
-DataProto = _reflection.GeneratedProtocolMessageType('DataProto', (_message.Message,), dict(
-  DESCRIPTOR = _DATAPROTO,
-  __module__ = 'classes_pb2'
+DataProto = _reflection.GeneratedProtocolMessageType('DataProto', (_message.Message,), {
+  'DESCRIPTOR' : _DATAPROTO,
+  '__module__' : 'classes_pb2'
   # @@protoc_insertion_point(class_scope:DataProto)
-  ))
+  })
 _sym_db.RegisterMessage(DataProto)
 
-GyroDataProto2 = _reflection.GeneratedProtocolMessageType('GyroDataProto2', (_message.Message,), dict(
-  DESCRIPTOR = _GYRODATAPROTO2,
-  __module__ = 'classes_pb2'
+GyroDataProto2 = _reflection.GeneratedProtocolMessageType('GyroDataProto2', (_message.Message,), {
+  'DESCRIPTOR' : _GYRODATAPROTO2,
+  '__module__' : 'classes_pb2'
   # @@protoc_insertion_point(class_scope:GyroDataProto2)
-  ))
+  })
 _sym_db.RegisterMessage(GyroDataProto2)
 
-AccelerationDataProto2 = _reflection.GeneratedProtocolMessageType('AccelerationDataProto2', (_message.Message,), dict(
-  DESCRIPTOR = _ACCELERATIONDATAPROTO2,
-  __module__ = 'classes_pb2'
+AccelerationDataProto2 = _reflection.GeneratedProtocolMessageType('AccelerationDataProto2', (_message.Message,), {
+  'DESCRIPTOR' : _ACCELERATIONDATAPROTO2,
+  '__module__' : 'classes_pb2'
   # @@protoc_insertion_point(class_scope:AccelerationDataProto2)
-  ))
+  })
 _sym_db.RegisterMessage(AccelerationDataProto2)
 
-SensorUpdate = _reflection.GeneratedProtocolMessageType('SensorUpdate', (_message.Message,), dict(
-  DESCRIPTOR = _SENSORUPDATE,
-  __module__ = 'classes_pb2'
+ImageProto = _reflection.GeneratedProtocolMessageType('ImageProto', (_message.Message,), {
+  'DESCRIPTOR' : _IMAGEPROTO,
+  '__module__' : 'classes_pb2'
+  # @@protoc_insertion_point(class_scope:ImageProto)
+  })
+_sym_db.RegisterMessage(ImageProto)
+
+ImageProto2 = _reflection.GeneratedProtocolMessageType('ImageProto2', (_message.Message,), {
+  'DESCRIPTOR' : _IMAGEPROTO2,
+  '__module__' : 'classes_pb2'
+  # @@protoc_insertion_point(class_scope:ImageProto2)
+  })
+_sym_db.RegisterMessage(ImageProto2)
+
+MagnetometerDataProto = _reflection.GeneratedProtocolMessageType('MagnetometerDataProto', (_message.Message,), {
+  'DESCRIPTOR' : _MAGNETOMETERDATAPROTO,
+  '__module__' : 'classes_pb2'
+  # @@protoc_insertion_point(class_scope:MagnetometerDataProto)
+  })
+_sym_db.RegisterMessage(MagnetometerDataProto)
+
+CompassDataProto = _reflection.GeneratedProtocolMessageType('CompassDataProto', (_message.Message,), {
+  'DESCRIPTOR' : _COMPASSDATAPROTO,
+  '__module__' : 'classes_pb2'
+  # @@protoc_insertion_point(class_scope:CompassDataProto)
+  })
+_sym_db.RegisterMessage(CompassDataProto)
+
+SensorUpdate = _reflection.GeneratedProtocolMessageType('SensorUpdate', (_message.Message,), {
+  'DESCRIPTOR' : _SENSORUPDATE,
+  '__module__' : 'classes_pb2'
   # @@protoc_insertion_point(class_scope:SensorUpdate)
-  ))
+  })
 _sym_db.RegisterMessage(SensorUpdate)
 
 

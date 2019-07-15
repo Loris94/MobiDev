@@ -26,8 +26,13 @@ extension UIImage {
 }
 
 
-@available(iOS 11.0, *)
+@available(iOS 11.3, *)
 class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate,ARSessionDelegate {
+    
+    //TODO TEMPS
+    var done = false
+    var videoFrame: Int = 0
+    var fps: Int = 30
 
     var isClosing = false
     let operationQueue = OperationQueue()
@@ -128,7 +133,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
                 }
                 else if indexPath[1] == 2 {
                     if let cell = tableView.dequeueReusableCell(withIdentifier: "ExampleCell", for: indexPath) as? RealTimeInfoCell{
-                        cell.SensorInfo.text = "Sensor Image Size"
+                        cell.SensorInfo.text = "Image Buffer Size"
                         cell.InfoValue.text = String(buffer.bufferSize["image"] ?? 0)
                         return cell
                     }
@@ -212,6 +217,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
     var timer = Timer()
 
     @objc func updateBufferSizeView() {
+        print("Update sensor view")
         DispatchQueue.main.async {
             if let cell = self.realtimeInfoTable.cellForRow(at: IndexPath(indexes:[0,1])) as? RealTimeInfoCell {
                 cell.InfoValue.text = String(self.buffer.bufferSize["sensor"] ?? 0)
@@ -257,6 +263,8 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
             }
         }
     }
+    
+    
     
     
     @objc func serverButtonAction(sender: UIButton!) {
@@ -398,25 +406,24 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
             self.performSegue(withIdentifier: "goBackToSensors", sender: "A")
         }
         if self.buffer.bufferSize["sensor"]!+self.buffer.bufferSize["image"]! > 0 {
-            self.dataStillPresentAlert()
+            self.dataStillPresentAlert(workItem: backgroundClosingThread)
         }
         
         
     }
     
-    func dataStillPresentAlert() {
+    func dataStillPresentAlert(workItem: DispatchWorkItem) {
         
         let alert = UIAlertController(title: "Data not sent", message: "Some data is still present in the buffer and not sent. Continue sending or Stop?", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Continue", style: .default, handler: { [weak alert] (action) -> Void in
-            if self.buffer.bufferSize["sensor"]!+self.buffer.bufferSize["image"]! > 0 {
-                self.performSegue(withIdentifier: "goBackToSensors", sender: "A")
-            }
+        
         }))
         alert.addAction(UIAlertAction(title: "Stop", style: .default, handler: { [weak alert] (action) -> Void in
-            self.closeGroup.leave()
-            if self.buffer.bufferSize["sensor"]!+self.buffer.bufferSize["image"]! > 0 {
-                self.performSegue(withIdentifier: "goBackToSensors", sender: "A")
+            if(!workItem.isCancelled){
+                workItem.cancel()
             }
+            self.closeGroup.leave()
+            self.performSegue(withIdentifier: "goBackToSensors", sender: "A")
         }))
         self.present(alert, animated: true, completion: nil)
         
@@ -468,6 +475,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
         NotificationCenter.default.addObserver(self, selector: #selector(socketConnected), name: .socket_connected, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(socketDisconnected), name: .socket_disconnected, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(sendSamples), name: .sensor_buffer_enoughdata, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(sendSamples), name: .image_buffer_enoughdata, object: nil)
     
         socketController?.connect()
         self.startSensorGather()
@@ -594,20 +602,65 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
 //      AR
         print("is AR supported: ", ARConfiguration.isSupported)
         if ARConfiguration.isSupported && self.profile.sensorList.getByName(name: "Video Frames")!.status {
+            
             arSession = ARSession()
+            self.arSession?.delegate = self
             self.arscnView.session = arSession!
             self.arscnView.debugOptions = [ARSCNDebugOptions.showFeaturePoints]
-            let sessionConfig = ARWorldTrackingConfiguration()
+            var arConfig = ARWorldTrackingConfiguration()
+//            arConfig.isAutoFocusEnabled = true
+//            arConfig.worldAlignment = ARConfiguration.WorldAlignment(rawValue: 0)!
+            arConfig.videoFormat = ARWorldTrackingConfiguration.supportedVideoFormats[2]
+            let sessionConfig = arConfig
+            
             arSession!.run(sessionConfig)
         }
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
-        newHeading
         locationManager.heading!.trueHeading
         locationManager.heading!.x
         locationManager.heading!.magneticHeading
     }
+    
+    func session(_: ARSession, didUpdate: ARFrame) {
+        var fps = self.profile.sensorList.getByName(name: "Video Frames")?.parameters["FPS"] as? Double
+        
+        var frameEveryHowManySecs = Int(60 / Int(fps!))
+        
+        self.videoFrame += 1
+        
+//        for elem in ARWorldTrackingConfiguration.supportedVideoFormats {
+//            print("res:", elem.imageResolution, " frame: ", elem.framesPerSecond)
+//        }
+        
+        if self.videoFrame % frameEveryHowManySecs == 0 {
+            var compres: CGFloat = CGFloat(1)
+            
+            self.buffer.addProbe(type: "image", elem: (didUpdate, compres))
+            
+//            var a = UIImage(pixelBuffer: didUpdate.capturedImage)
+//            var jpegone : JpegData? = a?.jpegData(compressionQuality: 0)
+//            var jpegProto: ImageProto2 = ImageProto2.with{
+//                $0.jpegImage = jpegone!
+//            }
+//            var jpegProtoData: Data
+//            do {
+//                try jpegProtoData = jpegProto.serializedData()
+//                print("JPED with compression 0:", jpegProtoData , " time ", didUpdate.timestamp, " number frame: ", self.videoFrame)
+//            } catch {
+//                print("Error")
+//            }
+            
+        }
+        
+        if self.videoFrame == 60 {
+            self.videoFrame = 0
+        }
+        
+        
+    }
+
 
     
 //    @available(iOS 11.0, *)
@@ -666,6 +719,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
         if self.arSession != nil {
             print("ARSession paused")
             self.arSession?.pause()
+            // TODO reinitialize counters
         }
     }
     
@@ -684,6 +738,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
         
         if segue.identifier == "goBackToSensors" {
             
+            self.timer.invalidate()
             // Disconnect socket
             self.socketController?.disconnect()
             
@@ -691,7 +746,8 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
             NotificationCenter.default.removeObserver(self, name: .socket_connected, object: nil)
             NotificationCenter.default.removeObserver(self, name: .socket_disconnected, object: nil)
             NotificationCenter.default.removeObserver(self, name: .sensor_buffer_enoughdata, object: nil)
-
+            NotificationCenter.default.removeObserver(self, name: .image_buffer_enoughdata, object: nil)
+            
             // Destroy socketController because could be initialized with another sessionName
             socketController = nil
             

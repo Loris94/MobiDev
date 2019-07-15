@@ -22,6 +22,7 @@
 		1D2F469022BD22020020DF56 /* SensorInfoTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D2F468F22BD22020020DF56 /* SensorInfoTableCell.swift */; };
 		1D44606222CA3F6A00D965C4 /* Sensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D44606122CA3F6A00D965C4 /* Sensor.swift */; };
 		1D44606422CA418C00D965C4 /* SensorList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D44606322CA418C00D965C4 /* SensorList.swift */; };
+		1D5634DB22DCAD3300C7C531 /* ARVideoFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5634DA22DCAD3300C7C531 /* ARVideoFormat.swift */; };
 		1D579F5122C4C6DB00D04F57 /* Buffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D579F5022C4C6DB00D04F57 /* Buffer.swift */; };
 		1D72B17F22D1F8D10080FC2B /* ServerParameterInfoTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D72B17E22D1F8D10080FC2B /* ServerParameterInfoTableCell.swift */; };
 		1D72B18122D20F780080FC2B /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D72B18022D20F780080FC2B /* Profile.swift */; };
@@ -84,6 +85,7 @@
 		1D2F468F22BD22020020DF56 /* SensorInfoTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorInfoTableCell.swift; sourceTree = "<group>"; };
 		1D44606122CA3F6A00D965C4 /* Sensor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sensor.swift; sourceTree = "<group>"; };
 		1D44606322CA418C00D965C4 /* SensorList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorList.swift; sourceTree = "<group>"; };
+		1D5634DA22DCAD3300C7C531 /* ARVideoFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARVideoFormat.swift; sourceTree = "<group>"; };
 		1D579F5022C4C6DB00D04F57 /* Buffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Buffer.swift; sourceTree = "<group>"; };
 		1D72B17E22D1F8D10080FC2B /* ServerParameterInfoTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerParameterInfoTableCell.swift; sourceTree = "<group>"; };
 		1D72B18022D20F780080FC2B /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
@@ -174,6 +176,7 @@
 				1D0D6E6C22BA78B600594A75 /* LaunchScreen.storyboard */,
 				1D0D6E6F22BA78B600594A75 /* Info.plist */,
 				1DEDCB4E22DA51B90077009C /* Utils.swift */,
+				1D5634DA22DCAD3300C7C531 /* ARVideoFormat.swift */,
 			);
 			path = MDProject;
 			sourceTree = "<group>";
@@ -450,6 +453,7 @@
 				1D0D6E6622BA78B500594A75 /* ViewController.swift in Sources */,
 				1D44606422CA418C00D965C4 /* SensorList.swift in Sources */,
 				1DEDCB4F22DA51B90077009C /* Utils.swift in Sources */,
+				1D5634DB22DCAD3300C7C531 /* ARVideoFormat.swift in Sources */,
 				1D72B18122D20F780080FC2B /* Profile.swift in Sources */,
 				1D2F468E22BD10A60020DF56 /* SensorsInfoViewController.swift in Sources */,
 				1D72B17F22D1F8D10080FC2B /* ServerParameterInfoTableCell.swift in Sources */,

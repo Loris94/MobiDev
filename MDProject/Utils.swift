@@ -9,7 +9,11 @@
 import Foundation
 import CoreMotion
 import CoreLocation
+import ARKit
 
+typealias JpegData = Data
+
+@available(iOS 11.3, *)
 class Utils {
     static func accelerometerToProto2(elem: CMAccelerometerData) -> AccelerationDataProto2 {
         return AccelerationDataProto2.with {
@@ -58,6 +62,13 @@ class Utils {
             $0.z = elem.z
             $0.magneticHeading = elem.magneticHeading.binade
             $0.trueHeading = elem.trueHeading.binade
+        }
+    }
+    
+    static func arFrameToProto(elem: ARFrame, compression: CGFloat) -> ImageProto2 {
+        let jpeg = UIImage(pixelBuffer: elem.capturedImage)?.jpegData(compressionQuality: compression)
+        return ImageProto2.with{
+            $0.jpegImage = jpeg!
         }
     }
     

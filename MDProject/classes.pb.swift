@@ -187,6 +187,18 @@ struct ImageProto {
   init() {}
 }
 
+struct ImageProto2 {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  var jpegImage: Data = SwiftProtobuf.Internal.emptyData
+
+  var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  init() {}
+}
+
 struct MagnetometerDataProto {
   // SwiftProtobuf.Message conformance is added in an extension below. See the
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
@@ -271,6 +283,15 @@ struct SensorUpdate {
   var hasImageData: Bool {return _storage._imageData != nil}
   /// Clears the value of `imageData`. Subsequent reads from it will return its default value.
   mutating func clearImageData() {_uniqueStorage()._imageData = nil}
+
+  var jpegImage: ImageProto2 {
+    get {return _storage._jpegImage ?? ImageProto2()}
+    set {_uniqueStorage()._jpegImage = newValue}
+  }
+  /// Returns true if `jpegImage` has been explicitly set.
+  var hasJpegImage: Bool {return _storage._jpegImage != nil}
+  /// Clears the value of `jpegImage`. Subsequent reads from it will return its default value.
+  mutating func clearJpegImage() {_uniqueStorage()._jpegImage = nil}
 
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -713,6 +734,35 @@ extension ImageProto: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementatio
   }
 }
 
+extension ImageProto2: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = "ImageProto2"
+  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    1: .same(proto: "JpegImage"),
+  ]
+
+  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      switch fieldNumber {
+      case 1: try decoder.decodeSingularBytesField(value: &self.jpegImage)
+      default: break
+      }
+    }
+  }
+
+  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if !self.jpegImage.isEmpty {
+      try visitor.visitSingularBytesField(value: self.jpegImage, fieldNumber: 1)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  static func ==(lhs: ImageProto2, rhs: ImageProto2) -> Bool {
+    if lhs.jpegImage != rhs.jpegImage {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
 extension MagnetometerDataProto: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = "MagnetometerDataProto"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
@@ -822,6 +872,7 @@ extension SensorUpdate: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementat
     4: .same(proto: "accelerationData"),
     5: .same(proto: "gyroData"),
     6: .same(proto: "ImageData"),
+    7: .same(proto: "JpegImage"),
   ]
 
   fileprivate class _StorageClass {
@@ -831,6 +882,7 @@ extension SensorUpdate: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementat
     var _accelerationData: AccelerationDataProto2? = nil
     var _gyroData: GyroDataProto2? = nil
     var _imageData: ImageProto? = nil
+    var _jpegImage: ImageProto2? = nil
 
     static let defaultInstance = _StorageClass()
 
@@ -843,6 +895,7 @@ extension SensorUpdate: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementat
       _accelerationData = source._accelerationData
       _gyroData = source._gyroData
       _imageData = source._imageData
+      _jpegImage = source._jpegImage
     }
   }
 
@@ -864,6 +917,7 @@ extension SensorUpdate: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementat
         case 4: try decoder.decodeSingularMessageField(value: &_storage._accelerationData)
         case 5: try decoder.decodeSingularMessageField(value: &_storage._gyroData)
         case 6: try decoder.decodeSingularMessageField(value: &_storage._imageData)
+        case 7: try decoder.decodeSingularMessageField(value: &_storage._jpegImage)
         default: break
         }
       }
@@ -890,6 +944,9 @@ extension SensorUpdate: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementat
       if let v = _storage._imageData {
         try visitor.visitSingularMessageField(value: v, fieldNumber: 6)
       }
+      if let v = _storage._jpegImage {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 7)
+      }
     }
     try unknownFields.traverse(visitor: &visitor)
   }
@@ -905,6 +962,7 @@ extension SensorUpdate: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementat
         if _storage._accelerationData != rhs_storage._accelerationData {return false}
         if _storage._gyroData != rhs_storage._gyroData {return false}
         if _storage._imageData != rhs_storage._imageData {return false}
+        if _storage._jpegImage != rhs_storage._jpegImage {return false}
         return true
       }
       if !storagesAreEqual {return false}

@@ -9,6 +9,7 @@
 import Foundation
 import CoreMotion
 import CoreLocation
+import ARKit
 import Starscream
 
 extension Notification.Name {
@@ -16,6 +17,7 @@ extension Notification.Name {
     static let image_buffer_enoughdata = Notification.Name("image_buffer_enoughdata")
 }
 
+@available(iOS 11.3, *)
 class Buffer {
 
     var maxsize: Int = 1500
@@ -55,6 +57,10 @@ class Buffer {
             let data = elem as! CMGyroData
             dataProto.gyroData = Utils.gyroToProto2(elem: data)
             dataProto.timestamp = data.timestamp
+        case is (ARFrame, CGFloat):
+            let data = elem as! (ARFrame, CGFloat)
+            dataProto.jpegImage = Utils.arFrameToProto(elem: data.0, compression: data.1)
+            dataProto.timestamp = data.0.timestamp
         default:
             print("unknown probe type")
         }
@@ -63,14 +69,20 @@ class Buffer {
             let data = try dataProto.serializedData()
             buffer[type]?.append((data, dataProto.timestamp))
             bufferSize[type]? += data.count
+            print("Buffer size image: ", self.bufferSize["image"], " len: ", self.buffer["image"]!.count)
         } catch {
             print("Encoding error")
         }
         
         // TODO ELSE IF FOR EVERY TYPE OF SENSOR DATA
+        
         if bufferSize[type]! >= self.maxsize && self.shouldEmit[type]! {
-            NotificationCenter.default.post(name: enough_data_event[type]!, object: nil, userInfo: ["payload": self.getSamples(type: type), "type": type])
-            self.shouldEmit[type]? = false
+            let samples : [Data] = self.getSamples(type: type)
+            if samples.count > 0 {
+                print("Sending data:", type)
+                NotificationCenter.default.post(name: enough_data_event[type]!, object: nil, userInfo: ["payload": samples, "type": type])
+                self.shouldEmit[type]? = false
+            }
         }
     }
     
@@ -94,11 +106,12 @@ class Buffer {
         for (index, element) in self.buffer[type]!.enumerated() {
             dataSize += element.0.count
             if element.1 == timestamp {
-                self.buffer[type]!.removeSubrange(0 ..< index)
+                self.buffer[type]!.removeSubrange(0 ... index)
                 break
             }
         }
         self.bufferSize[type]! -= dataSize
+        print("Buffer size image: ", self.bufferSize["image"], " len: ", self.buffer["image"]!.count)
     }
     
     func flushBuffer(type: String) -> [Data] {
