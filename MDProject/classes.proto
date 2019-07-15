@@ -1,0 +1,91 @@
+syntax = "proto3";
+
+message ProfileProto {
+    string serverAddress = 1;
+    uint32 serverPort = 2;
+    string sessionName = 3;
+    repeated SensorProto sensor = 4;
+}
+
+message SensorProto {
+    string name = 1;
+    bool status = 2;
+    repeated SensorParameterProto parameter = 3;
+}
+
+message SensorParameterProto {
+    string key = 1;
+    SensorParameterValueProto value = 2;
+}
+
+message SensorParameterValueProto {
+    double doubleValue = 1;
+    string strValue = 2;
+}
+
+message AccelerationDataProto {
+    double x = 1;
+    double y = 2;
+    double z = 3;
+    double timestamp = 4;
+}
+
+message GyroDataProto {
+    double x = 1;
+    double y = 2;
+    double z = 3;
+    double timestamp = 4;
+}
+
+message DataProto {
+    repeated AccelerationDataProto accelerationData = 1;
+    repeated GyroDataProto gyroData = 2;
+}
+
+message GyroDataProto2 {
+    double x = 1;
+    double y = 2;
+    double z = 3;
+}
+
+message AccelerationDataProto2 {
+    double x = 1;
+    double y = 2;
+    double z = 3;
+}
+
+message ImageProto {
+    string base64 = 1;
+}
+
+message MagnetometerDataProto {
+    double x = 1;
+    double y = 2;
+    double z = 3;
+    int32 accuracy = 4;
+}
+
+message CompassDataProto {
+    double x = 1;
+    double y = 2;
+    double z = 3;
+    double trueHeading = 4;
+    double magneticHeading = 5;
+}
+
+message SensorUpdate {
+    double timestamp = 1;
+    string session = 2;
+    string type = 3;
+    AccelerationDataProto2 accelerationData = 4;
+    GyroDataProto2 gyroData = 5;
+    ImageProto ImageData = 6;
+}
+
+// protoc --swift_out=. DataModel.proto
+// protoc -I=$SRC_DIR --python_out=$DST_DIR $SRC_DIR/addressbook.proto
+
+// protoc --swift_out=. classes.proto
+// protoc --python_out=. classes.proto
+
+
