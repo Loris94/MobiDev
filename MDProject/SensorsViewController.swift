@@ -52,6 +52,10 @@ class SensorsViewController: UIViewController, UITableViewDelegate, UITableViewD
                     cell.parameterLabel.text = "Session Name"
                     cell.serverParameterButton.addTarget(self, action: #selector(sessionButtonAction), for: .touchUpInside)
                 }
+                let image = UIImage(named: "forward_icon.png")?.withRenderingMode(.alwaysTemplate)
+                let imageHeight = cell.serverParameterButton.bounds.size.width-image!.size.height*0.25
+                let imageWidth = cell.serverParameterButton.bounds.size.width-image!.size.width*0.25
+                cell.serverParameterButton.imageEdgeInsets = UIEdgeInsets(top: imageHeight, left: imageWidth, bottom: imageHeight, right: imageWidth)
                 return cell
             }
             
@@ -60,7 +64,7 @@ class SensorsViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         if let cell = tableView.dequeueReusableCell(withIdentifier: "SensorCell", for: indexPath) as? SensorTableCell{
             // indexPath[0] is the table section indexPath[1] is the section index
-            // if 0 we're in server parameters
+            // if 1 we're in sensors parameters
             if indexPath[0] == 1{
                 cell.SensorLabel.text = self.profile.sensorList.sensorList[indexPath[1]].name
                 cell.SensorSwitch.setOn(self.profile.sensorList.sensorList[indexPath[1]].status, animated: true)
@@ -68,6 +72,11 @@ class SensorsViewController: UIViewController, UITableViewDelegate, UITableViewD
                 cell.SensorSwitch.tag = indexPath[1]
                 cell.SensorInfoButton.tag = indexPath[1]
                 cell.SensorInfoButton.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
+                let image = UIImage(named: "forward_icon.png")?.withRenderingMode(.alwaysTemplate)
+//                cell.SensorInfoButton.setImage(image, for: .normal)
+                let imageHeight = cell.SensorInfoButton.bounds.size.width-image!.size.height*0.25
+                let imageWidth = cell.SensorInfoButton.bounds.size.width-image!.size.width*0.25
+                cell.SensorInfoButton.imageEdgeInsets = UIEdgeInsets(top: imageHeight, left: imageWidth, bottom: imageHeight, right: imageWidth)
                 if self.profile.sensorList.sensorList[indexPath[1]].parameters.count == 0 {
                     cell.SensorInfoButton.isHidden = true
                 }

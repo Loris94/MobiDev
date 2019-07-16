@@ -54,5 +54,7 @@
 	<array>
 		<dict/>
 	</array>
+	<key>CFBundleIconFile</key>
+	<string>forward_icon.png</string>
 </dict>
 </plist>

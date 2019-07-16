@@ -347,29 +347,36 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
     
     
     func closingThread() {
+        print("CLOSE GROUP A")
         while self.socketController?.isConnected() == false {
             print("Socket is currently disconnected")
             sleep(1)
         }
         
-        let imageBuffer = self.buffer.flushBuffer(type: "image")
-        if imageBuffer.count > 0 {
-            closeGroup.enter()
-            self.socketController?.sendSensorUpdateWithAck(samples: imageBuffer, callback: { error, timestamp in
-                //TODO: edge case, cosa fare quando sto flushando ma il socket non è connesso? la richiesta va in timeout, quindi bisognerebbe chiamare questa funzione ricorsivamente (o trovare una soluzione migliore)
-                if (!error) {
-                    print("Done flushing image buffer, can close")
-                    self.buffer.removeSamplesFromBuffer(type: "image", timestamp: timestamp)
-                } else {
-                    print("Cannot finish image upload, not connected.")
-                }
-                self.closeGroup.leave()
-            })
+//        let imageBuffer = self.buffer.flushBuffer(type: "image")
+//        if imageBuffer.count > 0 {
+//            //closeGroup.enter()
+//            self.socketController?.sendSensorUpdateWithAck(samples: imageBuffer, callback: { error, timestamp in
+//                //TODO: edge case, cosa fare quando sto flushando ma il socket non è connesso? la richiesta va in timeout, quindi bisognerebbe chiamare questa funzione ricorsivamente (o trovare una soluzione migliore)
+//                if (!error) {
+//                    print("Done flushing image buffer, can close")
+//                    self.buffer.removeSamplesFromBuffer(type: "image", timestamp: timestamp)
+//                } else {
+//                    print("Cannot finish image upload, not connected.")
+//                }
+//                //self.closeGroup.leave()
+//            })
+//        }
+        let imageBuffer = self.buffer.flushBufferWithNoAck(type: "image")
+        for (elem,timestamp) in imageBuffer {
+            let elemAsArray: [Data] = [elem]
+            self.socketController?.sendSensorUpdateNoAck(samples: elemAsArray)
+            self.buffer.removeSamplesFromBuffer(type: "image", timestamp: timestamp)
         }
 
         let sensorBuffer = self.buffer.flushBuffer(type: "sensor")
         if sensorBuffer.count > 0 {
-            closeGroup.enter()
+            //closeGroup.enter()
             self.socketController?.sendSensorUpdateWithAck(samples: sensorBuffer, callback: { error, timestamp in
                 //TODO: edge case, cosa fare quando sto flushando ma il socket non è connesso? la richiesta va in timeout, quindi bisognerebbe chiamare questa funzione ricorsivamente (o trovare una soluzione migliore)
                 if (!error) {
@@ -378,11 +385,13 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
                 } else {
                     print("Cannot finish sensor upload, not connected.")
                 }
-                self.closeGroup.leave()
+                //self.closeGroup.leave()
             })
         }
         
-        self.closeGroup.leave()
+        
+        
+        //self.closeGroup.leave()
     }
     
     // TODO: mettere alert con pulsanti per stoppare il thread o aspettare il finish dell'upload
@@ -391,7 +400,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
         self.isClosing = true
         self.stopSensorGather()
         
-        closeGroup.enter()
+        //closeGroup.enter()
         let backgroundClosingThread = DispatchWorkItem {
             DispatchQueue.global(qos: .background).async {
                 self.closingThread()
@@ -401,12 +410,14 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
         
         // TODO: se si vuole bloccare da UI il close background thread senza aspettare che abbia finito l'upload, cancellare il backgroundClosingThread e chiamare self.closeGroup.leave()
 
-        closeGroup.notify(queue: .main) {
-            print("All closing activities done.")
-            self.performSegue(withIdentifier: "goBackToSensors", sender: "A")
-        }
+//        closeGroup.notify(queue: .main) {
+//            print("All closing activities done.")
+//            self.performSegue(withIdentifier: "goBackToSensors", sender: "A")
+//        }
         if self.buffer.bufferSize["sensor"]!+self.buffer.bufferSize["image"]! > 0 {
             self.dataStillPresentAlert(workItem: backgroundClosingThread)
+        } else {
+            self.performSegue(withIdentifier: "goBackToSensors", sender: "A")
         }
         
         
@@ -416,13 +427,17 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
         
         let alert = UIAlertController(title: "Data not sent", message: "Some data is still present in the buffer and not sent. Continue sending or Stop?", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Continue", style: .default, handler: { [weak alert] (action) -> Void in
-        
+            if self.buffer.bufferSize["sensor"]!+self.buffer.bufferSize["image"]! <= 0 {
+                
+            
+                self.performSegue(withIdentifier: "goBackToSensors", sender: "A")
+            }
         }))
         alert.addAction(UIAlertAction(title: "Stop", style: .default, handler: { [weak alert] (action) -> Void in
             if(!workItem.isCancelled){
                 workItem.cancel()
             }
-            self.closeGroup.leave()
+            //self.closeGroup.leave()
             self.performSegue(withIdentifier: "goBackToSensors", sender: "A")
         }))
         self.present(alert, animated: true, completion: nil)
@@ -635,7 +650,8 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
 //        }
         
         if self.videoFrame % frameEveryHowManySecs == 0 {
-            var compres: CGFloat = CGFloat(1)
+            //let compression = self.profile.sensorList.getByName(name: "Video Frames")?.parameters["Compression"] as? Double
+            var compres: CGFloat = CGFloat(0)
             
             self.buffer.addProbe(type: "image", elem: (didUpdate, compres))
             

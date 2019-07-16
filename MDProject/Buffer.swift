@@ -111,6 +111,9 @@ class Buffer {
             }
         }
         self.bufferSize[type]! -= dataSize
+        if self.bufferSize[type]! < 0 {
+            self.bufferSize[type]! = 0
+        }
         print("Buffer size image: ", self.bufferSize["image"], " len: ", self.buffer["image"]!.count)
     }
     
@@ -118,6 +121,14 @@ class Buffer {
         var result: [Data] = []
         for sample in self.buffer[type]! {
             result.append(sample.0)
+        }
+        return result
+    }
+    
+    func flushBufferWithNoAck(type: String) -> [(Data, Double)] {
+        var result: [(Data, Double)] = []
+        for sample in self.buffer[type]! {
+            result.append(sample)
         }
         return result
     }

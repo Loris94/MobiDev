@@ -29,6 +29,7 @@
 		1DB909CE22BBD4DB009C6692 /* SensorTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB909CD22BBD4DB009C6692 /* SensorTableCell.swift */; };
 		1DB909D222BBDD95009C6692 /* SensorsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB909D122BBDD95009C6692 /* SensorsViewController.swift */; };
 		1DEDCB4F22DA51B90077009C /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DEDCB4E22DA51B90077009C /* Utils.swift */; };
+		1DF91ABE22DDBC6A00E2516A /* forward_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DF91ABD22DDBC6A00E2516A /* forward_icon.png */; };
 		3160262109BE74829C021532 /* Pods_MDProjectTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7033C88C95C2753D6564E398 /* Pods_MDProjectTests.framework */; };
 		B1A28441C89EBDFF6DB2EACB /* Pods_MDProject.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 86E0196C2D7AE507B2F7F3F1 /* Pods_MDProject.framework */; };
 		C148446122D100490018A0A9 /* SocketController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C148446022D100490018A0A9 /* SocketController.swift */; };
@@ -92,6 +93,7 @@
 		1DB909CD22BBD4DB009C6692 /* SensorTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorTableCell.swift; sourceTree = "<group>"; };
 		1DB909D122BBDD95009C6692 /* SensorsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorsViewController.swift; sourceTree = "<group>"; };
 		1DEDCB4E22DA51B90077009C /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		1DF91ABD22DDBC6A00E2516A /* forward_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = forward_icon.png; path = Assets.xcassets/AppIcon.appiconset/forward_icon.png; sourceTree = "<group>"; };
 		5E4AAE134CDA3A1FEB28E9F9 /* Pods_MDProjectUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MDProjectUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7033C88C95C2753D6564E398 /* Pods_MDProjectTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MDProjectTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7AE5B004984E07DA90722B5F /* Pods-MDProject.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MDProject.debug.xcconfig"; path = "Target Support Files/Pods-MDProject/Pods-MDProject.debug.xcconfig"; sourceTree = "<group>"; };
@@ -156,6 +158,7 @@
 		1D0D6E6222BA78B500594A75 /* MDProject */ = {
 			isa = PBXGroup;
 			children = (
+				1DF91ABD22DDBC6A00E2516A /* forward_icon.png */,
 				1D0D6E6722BA78B500594A75 /* Main.storyboard */,
 				1D0D6E6322BA78B500594A75 /* AppDelegate.swift */,
 				1DB909D122BBDD95009C6692 /* SensorsViewController.swift */,
@@ -331,6 +334,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1DF91ABE22DDBC6A00E2516A /* forward_icon.png in Resources */,
 				1D0D6E6E22BA78B600594A75 /* LaunchScreen.storyboard in Resources */,
 				1D0D6E6B22BA78B600594A75 /* Assets.xcassets in Resources */,
 				1D0D6E6922BA78B500594A75 /* Main.storyboard in Resources */,

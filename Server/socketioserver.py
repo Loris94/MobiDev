@@ -73,19 +73,7 @@ def sensorUpdate(sid, buffer):
     return "LAST_TIMESTAMP", last_received_data[sid]
 
 def storeSensorUpdate(sid, sensor_update):
-    
-    #for key,value in last_received_data:
-    #print(" >>> LRS Key: ", key, " Value: ", value)
-    #print(">>> LRS LEN: ",len(last_received_data))
-    
-    #print(">>> OLD TS: ", last_received_data[sid])
-    #print(">>> NEW TS: ", lsensor_update.timestamp)
     last_received_data[sid] = sensor_update.timestamp
-        #for key,value in last_received_data:
-        #print(" >>> LRS Key: ", key, " Value: ", value)
-        #print(">>> LRS LEN: ",len(last_received_data))
-
-        #print(">>> RENEWED TS: ", last_received_data[sid])
     session = session_map[sid]['session']
     uuid = session_map[sid]['uuid']
 
