@@ -69,7 +69,7 @@ class Buffer {
             let data = try dataProto.serializedData()
             buffer[type]?.append((data, dataProto.timestamp))
             bufferSize[type]? += data.count
-            print("Buffer size image: ", self.bufferSize["image"], " len: ", self.buffer["image"]!.count)
+            print("Buffer size ", type, ": " , self.bufferSize[type], " len: ", self.buffer[type]!.count)
         } catch {
             print("Encoding error")
         }
@@ -103,18 +103,24 @@ class Buffer {
     
     func removeSamplesFromBuffer(type: String, timestamp: Double) {
         var dataSize = 0
-        for (index, element) in self.buffer[type]!.enumerated() {
-            dataSize += element.0.count
-            if element.1 == timestamp {
-                self.buffer[type]!.removeSubrange(0 ... index)
+        
+        for i in 0 ..< self.buffer[type]!.count {
+            dataSize += self.buffer[type]![i].0.count
+            if self.buffer[type]![i].1 == timestamp {
+                self.buffer[type]!.removeSubrange(0 ... i)
                 break
             }
         }
+        
+//        for (index, element) in self.buffer[type]!.enumerated() {
+//            dataSize += element.0.count
+//            if element.1 == timestamp {
+//                self.buffer[type]!.removeSubrange(0 ... index)
+//                break
+//            }
+//        }
         self.bufferSize[type]! -= dataSize
-        if self.bufferSize[type]! < 0 {
-            self.bufferSize[type]! = 0
-        }
-        print("Buffer size image: ", self.bufferSize["image"], " len: ", self.buffer["image"]!.count)
+        print("Buffer size ", type, ": " , self.bufferSize[type], " len: ", self.buffer[type]!.count)
     }
     
     func flushBuffer(type: String) -> [Data] {

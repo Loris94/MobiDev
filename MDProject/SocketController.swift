@@ -29,10 +29,13 @@ class SocketController {
     }
     
     func addConnectEventListener() {
+        
         socket?.on(clientEvent: .connect) {data, ack in
+            // data[0] corresponds to "LAST_TIMESTAMP" and data[1] to the actual timestamp, you can see it in the python server function "getLastTimestamp(sid)"
             self.socket?.emitWithAck("getLastTimestamp").timingOut(after: 20.0) { data in
                 if data.count > 1 {
                     print("Socket Controller Connect Callback: ", data[1]);
+                    // @objc func socketConnected(userInfo: Notification) in viewcontroller
                     NotificationCenter.default.post(name: .socket_connected, object: nil, userInfo: ["timestamp": data[1]])
                 }
             }
@@ -41,6 +44,8 @@ class SocketController {
         
         socket?.on(clientEvent: .disconnect) {data, ack in
             // Inform the buffer to stop sending new data to main class since we are in disconnected state
+            // @objc func socketDisconnected() in viewcontroller
+
             NotificationCenter.default.post(name: .socket_disconnected, object: nil)
             print("SocketController - Socket Disconnected!")
         }
