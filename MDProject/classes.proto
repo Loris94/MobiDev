@@ -60,6 +60,15 @@ message ImageProto {
 
 message ImageProto2 {
     bytes JpegImage = 1;
+    string TrackingState = 2;
+    repeated PointCloudDataProto PointsCloud = 3;
+    
+}
+
+message PointCloudDataProto {
+    float x = 1;
+    float y = 2;
+    float z = 3;
 }
 
 message MagnetometerDataProto {
@@ -77,6 +86,12 @@ message CompassDataProto {
     double magneticHeading = 5;
 }
 
+//message PlaneDataProto {
+//    float width = 1;
+//    float height = 2;
+//    float
+//}
+
 message SensorUpdate {
     double timestamp = 1;
     string session = 2;
@@ -90,7 +105,7 @@ message SensorUpdate {
 // protoc --swift_out=. DataModel.proto
 // protoc -I=$SRC_DIR --python_out=$DST_DIR $SRC_DIR/addressbook.proto
 
-// protoc --swift_out=. classes.proto
+// protoc --swift_out=. classes.proto && protoc --python_out=../Server classes.proto
 // protoc --python_out=. classes.proto
 
 

@@ -21,6 +21,8 @@ extension Notification.Name {
 class Buffer {
 
     var maxsize: Int = 1500
+    var dispatchQueue: DispatchQueue
+    var autoFlushTimer: Timer = Timer()
     
     var bufferSize = [
         "sensor": 0,
@@ -41,48 +43,65 @@ class Buffer {
         "image": false,
     ]
     
-    init(bufferLength: Int) {
+    init(bufferLength: Int, bufferDispatchQueue: DispatchQueue) {
         self.maxsize = bufferLength
+        self.dispatchQueue = bufferDispatchQueue
+        // TODO set the autoflush time from  the profile
+        self.autoFlushTimer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(autoFlushSensorBuffer), userInfo: nil, repeats: true)
+        //self.autoFlushTimer.fire()
+    }
+    
+    @objc func autoFlushSensorBuffer() {
+        let type = "sensor"
+        if self.shouldEmit[type]! {
+            let samples : [Data] = self.flushBuffer(type: type)
+            if samples.count > 0 {
+                print("Sending data:", type)
+                NotificationCenter.default.post(name: self.enough_data_event[type]!, object: nil, userInfo: ["payload": samples, "type": type])
+                self.shouldEmit[type]? = false
+            }
+        }
     }
     
     func addProbe(type: String, elem: Any) {
         var dataProto: SensorUpdate = SensorUpdate()
         
         switch elem {
-        case is CMAccelerometerData:
-            let data = elem as! CMAccelerometerData
-            dataProto.accelerationData = Utils.accelerometerToProto2(elem: data)
-            dataProto.timestamp = data.timestamp
-        case is CMGyroData:
-            let data = elem as! CMGyroData
-            dataProto.gyroData = Utils.gyroToProto2(elem: data)
-            dataProto.timestamp = data.timestamp
-        case is (ARFrame, CGFloat):
-            let data = elem as! (ARFrame, CGFloat)
-            dataProto.jpegImage = Utils.arFrameToProto(elem: data.0, compression: data.1)
-            dataProto.timestamp = data.0.timestamp
-        default:
-            print("unknown probe type")
+            case is CMAccelerometerData:
+                let data = elem as! CMAccelerometerData
+                dataProto.accelerationData = Utils.accelerometerToProto2(elem: data)
+                dataProto.timestamp = data.timestamp
+            case is CMGyroData:
+                let data = elem as! CMGyroData
+                dataProto.gyroData = Utils.gyroToProto2(elem: data)
+                dataProto.timestamp = data.timestamp
+            case is (ARFrame, CGFloat):
+                let data = elem as! (ARFrame, CGFloat)
+                dataProto.jpegImage = Utils.arFrameToProto(elem: data.0, compression: data.1)
+                dataProto.timestamp = data.0.timestamp
+            default:
+                print("unknown probe type")
         }
-        
+        // TODO ELSE IF FOR EVERY TYPE OF SENSOR DATA
         do {
             let data = try dataProto.serializedData()
-            buffer[type]?.append((data, dataProto.timestamp))
-            bufferSize[type]? += data.count
-            print("Buffer size ", type, ": " , self.bufferSize[type], " len: ", self.buffer[type]!.count)
+//            self.dispatchQueue.async {
+//                DispatchQueue.global().sync {
+                    self.buffer[type]?.append((data, dataProto.timestamp))
+                    self.bufferSize[type]? += data.count
+                    print("Buffer size ",type," add: " , self.bufferSize[type], " len: ", self.buffer[type]!.count)
+                    if self.bufferSize[type]! >= self.maxsize && self.shouldEmit[type]! {
+                        let samples : [Data] = self.getSamples(type: type)
+                        if samples.count > 0 {
+                            print("Sending data:", type)
+                            NotificationCenter.default.post(name: self.enough_data_event[type]!, object: nil, userInfo: ["payload": samples, "type": type])
+                            self.shouldEmit[type]? = false
+                        }
+                    }
+//                }
+//            }
         } catch {
             print("Encoding error")
-        }
-        
-        // TODO ELSE IF FOR EVERY TYPE OF SENSOR DATA
-        
-        if bufferSize[type]! >= self.maxsize && self.shouldEmit[type]! {
-            let samples : [Data] = self.getSamples(type: type)
-            if samples.count > 0 {
-                print("Sending data:", type)
-                NotificationCenter.default.post(name: enough_data_event[type]!, object: nil, userInfo: ["payload": samples, "type": type])
-                self.shouldEmit[type]? = false
-            }
         }
     }
     
@@ -101,26 +120,25 @@ class Buffer {
         return []
     }
     
+    
     func removeSamplesFromBuffer(type: String, timestamp: Double) {
-        var dataSize = 0
-        
-        for i in 0 ..< self.buffer[type]!.count {
-            dataSize += self.buffer[type]![i].0.count
-            if self.buffer[type]![i].1 == timestamp {
-                self.buffer[type]!.removeSubrange(0 ... i)
-                break
-            }
-        }
-        
-//        for (index, element) in self.buffer[type]!.enumerated() {
-//            dataSize += element.0.count
-//            if element.1 == timestamp {
-//                self.buffer[type]!.removeSubrange(0 ... index)
-//                break
+//        self.dispatchQueue.async {
+//            DispatchQueue.global().sync {
+                var dataSize = 0
+                
+                for i in 0 ..< self.buffer[type]!.count {
+                    dataSize += self.buffer[type]![i].0.count
+                    if self.buffer[type]![i].1 == timestamp {
+                        self.buffer[type]!.removeSubrange(0 ... i)
+                        self.bufferSize[type]! -= dataSize
+                        break
+                    }
+                }
+                
+                
+                print("Buffer size ",type," remove: " , self.bufferSize[type], " len: ", self.buffer[type]!.count)
 //            }
 //        }
-        self.bufferSize[type]! -= dataSize
-        print("Buffer size ", type, ": " , self.bufferSize[type], " len: ", self.buffer[type]!.count)
     }
     
     func flushBuffer(type: String) -> [Data] {
@@ -140,8 +158,20 @@ class Buffer {
     }
     
     func setShouldEmit(value: Bool) {
-        self.shouldEmit["sensor"] = value
-        self.shouldEmit["image"] = value
+        self.dispatchQueue.async {
+            DispatchQueue.global().sync {
+                self.shouldEmit["sensor"] = value
+                self.shouldEmit["image"] = value
+            }
+        }
+    }
+    
+    func calculateSize(type: String) {
+        var size: Int = 0
+        for elem in self.buffer[type]! {
+            size = size + elem.0.count
+        }
+        self.bufferSize[type] = size
     }
     
 }

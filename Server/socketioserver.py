@@ -76,7 +76,7 @@ def storeSensorUpdate(sid, sensor_update):
     last_received_data[sid] = sensor_update.timestamp
     session = session_map[sid]['session']
     uuid = session_map[sid]['uuid']
-
+    
     collection = db['probes']
     data = {
         "session": session,

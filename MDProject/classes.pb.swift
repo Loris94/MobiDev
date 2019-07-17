@@ -194,6 +194,26 @@ struct ImageProto2 {
 
   var jpegImage: Data = SwiftProtobuf.Internal.emptyData
 
+  var trackingState: String = String()
+
+  var pointsCloud: [PointCloudDataProto] = []
+
+  var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  init() {}
+}
+
+struct PointCloudDataProto {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  var x: Float = 0
+
+  var y: Float = 0
+
+  var z: Float = 0
+
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
   init() {}
@@ -738,12 +758,16 @@ extension ImageProto2: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementati
   static let protoMessageName: String = "ImageProto2"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "JpegImage"),
+    2: .same(proto: "TrackingState"),
+    3: .same(proto: "PointsCloud"),
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
       switch fieldNumber {
       case 1: try decoder.decodeSingularBytesField(value: &self.jpegImage)
+      case 2: try decoder.decodeSingularStringField(value: &self.trackingState)
+      case 3: try decoder.decodeRepeatedMessageField(value: &self.pointsCloud)
       default: break
       }
     }
@@ -753,11 +777,60 @@ extension ImageProto2: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementati
     if !self.jpegImage.isEmpty {
       try visitor.visitSingularBytesField(value: self.jpegImage, fieldNumber: 1)
     }
+    if !self.trackingState.isEmpty {
+      try visitor.visitSingularStringField(value: self.trackingState, fieldNumber: 2)
+    }
+    if !self.pointsCloud.isEmpty {
+      try visitor.visitRepeatedMessageField(value: self.pointsCloud, fieldNumber: 3)
+    }
     try unknownFields.traverse(visitor: &visitor)
   }
 
   static func ==(lhs: ImageProto2, rhs: ImageProto2) -> Bool {
     if lhs.jpegImage != rhs.jpegImage {return false}
+    if lhs.trackingState != rhs.trackingState {return false}
+    if lhs.pointsCloud != rhs.pointsCloud {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension PointCloudDataProto: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = "PointCloudDataProto"
+  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    1: .same(proto: "x"),
+    2: .same(proto: "y"),
+    3: .same(proto: "z"),
+  ]
+
+  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      switch fieldNumber {
+      case 1: try decoder.decodeSingularFloatField(value: &self.x)
+      case 2: try decoder.decodeSingularFloatField(value: &self.y)
+      case 3: try decoder.decodeSingularFloatField(value: &self.z)
+      default: break
+      }
+    }
+  }
+
+  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if self.x != 0 {
+      try visitor.visitSingularFloatField(value: self.x, fieldNumber: 1)
+    }
+    if self.y != 0 {
+      try visitor.visitSingularFloatField(value: self.y, fieldNumber: 2)
+    }
+    if self.z != 0 {
+      try visitor.visitSingularFloatField(value: self.z, fieldNumber: 3)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  static func ==(lhs: PointCloudDataProto, rhs: PointCloudDataProto) -> Bool {
+    if lhs.x != rhs.x {return false}
+    if lhs.y != rhs.y {return false}
+    if lhs.z != rhs.z {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }

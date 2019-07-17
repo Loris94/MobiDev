@@ -46,16 +46,12 @@ class SensorsViewController: UIViewController, UITableViewDelegate, UITableViewD
             // if 0 we're in server parameters
             if indexPath[0] == 0{
                 if indexPath[1] == 0 {
-                    cell.parameterLabel.text = "Server"
-                    cell.serverParameterButton.addTarget(self, action: #selector(serverButtonAction), for: .touchUpInside)
+                    cell.parameterLabel.text = "Server: "
+                    cell.valueLabel.text = self.profile.serverAddress + ":" + String(self.profile.serverPort)
                 } else if indexPath[1] == 1 {
-                    cell.parameterLabel.text = "Session Name"
-                    cell.serverParameterButton.addTarget(self, action: #selector(sessionButtonAction), for: .touchUpInside)
+                    cell.parameterLabel.text = "Session Name: "
+                    cell.valueLabel.text = self.profile.sessionName
                 }
-                let image = UIImage(named: "forward_icon.png")?.withRenderingMode(.alwaysTemplate)
-                let imageHeight = cell.serverParameterButton.bounds.size.width-image!.size.height*0.25
-                let imageWidth = cell.serverParameterButton.bounds.size.width-image!.size.width*0.25
-                cell.serverParameterButton.imageEdgeInsets = UIEdgeInsets(top: imageHeight, left: imageWidth, bottom: imageHeight, right: imageWidth)
                 return cell
             }
             
@@ -70,21 +66,28 @@ class SensorsViewController: UIViewController, UITableViewDelegate, UITableViewD
                 cell.SensorSwitch.setOn(self.profile.sensorList.sensorList[indexPath[1]].status, animated: true)
                 cell.SensorSwitch.addTarget(self, action: #selector(switchAction), for: .touchUpInside)
                 cell.SensorSwitch.tag = indexPath[1]
-                cell.SensorInfoButton.tag = indexPath[1]
-                cell.SensorInfoButton.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
-                let image = UIImage(named: "forward_icon.png")?.withRenderingMode(.alwaysTemplate)
-//                cell.SensorInfoButton.setImage(image, for: .normal)
-                let imageHeight = cell.SensorInfoButton.bounds.size.width-image!.size.height*0.25
-                let imageWidth = cell.SensorInfoButton.bounds.size.width-image!.size.width*0.25
-                cell.SensorInfoButton.imageEdgeInsets = UIEdgeInsets(top: imageHeight, left: imageWidth, bottom: imageHeight, right: imageWidth)
-                if self.profile.sensorList.sensorList[indexPath[1]].parameters.count == 0 {
-                    cell.SensorInfoButton.isHidden = true
-                }
                 return cell
             }
             
         }
         return UITableViewCell()
+        
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("Selected sensor ", self.profile.sensorList.sensorList[indexPath[1]].name, ". Status: ", self.profile.sensorList.sensorList[indexPath[1]].status)
+        if indexPath[0] == 0 {
+            switch indexPath[1] {
+            case 0:
+                performSegue(withIdentifier: "goToSensorsInfoViewController", sender: "Server")
+            case 1:
+                performSegue(withIdentifier: "goToSensorsInfoViewController", sender: "Session")
+            default:
+                return
+            }
+        } else {
+            performSegue(withIdentifier: "goToSensorsInfoViewController", sender: profile.sensorList.sensorList[indexPath[1]].name)
+        }
         
     }
     
@@ -99,7 +102,7 @@ class SensorsViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     @objc func buttonAction(sender: UIButton!) {
-        performSegue(withIdentifier: "goToSensorsInfoViewController", sender: profile.sensorList.sensorList[sender.tag].name)
+        
         print("Button tapped")
     }
     
@@ -132,10 +135,6 @@ class SensorsViewController: UIViewController, UITableViewDelegate, UITableViewD
             return profile.sensorList.sensorList.count
         }
         return 0
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("Selected sensor ", self.profile.sensorList.sensorList[indexPath[1]].name, ". Status: ", self.profile.sensorList.sensorList[indexPath[1]].status)
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {

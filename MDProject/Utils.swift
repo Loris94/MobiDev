@@ -67,8 +67,30 @@ class Utils {
     
     static func arFrameToProto(elem: ARFrame, compression: CGFloat) -> ImageProto2 {
         let jpeg = UIImage(pixelBuffer: elem.capturedImage)?.jpegData(compressionQuality: compression)
+        var pointsCloud: [PointCloudDataProto] = []
+        if elem.rawFeaturePoints != nil {
+            for point in elem.rawFeaturePoints!.points {
+                pointsCloud.append(PointCloudDataProto.with{
+                    $0.x = point.x
+                    $0.y = point.y
+                    $0.z = point.z
+                })
+            }
+        }
+        var trackingState: String
+        switch elem.camera.trackingState {
+        case ARCamera.TrackingState.normal:
+            trackingState = "Normal"
+        case ARCamera.TrackingState.limited:
+            trackingState = "Limited"
+        case ARCamera.TrackingState.notAvailable:
+            trackingState = "NotAvailable"
+        }
+        
         return ImageProto2.with{
             $0.jpegImage = jpeg!
+            $0.trackingState = trackingState
+            $0.pointsCloud = pointsCloud
         }
     }
     

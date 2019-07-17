@@ -27,12 +27,13 @@ extension UIImage {
 
 
 @available(iOS 11.3, *)
-class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate,ARSessionDelegate {
+class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate,ARSessionDelegate, ARSCNViewDelegate {
     
     //TODO TEMPS
     var videoFrame: Int = 0
 
     var isClosing = false
+    var isTransitionedToSensorsController = false
     let operationQueue = OperationQueue()
     let motionManager = CMMotionManager()
     let locationManager = CLLocationManager()
@@ -50,7 +51,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
     
     // TODO add to profile the MTU
     var bufferDispatchQueue: DispatchQueue = DispatchQueue(label: "bufferOperationDispatchQueue")
-    var buffer: Buffer = Buffer(bufferLength: 1500)
+    var buffer: Buffer? = nil
     var arSession: ARSession? = nil
     
     //let closeGroup = DispatchGroup()
@@ -122,14 +123,14 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
                 else if indexPath[1] == 1 {
                     if let cell = tableView.dequeueReusableCell(withIdentifier: "ExampleCell", for: indexPath) as? RealTimeInfoCell{
                         cell.SensorInfo.text = "Sensor Buffer Size"
-                        cell.InfoValue.text = String(buffer.bufferSize["sensor"] ?? 0)
+                        cell.InfoValue.text = String(buffer!.bufferSize["sensor"] ?? 0)
                         return cell
                     }
                 }
                 else if indexPath[1] == 2 {
                     if let cell = tableView.dequeueReusableCell(withIdentifier: "ExampleCell", for: indexPath) as? RealTimeInfoCell{
                         cell.SensorInfo.text = "Image Buffer Size"
-                        cell.InfoValue.text = String(buffer.bufferSize["image"] ?? 0)
+                        cell.InfoValue.text = String(buffer!.bufferSize["image"] ?? 0)
                         return cell
                     }
             }
@@ -215,10 +216,10 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
         print("Update sensor view")
         DispatchQueue.main.async {
             if let cell = self.realtimeInfoTable.cellForRow(at: IndexPath(indexes:[0,1])) as? RealTimeInfoCell {
-                cell.InfoValue.text = String(self.buffer.bufferSize["sensor"] ?? 0)
+                cell.InfoValue.text = String(self.buffer!.bufferSize["sensor"] ?? 0)
             }
             if let cell = self.realtimeInfoTable.cellForRow(at: IndexPath(indexes:[0,2])) as? RealTimeInfoCell {
-                cell.InfoValue.text = String(self.buffer.bufferSize["image"] ?? 0)
+                cell.InfoValue.text = String(self.buffer!.bufferSize["image"] ?? 0)
             }
         }
     }
@@ -272,57 +273,33 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
         if self.socketController?.isConnected() ?? false {
             self.socketController?.sendSensorUpdateWithAck(samples: payload_unwrapped, callback: { error, timestamp in
                 if !error {
-                    self.buffer.removeSamplesFromBuffer(type: type, timestamp: timestamp)
-                    self.buffer.shouldEmit[type] = true
+                    self.buffer!.removeSamplesFromBuffer(type: type, timestamp: timestamp)
+                    self.buffer!.shouldEmit[type] = true
                 }
             })
         }
     }
-    
-//    @objc func sendImage() {
-//        var samples : [Data] = []
-//        let imageDataProto = SensorUpdate.with {
-//            $0.type = "image"
-//            $0.timestamp = 32443432432424.0432
-//            $0.imageData = ImageProto.with {
-//                $0.base64 = self.image
-//            }
-//        }
-//        do {
-//            let serialized = try imageDataProto.serializedData()
-//            samples.append(serialized)
-//            self.socketController?.sendSensorUpdateWithAck(samples: samples, callback: { err, timestamp in
-//                if err {
-//                    print("ERROR SANDING IMAGE")
-//                } else {
-//                    print("IMAGE SENT")
-//                }
-//            })
-//        } catch {
-//            print("CANNOT SERIALIZE IMAGE")
-//        }
-//    }
     
     @objc func socketConnected(userInfo: Notification) {
         // The server will return the timestamp of the last received sample for this sessionName. If no samples are stored, it will return -1.
         // This is because after a connect but more precisely a REconnect, we can flush the buffer starting from this giver timestamp.
         // This timestamp could be very old, since a capture session with the same name could be already exist in the database and it may not be present in our buffer. just ignore then
         let last_ts_recv: Double = userInfo.userInfo!["timestamp"] as! Double
-        self.buffer.removeSamplesFromBuffer(type: "image", timestamp: last_ts_recv)
-        self.buffer.removeSamplesFromBuffer(type: "sensor", timestamp: last_ts_recv)
+        self.buffer!.removeSamplesFromBuffer(type: "image", timestamp: last_ts_recv)
+        self.buffer!.removeSamplesFromBuffer(type: "sensor", timestamp: last_ts_recv)
         
         
         //Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(sendImage), userInfo: nil, repeats: true)
 
         print("Main - CONNECTED Server last ts: ", last_ts_recv)
         if !self.isClosing {
-            self.buffer.setShouldEmit(value: true)
+            self.buffer!.setShouldEmit(value: true)
             self.updateConnectionStatus(status: "Connected")
         }
     }
     
     @objc func socketDisconnected() {
-        self.buffer.setShouldEmit(value: false)
+        self.buffer!.setShouldEmit(value: false)
         self.updateConnectionStatus(status: "Disconnected")
         print("Main - DISCONNECTED")
     }
@@ -346,69 +323,59 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
             sleep(1)
         }
         
-//        let imageBuffer = self.buffer.flushBuffer(type: "image")
-//        if imageBuffer.count > 0 {
-//            //closeGroup.enter()
-//            self.socketController?.sendSensorUpdateWithAck(samples: imageBuffer, callback: { error, timestamp in
-//                //TODO: edge case, cosa fare quando sto flushando ma il socket non è connesso? la richiesta va in timeout, quindi bisognerebbe chiamare questa funzione ricorsivamente (o trovare una soluzione migliore)
-//                if (!error) {
-//                    print("Done flushing image buffer, can close")
-//                    self.buffer.removeSamplesFromBuffer(type: "image", timestamp: timestamp)
-//                } else {
-//                    print("Cannot finish image upload, not connected.")
-//                }
-//                //self.closeGroup.leave()
-//            })
-//        }
-        let imageBuffer = self.buffer.flushBufferWithNoAck(type: "image")
-        for (elem,timestamp) in imageBuffer {
-            let elemAsArray: [Data] = [elem]
-            self.socketController?.sendSensorUpdateNoAck(samples: elemAsArray)
-            self.buffer.removeSamplesFromBuffer(type: "image", timestamp: timestamp)
-        }
-
-        let sensorBuffer = self.buffer.flushBuffer(type: "sensor")
-        if sensorBuffer.count > 0 {
+        let imageBuffer = self.buffer!.flushBuffer(type: "image")
+        if imageBuffer.count > 0 {
             //closeGroup.enter()
+            self.socketController?.sendSensorUpdateWithAck(samples: imageBuffer, callback: { error, timestamp in
+                //TODO: edge case, cosa fare quando sto flushando ma il socket non è connesso? la richiesta va in timeout, quindi bisognerebbe chiamare questa funzione ricorsivamente (o trovare una soluzione migliore)
+                if (!error) {
+                    print("Done flushing image buffer, can close")
+                    self.buffer!.removeSamplesFromBuffer(type: "image", timestamp: timestamp)
+                } else {
+                    print("Cannot finish image upload, not connected.")
+                }
+            })
+        }
+        
+//        let imageBuffer = self.buffer!.flushBufferWithNoAck(type: "image")
+//        for (elem,timestamp) in imageBuffer {
+//            let elemAsArray: [Data] = [elem]
+//            self.socketController?.sendSensorUpdateNoAck(samples: elemAsArray)
+//            self.buffer!.removeSamplesFromBuffer(type: "image", timestamp: timestamp)
+//        }
+
+        let sensorBuffer = self.buffer!.flushBuffer(type: "sensor")
+        if sensorBuffer.count > 0 {
+            
             self.socketController?.sendSensorUpdateWithAck(samples: sensorBuffer, callback: { error, timestamp in
                 //TODO: edge case, cosa fare quando sto flushando ma il socket non è connesso? la richiesta va in timeout, quindi bisognerebbe chiamare questa funzione ricorsivamente (o trovare una soluzione migliore)
                 if (!error) {
                     print("Done flushing sensor buffer, can close")
-                    self.buffer.removeSamplesFromBuffer(type: "sensor", timestamp: timestamp)
+                    self.buffer!.removeSamplesFromBuffer(type: "sensor", timestamp: timestamp)
                 } else {
                     print("Cannot finish sensor upload, not connected.")
                 }
-                //self.closeGroup.leave()
             })
         }
-        
-        
-        
-        //self.closeGroup.leave()
     }
     
     // TODO: mettere alert con pulsanti per stoppare il thread o aspettare il finish dell'upload
     @objc func backAction(sender: UIBarButtonItem!) {
-        self.buffer.setShouldEmit(value: false)
+        self.buffer!.setShouldEmit(value: false)
         self.isClosing = true
         self.stopSensorGather()
         
-        //closeGroup.enter()
         let backgroundClosingThread = DispatchWorkItem {
             
-            DispatchQueue.global(qos: .background ).async {
+            DispatchQueue.global(qos: .background).async {
                 self.closingThread()
-            }
+                
+             }
         }
         DispatchQueue.global().async(execute: backgroundClosingThread)
         
-        // TODO: se si vuole bloccare da UI il close background thread senza aspettare che abbia finito l'upload, cancellare il backgroundClosingThread e chiamare self.closeGroup.leave()
 
-//        closeGroup.notify(queue: .main) {
-//            print("All closing activities done.")
-//            self.performSegue(withIdentifier: "goBackToSensors", sender: "A")
-//        }
-        if self.buffer.bufferSize["sensor"]!+self.buffer.bufferSize["image"]! > 0 {
+        if self.buffer!.bufferSize["sensor"]!+self.buffer!.bufferSize["image"]! > 0 {
             self.dataStillPresentAlert(workItem: backgroundClosingThread)
         } else {
             self.performSegue(withIdentifier: "goBackToSensors", sender: "A")
@@ -421,9 +388,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
         
         let alert = UIAlertController(title: "Data not sent", message: "Some data is still present in the buffer and not sent. Continue sending or Stop?", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Continue", style: .default, handler: { [weak alert] (action) -> Void in
-            if self.buffer.bufferSize["sensor"]!+self.buffer.bufferSize["image"]! <= 0 {
-                
-            
+            if self.buffer!.bufferSize["sensor"]!+self.buffer!.bufferSize["image"]! <= 0 {
                 self.performSegue(withIdentifier: "goBackToSensors", sender: "A")
             }
         }))
@@ -441,10 +406,12 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.buffer = Buffer(bufferLength: 1500, bufferDispatchQueue: self.bufferDispatchQueue)
         self.realtimeInfoTable.delegate = self
         self.realtimeInfoTable.dataSource = self
         if ARConfiguration.isSupported && self.profile.sensorList.getByName(name: "Video Frames")!.status {
             self.arscnView = ARSCNView()
+            self.arscnView.delegate = self
             self.slides = [self.arscnView, self.sensorInfoUIScrollView]
         } else {
             self.slides = [self.sensorInfoUIScrollView]
@@ -456,7 +423,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
         let backItem = UIBarButtonItem(title: "Stop", style: UIBarButtonItem.Style.plain, target: self,action: #selector(self.backAction))
         self.navigationItem.leftBarButtonItem = backItem
         //TODO add updatecellstimer to profile
-        self.updateCellsTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateBufferSizeView), userInfo: nil, repeats: true)
+        self.updateCellsTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(updateBufferSizeView), userInfo: nil, repeats: true)
 //        self.navigationItem.backBarButtonItem = backItem
         
         
@@ -557,6 +524,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
         let y = self.view.safeAreaLayoutGuide.layoutFrame.minY
         self.uiScrollView.frame = CGRect(x: x, y: y, width: w, height: h)
         self.uiScrollView.contentSize = CGSize(width: w * CGFloat(self.slides!.count), height: h)
+        self.realtimeInfoTable.frame = CGRect(x: x, y: 0, width: w, height: h)
         for i in 0 ..< self.slides!.count {
             slides![i].removeFromSuperview()
             slides![i].frame = CGRect(x: w * CGFloat(i), y: 0, width: w, height: h)
@@ -578,7 +546,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
             // min: 0.01
             motionManager.accelerometerUpdateInterval = self.profile.sensorList.getByName(name: "Accelerometer")?.parameters["Update Interval"] as! TimeInterval
             motionManager.startAccelerometerUpdates(to: self.operationQueue) { data, error  in
-                self.buffer.addProbe(type: "sensor", elem: data!)
+                self.buffer!.addProbe(type: "sensor", elem: data!)
                 self.updateAccelerometerCell(accData: data!)
             }
         }
@@ -587,7 +555,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
         if motionManager.isGyroAvailable && self.profile.sensorList.getByName(name: "Gyroscope")!.status{
             motionManager.gyroUpdateInterval = self.profile.sensorList.getByName(name: "Gyroscope")?.parameters["Update Interval"] as! TimeInterval
             motionManager.startGyroUpdates(to: self.operationQueue) { data, error in
-                self.buffer.addProbe(type: "sensor", elem: data!)
+                self.buffer!.addProbe(type: "sensor", elem: data!)
                 self.updateGyroscopeCell(gyroData: data!)
             }
         }
@@ -623,10 +591,73 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
 //            arConfig.worldAlignment = ARConfiguration.WorldAlignment(rawValue: 0)!
             // TODO take the resolution from the profile
             arConfig.videoFormat = ARWorldTrackingConfiguration.supportedVideoFormats[2]
+            arConfig.planeDetection = .horizontal
             let sessionConfig = arConfig
             arSession!.run(sessionConfig)
         }
     }
+    
+    func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
+        // 1
+        guard let planeAnchor = anchor as? ARPlaneAnchor else { return }
+        
+        // 2
+        let width = CGFloat(planeAnchor.extent.x)
+        let height = CGFloat(planeAnchor.extent.z)
+        let plane = SCNPlane(width: width, height: height)
+        
+        // 3
+        plane.materials.first?.diffuse.contents = UIColor.lightGray
+
+        // 4
+        let planeNode = SCNNode(geometry: plane)
+        
+        // 5
+        let x = CGFloat(planeAnchor.center.x)
+        let y = CGFloat(planeAnchor.center.y)
+        let z = CGFloat(planeAnchor.center.z)
+        planeNode.position = SCNVector3(x,y,z)
+        planeNode.eulerAngles.x = -.pi / 2
+        
+        // 6
+        node.addChildNode(planeNode)
+    }
+    
+    //    @available(iOS 11.0, *)
+    //    func startARKitGather(){
+    //
+    //        arSession = ARSession()
+    //
+    //        self.arscnView.session = arSession!
+    //        self.arscnView.debugOptions = [ARSCNDebugOptions.showFeaturePoints]
+    //        let sessionConfig = ARWorldTrackingConfiguration()
+    //
+    //        //sessionConfig.isAutoFocusEnabled = true
+    //
+    //        print("is ar supported: ",ARConfiguration.isSupported)
+    //
+    //        arSession!.run(sessionConfig)
+    //
+    //        var currentframe: ARFrame? = arSession!.currentFrame
+    //
+    //        //sleep(5)
+    //        currentframe?.rawFeaturePoints!.points[0].x // point clouds
+    //        if(currentframe != nil) {
+    //            print("Euler Angles: ",currentframe!.camera.transform)
+    //            print("Tracking State: ",currentframe!.camera.trackingState)
+    //            print(">> IMAGE BUFFER: ",currentframe!.capturedImage)
+    //            print("res: ", currentframe!.camera.imageResolution)
+    //            var a = UIImage(pixelBuffer: currentframe!.capturedImage)
+    //            // COMPRESSIONQUALITY VARIES FROM 0 TO 1
+    //
+    //            a?.jpegData(compressionQuality: 1)
+    //
+    //        }
+    //        else {
+    //            print("not ready yeet ")
+    //        }
+    //
+    //    }
     
     func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
 //        locationManager.heading!.trueHeading
@@ -635,6 +666,8 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
     }
     
     func session(_: ARSession, didUpdate: ARFrame) {
+        
+        
         let fps = self.profile.sensorList.getByName(name: "Video Frames")?.parameters["FPS"] as? Double
         
         let frameEveryHowManySecs = Int(60 / Int(fps!))
@@ -649,7 +682,14 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
             //let compression = self.profile.sensorList.getByName(name: "Video Frames")?.parameters["Compression"] as? Double
             var compres: CGFloat = CGFloat(0)
             
-            self.buffer.addProbe(type: "image", elem: (didUpdate, compres))
+            self.buffer!.addProbe(type: "image", elem: (didUpdate, compres))
+            
+            if didUpdate.rawFeaturePoints != nil {
+                //print("AAA: ",didUpdate.rawFeaturePoints!.points.count, " ",didUpdate.rawFeaturePoints!.identifiers.count)
+                
+            }
+            
+           
             
 //            var a = UIImage(pixelBuffer: didUpdate.capturedImage)
 //            var jpegone : JpegData? = a?.jpegData(compressionQuality: 0)
@@ -671,6 +711,10 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
         }
         
         
+    }
+    
+    func session(_ session: ARSession, cameraDidChangeTrackingState camera: ARCamera) {
+        camera.trackingState
     }
     
     func stopSensorGather() {

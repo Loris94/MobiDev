@@ -78,28 +78,30 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RFX-pB-9Cd">
-                                                    <rect key="frame" x="252" y="-2.5" width="48" height="48.5"/>
-                                                    <state key="normal" image="forward_icon.png"/>
-                                                </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Server Parameter Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="orX-YW-9lV">
                                                     <rect key="frame" x="10" y="11.5" width="180" height="20.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eVQ-bB-sOb">
+                                                    <rect key="frame" x="248" y="11.5" width="42" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="trailing" secondItem="RFX-pB-9Cd" secondAttribute="trailing" constant="20" id="4kd-He-o9c"/>
+                                                <constraint firstItem="eVQ-bB-sOb" firstAttribute="centerY" secondItem="oh7-r0-5PA" secondAttribute="centerY" id="JQG-9P-EZ9"/>
                                                 <constraint firstItem="orX-YW-9lV" firstAttribute="centerY" secondItem="oh7-r0-5PA" secondAttribute="centerY" id="WS3-lI-VKe"/>
                                                 <constraint firstItem="orX-YW-9lV" firstAttribute="leading" secondItem="oh7-r0-5PA" secondAttribute="leading" constant="10" id="atJ-Ap-KVm"/>
-                                                <constraint firstItem="RFX-pB-9Cd" firstAttribute="centerY" secondItem="oh7-r0-5PA" secondAttribute="centerY" id="xAM-Kr-9j2"/>
+                                                <constraint firstItem="ick-rK-0hH" firstAttribute="trailing" secondItem="eVQ-bB-sOb" secondAttribute="trailing" constant="30" id="dWx-u4-4UE"/>
                                             </constraints>
                                             <viewLayoutGuide key="safeArea" id="ick-rK-0hH"/>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="parameterLabel" destination="orX-YW-9lV" id="Ezu-8X-gPL"/>
-                                            <outlet property="serverParameterButton" destination="RFX-pB-9Cd" id="70U-Ff-SvZ"/>
+                                            <outlet property="valueLabel" destination="eVQ-bB-sOb" id="mTO-mD-QhS"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="SensorCell" id="ZkI-q1-kl7" customClass="SensorTableCell" customModule="MDProject" customModuleProvider="target">
@@ -109,10 +111,6 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kos-in-QH4">
-                                                    <rect key="frame" x="252" y="-2.5" width="48" height="48.5"/>
-                                                    <state key="normal" image="forward_icon.png"/>
-                                                </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sensor Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u2T-SV-hZq">
                                                     <rect key="frame" x="10" y="11.5" width="100" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -120,20 +118,17 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dMI-SY-488">
-                                                    <rect key="frame" x="183" y="6.5" width="51" height="31"/>
+                                                    <rect key="frame" x="241" y="6.5" width="51" height="31"/>
                                                 </switch>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="u2T-SV-hZq" firstAttribute="leading" secondItem="gjt-2s-a00" secondAttribute="leading" constant="10" id="937-oD-zvB"/>
                                                 <constraint firstItem="dMI-SY-488" firstAttribute="centerY" secondItem="gjt-2s-a00" secondAttribute="centerY" id="Kk7-MB-vsh"/>
                                                 <constraint firstItem="u2T-SV-hZq" firstAttribute="centerY" secondItem="gjt-2s-a00" secondAttribute="centerY" id="Kkk-FW-Zk0"/>
-                                                <constraint firstItem="kos-in-QH4" firstAttribute="leading" secondItem="dMI-SY-488" secondAttribute="trailing" constant="20" id="pIS-7G-i6f"/>
-                                                <constraint firstItem="kos-in-QH4" firstAttribute="centerY" secondItem="gjt-2s-a00" secondAttribute="centerY" id="yFJ-GJ-W6I"/>
-                                                <constraint firstAttribute="trailing" secondItem="kos-in-QH4" secondAttribute="trailing" constant="20" id="zfu-aG-VjH"/>
+                                                <constraint firstAttribute="trailing" secondItem="dMI-SY-488" secondAttribute="trailing" constant="30" id="T9W-uZ-l1D"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="SensorInfoButton" destination="kos-in-QH4" id="EEC-Fm-kvG"/>
                                             <outlet property="SensorLabel" destination="u2T-SV-hZq" id="aqY-OY-npO"/>
                                             <outlet property="SensorSwitch" destination="dMI-SY-488" id="LSe-bc-Afo"/>
                                         </connections>
@@ -219,6 +214,23 @@
                                             <outlet property="infoLabel" destination="oNC-cC-Xog" id="YNb-TG-CF7"/>
                                             <outlet property="infoText" destination="QXi-fM-bge" id="Jxh-mJ-OgE"/>
                                         </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="xhc-jB-RgM">
+                                        <rect key="frame" x="0.0" y="72" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="xhc-jB-RgM" id="ygt-hw-FEv">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hJR-AI-yAD">
+                                                    <rect key="frame" x="15" y="11" width="42" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
@@ -327,11 +339,7 @@
             <point key="canvasLocation" x="-742.5" y="870"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="forward_icon.png" width="48" height="48"/>
-    </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="yvg-Mk-jdV"/>
         <segue reference="Qpl-Nn-chJ"/>
     </inferredMetricsTieBreakers>
 </document>

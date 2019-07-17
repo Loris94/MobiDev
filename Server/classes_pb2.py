@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n\rclasses.proto\"l\n\x0cProfileProto\x12\x15\n\rserverAddress\x18\x01 \x01(\t\x12\x12\n\nserverPort\x18\x02 \x01(\r\x12\x13\n\x0bsessionName\x18\x03 \x01(\t\x12\x1c\n\x06sensor\x18\x04 \x03(\x0b\x32\x0c.SensorProto\"U\n\x0bSensorProto\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0e\n\x06status\x18\x02 \x01(\x08\x12(\n\tparameter\x18\x03 \x03(\x0b\x32\x15.SensorParameterProto\"N\n\x14SensorParameterProto\x12\x0b\n\x03key\x18\x01 \x01(\t\x12)\n\x05value\x18\x02 \x01(\x0b\x32\x1a.SensorParameterValueProto\"B\n\x19SensorParameterValueProto\x12\x13\n\x0b\x64oubleValue\x18\x01 \x01(\x01\x12\x10\n\x08strValue\x18\x02 \x01(\t\"K\n\x15\x41\x63\x63\x65lerationDataProto\x12\t\n\x01x\x18\x01 \x01(\x01\x12\t\n\x01y\x18\x02 \x01(\x01\x12\t\n\x01z\x18\x03 \x01(\x01\x12\x11\n\ttimestamp\x18\x04 \x01(\x01\"C\n\rGyroDataProto\x12\t\n\x01x\x18\x01 \x01(\x01\x12\t\n\x01y\x18\x02 \x01(\x01\x12\t\n\x01z\x18\x03 \x01(\x01\x12\x11\n\ttimestamp\x18\x04 \x01(\x01\"_\n\tDataProto\x12\x30\n\x10\x61\x63\x63\x65lerationData\x18\x01 \x03(\x0b\x32\x16.AccelerationDataProto\x12 \n\x08gyroData\x18\x02 \x03(\x0b\x32\x0e.GyroDataProto\"1\n\x0eGyroDataProto2\x12\t\n\x01x\x18\x01 \x01(\x01\x12\t\n\x01y\x18\x02 \x01(\x01\x12\t\n\x01z\x18\x03 \x01(\x01\"9\n\x16\x41\x63\x63\x65lerationDataProto2\x12\t\n\x01x\x18\x01 \x01(\x01\x12\t\n\x01y\x18\x02 \x01(\x01\x12\t\n\x01z\x18\x03 \x01(\x01\"\x1c\n\nImageProto\x12\x0e\n\x06\x62\x61se64\x18\x01 \x01(\t\" \n\x0bImageProto2\x12\x11\n\tJpegImage\x18\x01 \x01(\x0c\"J\n\x15MagnetometerDataProto\x12\t\n\x01x\x18\x01 \x01(\x01\x12\t\n\x01y\x18\x02 \x01(\x01\x12\t\n\x01z\x18\x03 \x01(\x01\x12\x10\n\x08\x61\x63\x63uracy\x18\x04 \x01(\x05\"a\n\x10\x43ompassDataProto\x12\t\n\x01x\x18\x01 \x01(\x01\x12\t\n\x01y\x18\x02 \x01(\x01\x12\t\n\x01z\x18\x03 \x01(\x01\x12\x13\n\x0btrueHeading\x18\x04 \x01(\x01\x12\x17\n\x0fmagneticHeading\x18\x05 \x01(\x01\"\xd7\x01\n\x0cSensorUpdate\x12\x11\n\ttimestamp\x18\x01 \x01(\x01\x12\x0f\n\x07session\x18\x02 \x01(\t\x12\x0c\n\x04type\x18\x03 \x01(\t\x12\x31\n\x10\x61\x63\x63\x65lerationData\x18\x04 \x01(\x0b\x32\x17.AccelerationDataProto2\x12!\n\x08gyroData\x18\x05 \x01(\x0b\x32\x0f.GyroDataProto2\x12\x1e\n\tImageData\x18\x06 \x01(\x0b\x32\x0b.ImageProto\x12\x1f\n\tJpegImage\x18\x07 \x01(\x0b\x32\x0c.ImageProto2b\x06proto3')
+  serialized_pb=_b('\n\rclasses.proto\"l\n\x0cProfileProto\x12\x15\n\rserverAddress\x18\x01 \x01(\t\x12\x12\n\nserverPort\x18\x02 \x01(\r\x12\x13\n\x0bsessionName\x18\x03 \x01(\t\x12\x1c\n\x06sensor\x18\x04 \x03(\x0b\x32\x0c.SensorProto\"U\n\x0bSensorProto\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0e\n\x06status\x18\x02 \x01(\x08\x12(\n\tparameter\x18\x03 \x03(\x0b\x32\x15.SensorParameterProto\"N\n\x14SensorParameterProto\x12\x0b\n\x03key\x18\x01 \x01(\t\x12)\n\x05value\x18\x02 \x01(\x0b\x32\x1a.SensorParameterValueProto\"B\n\x19SensorParameterValueProto\x12\x13\n\x0b\x64oubleValue\x18\x01 \x01(\x01\x12\x10\n\x08strValue\x18\x02 \x01(\t\"K\n\x15\x41\x63\x63\x65lerationDataProto\x12\t\n\x01x\x18\x01 \x01(\x01\x12\t\n\x01y\x18\x02 \x01(\x01\x12\t\n\x01z\x18\x03 \x01(\x01\x12\x11\n\ttimestamp\x18\x04 \x01(\x01\"C\n\rGyroDataProto\x12\t\n\x01x\x18\x01 \x01(\x01\x12\t\n\x01y\x18\x02 \x01(\x01\x12\t\n\x01z\x18\x03 \x01(\x01\x12\x11\n\ttimestamp\x18\x04 \x01(\x01\"_\n\tDataProto\x12\x30\n\x10\x61\x63\x63\x65lerationData\x18\x01 \x03(\x0b\x32\x16.AccelerationDataProto\x12 \n\x08gyroData\x18\x02 \x03(\x0b\x32\x0e.GyroDataProto\"1\n\x0eGyroDataProto2\x12\t\n\x01x\x18\x01 \x01(\x01\x12\t\n\x01y\x18\x02 \x01(\x01\x12\t\n\x01z\x18\x03 \x01(\x01\"9\n\x16\x41\x63\x63\x65lerationDataProto2\x12\t\n\x01x\x18\x01 \x01(\x01\x12\t\n\x01y\x18\x02 \x01(\x01\x12\t\n\x01z\x18\x03 \x01(\x01\"\x1c\n\nImageProto\x12\x0e\n\x06\x62\x61se64\x18\x01 \x01(\t\"b\n\x0bImageProto2\x12\x11\n\tJpegImage\x18\x01 \x01(\x0c\x12\x15\n\rTrackingState\x18\x02 \x01(\t\x12)\n\x0bPointsCloud\x18\x03 \x03(\x0b\x32\x14.PointCloudDataProto\"6\n\x13PointCloudDataProto\x12\t\n\x01x\x18\x01 \x01(\x02\x12\t\n\x01y\x18\x02 \x01(\x02\x12\t\n\x01z\x18\x03 \x01(\x02\"J\n\x15MagnetometerDataProto\x12\t\n\x01x\x18\x01 \x01(\x01\x12\t\n\x01y\x18\x02 \x01(\x01\x12\t\n\x01z\x18\x03 \x01(\x01\x12\x10\n\x08\x61\x63\x63uracy\x18\x04 \x01(\x05\"a\n\x10\x43ompassDataProto\x12\t\n\x01x\x18\x01 \x01(\x01\x12\t\n\x01y\x18\x02 \x01(\x01\x12\t\n\x01z\x18\x03 \x01(\x01\x12\x13\n\x0btrueHeading\x18\x04 \x01(\x01\x12\x17\n\x0fmagneticHeading\x18\x05 \x01(\x01\"\xd7\x01\n\x0cSensorUpdate\x12\x11\n\ttimestamp\x18\x01 \x01(\x01\x12\x0f\n\x07session\x18\x02 \x01(\t\x12\x0c\n\x04type\x18\x03 \x01(\t\x12\x31\n\x10\x61\x63\x63\x65lerationData\x18\x04 \x01(\x0b\x32\x17.AccelerationDataProto2\x12!\n\x08gyroData\x18\x05 \x01(\x0b\x32\x0f.GyroDataProto2\x12\x1e\n\tImageData\x18\x06 \x01(\x0b\x32\x0b.ImageProto\x12\x1f\n\tJpegImage\x18\x07 \x01(\x0b\x32\x0c.ImageProto2b\x06proto3')
 )
 
 
@@ -476,6 +476,20 @@ _IMAGEPROTO2 = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='TrackingState', full_name='ImageProto2.TrackingState', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='PointsCloud', full_name='ImageProto2.PointsCloud', index=2,
+      number=3, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -489,7 +503,52 @@ _IMAGEPROTO2 = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=745,
-  serialized_end=777,
+  serialized_end=843,
+)
+
+
+_POINTCLOUDDATAPROTO = _descriptor.Descriptor(
+  name='PointCloudDataProto',
+  full_name='PointCloudDataProto',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='x', full_name='PointCloudDataProto.x', index=0,
+      number=1, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='y', full_name='PointCloudDataProto.y', index=1,
+      number=2, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='z', full_name='PointCloudDataProto.z', index=2,
+      number=3, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=845,
+  serialized_end=899,
 )
 
 
@@ -540,8 +599,8 @@ _MAGNETOMETERDATAPROTO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=779,
-  serialized_end=853,
+  serialized_start=901,
+  serialized_end=975,
 )
 
 
@@ -599,8 +658,8 @@ _COMPASSDATAPROTO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=855,
-  serialized_end=952,
+  serialized_start=977,
+  serialized_end=1074,
 )
 
 
@@ -672,8 +731,8 @@ _SENSORUPDATE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=955,
-  serialized_end=1170,
+  serialized_start=1077,
+  serialized_end=1292,
 )
 
 _PROFILEPROTO.fields_by_name['sensor'].message_type = _SENSORPROTO
@@ -681,6 +740,7 @@ _SENSORPROTO.fields_by_name['parameter'].message_type = _SENSORPARAMETERPROTO
 _SENSORPARAMETERPROTO.fields_by_name['value'].message_type = _SENSORPARAMETERVALUEPROTO
 _DATAPROTO.fields_by_name['accelerationData'].message_type = _ACCELERATIONDATAPROTO
 _DATAPROTO.fields_by_name['gyroData'].message_type = _GYRODATAPROTO
+_IMAGEPROTO2.fields_by_name['PointsCloud'].message_type = _POINTCLOUDDATAPROTO
 _SENSORUPDATE.fields_by_name['accelerationData'].message_type = _ACCELERATIONDATAPROTO2
 _SENSORUPDATE.fields_by_name['gyroData'].message_type = _GYRODATAPROTO2
 _SENSORUPDATE.fields_by_name['ImageData'].message_type = _IMAGEPROTO
@@ -696,6 +756,7 @@ DESCRIPTOR.message_types_by_name['GyroDataProto2'] = _GYRODATAPROTO2
 DESCRIPTOR.message_types_by_name['AccelerationDataProto2'] = _ACCELERATIONDATAPROTO2
 DESCRIPTOR.message_types_by_name['ImageProto'] = _IMAGEPROTO
 DESCRIPTOR.message_types_by_name['ImageProto2'] = _IMAGEPROTO2
+DESCRIPTOR.message_types_by_name['PointCloudDataProto'] = _POINTCLOUDDATAPROTO
 DESCRIPTOR.message_types_by_name['MagnetometerDataProto'] = _MAGNETOMETERDATAPROTO
 DESCRIPTOR.message_types_by_name['CompassDataProto'] = _COMPASSDATAPROTO
 DESCRIPTOR.message_types_by_name['SensorUpdate'] = _SENSORUPDATE
@@ -777,6 +838,13 @@ ImageProto2 = _reflection.GeneratedProtocolMessageType('ImageProto2', (_message.
   # @@protoc_insertion_point(class_scope:ImageProto2)
   })
 _sym_db.RegisterMessage(ImageProto2)
+
+PointCloudDataProto = _reflection.GeneratedProtocolMessageType('PointCloudDataProto', (_message.Message,), {
+  'DESCRIPTOR' : _POINTCLOUDDATAPROTO,
+  '__module__' : 'classes_pb2'
+  # @@protoc_insertion_point(class_scope:PointCloudDataProto)
+  })
+_sym_db.RegisterMessage(PointCloudDataProto)
 
 MagnetometerDataProto = _reflection.GeneratedProtocolMessageType('MagnetometerDataProto', (_message.Message,), {
   'DESCRIPTOR' : _MAGNETOMETERDATAPROTO,

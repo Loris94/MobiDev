@@ -32,17 +32,15 @@ class SensorssInfoViewController: UIViewController, UITableViewDelegate, UITable
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "SensorInfoCell", for: indexPath) as? SensorInfoTableCell{
-            
+            cell.infoText.delegate = self
             if self.sensorTitle == "Server" {
                 if indexPath[1] == 0 {
                     cell.infoLabel.text = "Address"
-                    cell.infoText.delegate = self
                     cell.infoText.text = self.profile.serverAddress
                     cell.infoText.tag = 0
                     // cell keyb
                 } else if indexPath[1] == 1 {
                     cell.infoLabel.text = "Port"
-                    cell.infoText.delegate = self
                     cell.infoText.text = String(self.profile.serverPort)
                     cell.infoText.tag = 1
 
@@ -50,12 +48,10 @@ class SensorssInfoViewController: UIViewController, UITableViewDelegate, UITable
                 return cell
             } else if self.sensorTitle == "Session" {
                 cell.infoLabel.text = "Session Name"
-                cell.infoText.delegate = self
                 cell.infoText.text = self.profile.sessionName
                 cell.infoText.tag = 0
                 return cell
             } else {
-                cell.infoText.delegate = self
                 // TODO CHANGE KEYBOARD TYPE IF THE TARGET NEEDS A STRING / ENUM
                 
                 cell.infoLabel.text = Array(self.profile.sensorList.getByName(name: sensorTitle)!.parameters)[indexPath[1]].key
