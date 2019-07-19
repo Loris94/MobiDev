@@ -64,23 +64,39 @@ class Buffer {
     }
     
     func addProbe(type: String, elem: Any) {
+        if ViewController.isClosing {
+            return
+        }
         var dataProto: SensorUpdate = SensorUpdate()
         
         switch elem {
             case is CMAccelerometerData:
                 let data = elem as! CMAccelerometerData
                 dataProto.accelerationData = Utils.accelerometerToProto2(elem: data)
-                dataProto.timestamp = data.timestamp
+                dataProto.timestamp = NSDate().timeIntervalSince1970
             case is CMGyroData:
                 let data = elem as! CMGyroData
                 dataProto.gyroData = Utils.gyroToProto2(elem: data)
-                dataProto.timestamp = data.timestamp
+                dataProto.timestamp = NSDate().timeIntervalSince1970
+            case is CMMagneticField:
+                let data = elem as! CMMagneticField
+                dataProto.magnetometerData = Utils.magnetometerToProto(elem: data)
+                dataProto.timestamp = NSDate().timeIntervalSince1970
+            case is CLHeading:
+                let data = elem as! CLHeading
+                dataProto.compassData = Utils.compassToProto(elem: data)
+                dataProto.timestamp = NSDate().timeIntervalSince1970
             case is (ARFrame, CGFloat):
                 let data = elem as! (ARFrame, CGFloat)
                 dataProto.jpegImage = Utils.arFrameToProto(elem: data.0, compression: data.1)
-                dataProto.timestamp = data.0.timestamp
+                dataProto.timestamp = NSDate().timeIntervalSince1970
+            case is ARPlaneAnchor:
+                let data = elem as! ARPlaneAnchor
+                dataProto.planeData = Utils.arPlaneToProto(elem: data)
+                dataProto.timestamp = NSDate().timeIntervalSince1970
             default:
                 print("unknown probe type")
+                return
         }
         // TODO ELSE IF FOR EVERY TYPE OF SENSOR DATA
         do {
@@ -98,7 +114,7 @@ class Buffer {
                             self.shouldEmit[type]? = false
                         }
                     }
-//                }
+//               }
 //            }
         } catch {
             print("Encoding error")
@@ -122,8 +138,8 @@ class Buffer {
     
     
     func removeSamplesFromBuffer(type: String, timestamp: Double) {
-//        self.dispatchQueue.async {
-//            DispatchQueue.global().sync {
+        self.dispatchQueue.async {
+            DispatchQueue.global().sync {
                 var dataSize = 0
                 
                 for i in 0 ..< self.buffer[type]!.count {
@@ -137,8 +153,8 @@ class Buffer {
                 
                 
                 print("Buffer size ",type," remove: " , self.bufferSize[type], " len: ", self.buffer[type]!.count)
-//            }
-//        }
+            }
+        }
     }
     
     func flushBuffer(type: String) -> [Data] {
@@ -150,11 +166,10 @@ class Buffer {
     }
     
     func flushBufferWithNoAck(type: String) -> [(Data, Double)] {
-        var result: [(Data, Double)] = []
-        for sample in self.buffer[type]! {
-            result.append(sample)
-        }
-        return result
+        //self.bufferSize[type] = 0
+        let result = self.buffer[type]
+        self.buffer[type] = []
+        return result!
     }
     
     func setShouldEmit(value: Bool) {

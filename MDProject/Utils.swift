@@ -46,12 +46,11 @@ class Utils {
         }
     }
     
-    static func magnetometerToProto(elem: CMCalibratedMagneticField) -> MagnetometerDataProto {
+    static func magnetometerToProto(elem: CMMagneticField) -> MagnetometerDataProto {
         return MagnetometerDataProto.with {
-            $0.x = elem.field.x
-            $0.y = elem.field.y
-            $0.z = elem.field.z
-            $0.accuracy = elem.accuracy.rawValue
+            $0.x = elem.x
+            $0.y = elem.y
+            $0.z = elem.z
         }
     }
     
@@ -64,6 +63,7 @@ class Utils {
             $0.trueHeading = elem.trueHeading.binade
         }
     }
+    
     
     static func arFrameToProto(elem: ARFrame, compression: CGFloat) -> ImageProto2 {
         let jpeg = UIImage(pixelBuffer: elem.capturedImage)?.jpegData(compressionQuality: compression)
@@ -91,6 +91,16 @@ class Utils {
             $0.jpegImage = jpeg!
             $0.trackingState = trackingState
             $0.pointsCloud = pointsCloud
+        }
+    }
+    
+    static func arPlaneToProto(elem: ARPlaneAnchor) -> PlaneDataProto{
+        return PlaneDataProto.with {
+            $0.width = elem.extent.x
+            $0.height = elem.extent.z
+            $0.x = elem.center.x
+            $0.y = elem.center.y
+            $0.z = elem.center.z
         }
     }
     

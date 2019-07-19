@@ -173,10 +173,10 @@
 				1D2AE90A22DB37D80005771A /* RealTimeInfoCell .swift */,
 				1D00718222C791B70033F2FD /* classes.pb.swift */,
 				1D22479F22C65D9500D90A61 /* classes.proto */,
+				1DEDCB4E22DA51B90077009C /* Utils.swift */,
 				1D0D6E6A22BA78B600594A75 /* Assets.xcassets */,
 				1D0D6E6C22BA78B600594A75 /* LaunchScreen.storyboard */,
 				1D0D6E6F22BA78B600594A75 /* Info.plist */,
-				1DEDCB4E22DA51B90077009C /* Utils.swift */,
 			);
 			path = MDProject;
 			sourceTree = "<group>";

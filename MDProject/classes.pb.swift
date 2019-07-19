@@ -230,8 +230,6 @@ struct MagnetometerDataProto {
 
   var z: Double = 0
 
-  var accuracy: Int32 = 0
-
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
   init() {}
@@ -251,6 +249,26 @@ struct CompassDataProto {
   var trueHeading: Double = 0
 
   var magneticHeading: Double = 0
+
+  var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  init() {}
+}
+
+struct PlaneDataProto {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  var width: Float = 0
+
+  var height: Float = 0
+
+  var x: Float = 0
+
+  var y: Float = 0
+
+  var z: Float = 0
 
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -312,6 +330,33 @@ struct SensorUpdate {
   var hasJpegImage: Bool {return _storage._jpegImage != nil}
   /// Clears the value of `jpegImage`. Subsequent reads from it will return its default value.
   mutating func clearJpegImage() {_uniqueStorage()._jpegImage = nil}
+
+  var planeData: PlaneDataProto {
+    get {return _storage._planeData ?? PlaneDataProto()}
+    set {_uniqueStorage()._planeData = newValue}
+  }
+  /// Returns true if `planeData` has been explicitly set.
+  var hasPlaneData: Bool {return _storage._planeData != nil}
+  /// Clears the value of `planeData`. Subsequent reads from it will return its default value.
+  mutating func clearPlaneData() {_uniqueStorage()._planeData = nil}
+
+  var magnetometerData: MagnetometerDataProto {
+    get {return _storage._magnetometerData ?? MagnetometerDataProto()}
+    set {_uniqueStorage()._magnetometerData = newValue}
+  }
+  /// Returns true if `magnetometerData` has been explicitly set.
+  var hasMagnetometerData: Bool {return _storage._magnetometerData != nil}
+  /// Clears the value of `magnetometerData`. Subsequent reads from it will return its default value.
+  mutating func clearMagnetometerData() {_uniqueStorage()._magnetometerData = nil}
+
+  var compassData: CompassDataProto {
+    get {return _storage._compassData ?? CompassDataProto()}
+    set {_uniqueStorage()._compassData = newValue}
+  }
+  /// Returns true if `compassData` has been explicitly set.
+  var hasCompassData: Bool {return _storage._compassData != nil}
+  /// Clears the value of `compassData`. Subsequent reads from it will return its default value.
+  mutating func clearCompassData() {_uniqueStorage()._compassData = nil}
 
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -842,7 +887,6 @@ extension MagnetometerDataProto: SwiftProtobuf.Message, SwiftProtobuf._MessageIm
     1: .same(proto: "x"),
     2: .same(proto: "y"),
     3: .same(proto: "z"),
-    4: .same(proto: "accuracy"),
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -851,7 +895,6 @@ extension MagnetometerDataProto: SwiftProtobuf.Message, SwiftProtobuf._MessageIm
       case 1: try decoder.decodeSingularDoubleField(value: &self.x)
       case 2: try decoder.decodeSingularDoubleField(value: &self.y)
       case 3: try decoder.decodeSingularDoubleField(value: &self.z)
-      case 4: try decoder.decodeSingularInt32Field(value: &self.accuracy)
       default: break
       }
     }
@@ -867,9 +910,6 @@ extension MagnetometerDataProto: SwiftProtobuf.Message, SwiftProtobuf._MessageIm
     if self.z != 0 {
       try visitor.visitSingularDoubleField(value: self.z, fieldNumber: 3)
     }
-    if self.accuracy != 0 {
-      try visitor.visitSingularInt32Field(value: self.accuracy, fieldNumber: 4)
-    }
     try unknownFields.traverse(visitor: &visitor)
   }
 
@@ -877,7 +917,6 @@ extension MagnetometerDataProto: SwiftProtobuf.Message, SwiftProtobuf._MessageIm
     if lhs.x != rhs.x {return false}
     if lhs.y != rhs.y {return false}
     if lhs.z != rhs.z {return false}
-    if lhs.accuracy != rhs.accuracy {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
@@ -936,6 +975,59 @@ extension CompassDataProto: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
   }
 }
 
+extension PlaneDataProto: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = "PlaneDataProto"
+  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    1: .same(proto: "width"),
+    2: .same(proto: "height"),
+    3: .same(proto: "x"),
+    4: .same(proto: "y"),
+    5: .same(proto: "z"),
+  ]
+
+  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      switch fieldNumber {
+      case 1: try decoder.decodeSingularFloatField(value: &self.width)
+      case 2: try decoder.decodeSingularFloatField(value: &self.height)
+      case 3: try decoder.decodeSingularFloatField(value: &self.x)
+      case 4: try decoder.decodeSingularFloatField(value: &self.y)
+      case 5: try decoder.decodeSingularFloatField(value: &self.z)
+      default: break
+      }
+    }
+  }
+
+  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if self.width != 0 {
+      try visitor.visitSingularFloatField(value: self.width, fieldNumber: 1)
+    }
+    if self.height != 0 {
+      try visitor.visitSingularFloatField(value: self.height, fieldNumber: 2)
+    }
+    if self.x != 0 {
+      try visitor.visitSingularFloatField(value: self.x, fieldNumber: 3)
+    }
+    if self.y != 0 {
+      try visitor.visitSingularFloatField(value: self.y, fieldNumber: 4)
+    }
+    if self.z != 0 {
+      try visitor.visitSingularFloatField(value: self.z, fieldNumber: 5)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  static func ==(lhs: PlaneDataProto, rhs: PlaneDataProto) -> Bool {
+    if lhs.width != rhs.width {return false}
+    if lhs.height != rhs.height {return false}
+    if lhs.x != rhs.x {return false}
+    if lhs.y != rhs.y {return false}
+    if lhs.z != rhs.z {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
 extension SensorUpdate: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = "SensorUpdate"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
@@ -946,6 +1038,9 @@ extension SensorUpdate: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementat
     5: .same(proto: "gyroData"),
     6: .same(proto: "ImageData"),
     7: .same(proto: "JpegImage"),
+    8: .same(proto: "planeData"),
+    9: .same(proto: "magnetometerData"),
+    10: .same(proto: "compassData"),
   ]
 
   fileprivate class _StorageClass {
@@ -956,6 +1051,9 @@ extension SensorUpdate: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementat
     var _gyroData: GyroDataProto2? = nil
     var _imageData: ImageProto? = nil
     var _jpegImage: ImageProto2? = nil
+    var _planeData: PlaneDataProto? = nil
+    var _magnetometerData: MagnetometerDataProto? = nil
+    var _compassData: CompassDataProto? = nil
 
     static let defaultInstance = _StorageClass()
 
@@ -969,6 +1067,9 @@ extension SensorUpdate: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementat
       _gyroData = source._gyroData
       _imageData = source._imageData
       _jpegImage = source._jpegImage
+      _planeData = source._planeData
+      _magnetometerData = source._magnetometerData
+      _compassData = source._compassData
     }
   }
 
@@ -991,6 +1092,9 @@ extension SensorUpdate: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementat
         case 5: try decoder.decodeSingularMessageField(value: &_storage._gyroData)
         case 6: try decoder.decodeSingularMessageField(value: &_storage._imageData)
         case 7: try decoder.decodeSingularMessageField(value: &_storage._jpegImage)
+        case 8: try decoder.decodeSingularMessageField(value: &_storage._planeData)
+        case 9: try decoder.decodeSingularMessageField(value: &_storage._magnetometerData)
+        case 10: try decoder.decodeSingularMessageField(value: &_storage._compassData)
         default: break
         }
       }
@@ -1020,6 +1124,15 @@ extension SensorUpdate: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementat
       if let v = _storage._jpegImage {
         try visitor.visitSingularMessageField(value: v, fieldNumber: 7)
       }
+      if let v = _storage._planeData {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 8)
+      }
+      if let v = _storage._magnetometerData {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 9)
+      }
+      if let v = _storage._compassData {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 10)
+      }
     }
     try unknownFields.traverse(visitor: &visitor)
   }
@@ -1036,6 +1149,9 @@ extension SensorUpdate: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementat
         if _storage._gyroData != rhs_storage._gyroData {return false}
         if _storage._imageData != rhs_storage._imageData {return false}
         if _storage._jpegImage != rhs_storage._jpegImage {return false}
+        if _storage._planeData != rhs_storage._planeData {return false}
+        if _storage._magnetometerData != rhs_storage._magnetometerData {return false}
+        if _storage._compassData != rhs_storage._compassData {return false}
         return true
       }
       if !storagesAreEqual {return false}

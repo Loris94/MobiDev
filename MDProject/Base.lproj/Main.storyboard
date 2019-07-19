@@ -15,7 +15,7 @@
             <objects>
                 <navigationController id="Kb5-QF-MX8" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="r2k-uk-zaA">
-                        <rect key="frame" x="0.0" y="20" width="320" height="44"/>
+                        <rect key="frame" x="0.0" y="20" width="320" height="50"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
@@ -340,6 +340,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
+        <segue reference="yvg-Mk-jdV"/>
         <segue reference="Qpl-Nn-chJ"/>
     </inferredMetricsTieBreakers>
 </document>

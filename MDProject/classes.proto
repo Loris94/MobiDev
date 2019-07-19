@@ -75,7 +75,6 @@ message MagnetometerDataProto {
     double x = 1;
     double y = 2;
     double z = 3;
-    int32 accuracy = 4;
 }
 
 message CompassDataProto {
@@ -86,11 +85,13 @@ message CompassDataProto {
     double magneticHeading = 5;
 }
 
-//message PlaneDataProto {
-//    float width = 1;
-//    float height = 2;
-//    float
-//}
+message PlaneDataProto {
+    float width = 1;
+    float height = 2;
+    float x = 3;
+    float y = 4;
+    float z = 5;
+}
 
 message SensorUpdate {
     double timestamp = 1;
@@ -100,6 +101,9 @@ message SensorUpdate {
     GyroDataProto2 gyroData = 5;
     ImageProto ImageData = 6;
     ImageProto2 JpegImage = 7;
+    PlaneDataProto planeData = 8;
+    MagnetometerDataProto magnetometerData = 9;
+    CompassDataProto compassData = 10;
 }
 
 // protoc --swift_out=. DataModel.proto

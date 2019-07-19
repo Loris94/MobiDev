@@ -137,6 +137,26 @@ class SensorsViewController: UIViewController, UITableViewDelegate, UITableViewD
         return 0
     }
     
+    func tableView(tableView: UITableView!, titleForHeaderInSection section: Int) -> String!{
+        if (section == 0){
+            return "Server & UI"
+        }
+        if (section == 1){
+            return "Sensors"
+        }
+        return ""
+    }
+    
+    func tableView (tableView:UITableView , heightForHeaderInSection section:Int)->Float
+    {
+        
+        var title = self.tableView(tableView: tableView, titleForHeaderInSection: section)
+        if (title == "") {
+            return 0.0
+        }
+        return 20.0
+    }
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }

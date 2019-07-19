@@ -1,3 +1,4 @@
+
 import socketio
 import eventlet
 import classes_pb2
@@ -39,10 +40,10 @@ def connect(sid, environ):
 def disconnect(sid):
     if sid in last_received_data:
         del last_received_data[sid]
-    print('disconnect ', sid)
+    print '\n', 'disconnect ', sid, '\n'
 
 def reconnect(sid):
-    print('Reconnect: ', sid)
+    print 'Reconnect: ', sid 
 
 @sio.event
 def getLastTimestamp(sid):
