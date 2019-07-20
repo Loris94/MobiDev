@@ -66,7 +66,18 @@ class Utils {
     
     
     static func arFrameToProto(elem: ARFrame, compression: CGFloat, arKitPoses: Bool, planes: Bool, pointClouds: Bool) -> ImageProto2 {
-        let jpeg = UIImage(pixelBuffer: elem.capturedImage)?.jpegData(compressionQuality: compression)
+        
+        var jpeg : Data? = nil
+        var jpegImg: UIImage?
+        
+        jpegImg = UIImage(pixelBuffer: elem.capturedImage)
+        DispatchQueue.main.sync {
+            jpeg = jpegImg?.jpegData(compressionQuality: compression)
+        }
+        
+        //jpeg = UIImage(pixelBuffer: elem.capturedImage)?.jpegData(compressionQuality: compression)
+        
+        
         var pointsCloudProto: [PointCloudDataProto] = []
         
         if elem.rawFeaturePoints != nil && pointClouds {

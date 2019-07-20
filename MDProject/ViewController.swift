@@ -14,6 +14,7 @@ import VideoToolbox
 
 extension UIImage {
     public convenience init?(pixelBuffer: CVPixelBuffer) {
+        print("Debug5:", Thread.current)
         var cgImage: CGImage?
         VTCreateCGImageFromCVPixelBuffer(pixelBuffer, options: nil, imageOut: &cgImage)
         
@@ -49,18 +50,12 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
     weak var buffer: Buffer? = nil
     var arSession: ARSession? = nil
     
-    //let closeGroup = DispatchGroup()
-
-    var canUseARKit: Bool {
-        return ARWorldTrackingConfiguration.isSupported
-    }
-    
     var slides: [UIView]? = nil
     
     @IBOutlet weak var uiScrollView: UIScrollView!
-    @IBOutlet weak var pageControl: UIPageControl!
     
-    // first page of the scroll view arkit camera, will appear only if te user wants ardata
+    
+    // first page of the scroll view arkit camera, will appear only if the user wants ardata
     var arscnView: ARSCNView? = nil
     
     // second page of the scroll view, this will display sensorinfo and data usage. Will always appear
@@ -343,6 +338,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
     }
     
     @objc func sendSamples(NotificationData: Notification) {
+        
         let payload_unwrapped: [Data] = NotificationData.userInfo!["payload"] as! [Data]
         let type = NotificationData.userInfo!["type"] as! String
         if self.socketController?.isConnected() ?? false {
@@ -537,12 +533,8 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
     }
     
     func setUpScrollViews() {
-        
         self.setupSlideScrollView(slides: slides!)
         self.setupRealTimeTable()
-        pageControl.numberOfPages = slides!.count
-        pageControl.currentPage = 0
-        view.bringSubviewToFront(self.pageControl)
     }
 
     func setupSlideScrollView(slides : [UIView]) {
@@ -644,17 +636,6 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
             }
         }
         
-        
-        
-//        if motionManager.isDeviceMotionAvailable && self.profile.sensorList.getByName(name: "Magnetometer")!.status{
-//            motionManager.deviceMotionUpdateInterval = self.profile.sensorList.getByName(name: "Magnetometer")?.parameters["Update Interval"] as! TimeInterval
-//            motionManager.startDeviceMotionUpdates(to: self.operationQueue) { data, error  in
-//                self.buffer!.addProbe(type: "sensor", elem: data!.magneticField)
-//                self.updateMagnetometerCell(magnetometerData: data!.magneticField)
-//
-//            }
-//        }
-        
 //      COMPASS
         if CLLocationManager.locationServicesEnabled() && self.profile.sensorList.getByName(name: "Compass")!.status {
             locationManager.delegate = self
@@ -667,13 +648,13 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
             
             self.arSession = ARSession()
             self.arSession?.delegate = self
-            //self.arscnView?.session = self.arSession!
+            self.arscnView?.session = self.arSession!
             if self.profile.sensorList.getByName(name: "Point cloud")!.status{
                 self.arscnView?.debugOptions = [ARSCNDebugOptions.showFeaturePoints]
             }
             
             let arConfig = ARWorldTrackingConfiguration()
-            arConfig.isAutoFocusEnabled = true
+            //arConfig.isAutoFocusEnabled = true
 //            arConfig.worldAlignment = ARConfiguration.WorldAlignment(rawValue: 0)!
             // TODO take the resolution from the profile
             arConfig.videoFormat = ARWorldTrackingConfiguration.supportedVideoFormats[0]
@@ -725,32 +706,35 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
     func session(_: ARSession, didUpdate: ARFrame) {
 
         self.bufferDispatchQueue.async {
+            
             DispatchQueue.global().sync {
+
                 //TODO move fps and fehms in viewdidload
                 let fps = self.profile.sensorList.getByName(name: "Video Frames")?.parameters["FPS"] as? Double
-                
+
                 let frameEveryHowManySecs = Int(60 / Int(fps!))
-                
+
                 self.videoFrame += 1
-                
-                //        for elem in ARWorldTrackingConfiguration.supportedVideoFormats {
-                //            print("res:", elem.imageResolution, " frame: ", elem.framesPerSecond)
-                //        }
-                
+
+//                        for elem in ARWorldTrackingConfiguration.supportedVideoFormats {
+//                            print("res:", elem.imageResolution, " frame: ", elem.framesPerSecond)
+//                        }
+
                 if self.videoFrame % frameEveryHowManySecs == 0 {
                     //let compression = self.profile.sensorList.getByName(name: "Video Frames")?.parameters["Compression"] as? Double
                     let compres: CGFloat = CGFloat(0)
                     let arKitPoses = self.profile.sensorList.getByName(name: "ARkit 6d poses")?.status
                     let planes = self.profile.sensorList.getByName(name: "Planes")?.status
                     let pointClouds = self.profile.sensorList.getByName(name: "Point cloud")?.status
-                    self.buffer!.addProbe(type: "image", elem: (didUpdate, compres, arKitPoses, planes, pointClouds))
+                    self.buffer?.addProbe(type: "image", elem: (didUpdate, compres, arKitPoses, planes, pointClouds))
                 }
-                
+
                 if self.videoFrame == 60 {
                     self.videoFrame = 0
                 }
             }
         }
+        
     }
     
     func stopSensorGather() {
@@ -797,14 +781,13 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
             // Disconnect socket
             self.socketController?.disconnect()
             self.buffer = nil
-            
-            
-            
             self.arSession = nil
-            
+            self.arscnView?.removeFromSuperview()
             self.arscnView = nil
+            
             self.slides = nil
             self.backgroundClosingThread = nil
+            
             
             // Remove listeners to socket events to prevent double firing
             NotificationCenter.default.removeObserver(self, name: .socket_connected, object: nil)
@@ -815,14 +798,6 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
             // Destroy socketController because could be initialized with another sessionName
             self.socketController = nil
 
-            if let destinationVC = segue.destination as? SensorsViewController{
-                //destinationVC.self.profile.sensorList = self.profile.sensorList
-                
-            }
-            
-
-            
-            
         }
             
        

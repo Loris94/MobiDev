@@ -104,17 +104,17 @@ class Buffer {
             let data = try dataProto.serializedData()
 //            self.dispatchQueue.async {
 //                DispatchQueue.global().sync {
-                    self.buffer[type]?.append((data, dataProto.timestamp))
-                    self.bufferSize[type]? += data.count
-                    print("Buffer size ",type," add: " , self.bufferSize[type], " len: ", self.buffer[type]!.count)
-                    if self.bufferSize[type]! >= self.maxsize && self.shouldEmit[type]! {
-                        let samples : [Data] = self.getSamples(type: type)
-                        if samples.count > 0 {
-                            print("Sending data:", type)
-                            NotificationCenter.default.post(name: self.enough_data_event[type]!, object: nil, userInfo: ["payload": samples, "type": type])
-                            self.shouldEmit[type]? = false
-                        }
-                    }
+            self.buffer[type]?.append((data, dataProto.timestamp))
+            self.bufferSize[type]? += data.count
+            print("Buffer size ",type," add: " , self.bufferSize[type], " len: ", self.buffer[type]!.count)
+            if self.bufferSize[type]! >= self.maxsize && self.shouldEmit[type]! {
+                let samples : [Data] = self.getSamples(type: type)
+                if samples.count > 0 {
+                    print("Sending data:", type)
+                    NotificationCenter.default.post(name: self.enough_data_event[type]!, object: nil, userInfo: ["payload": samples, "type": type])
+                    self.shouldEmit[type]? = false
+                }
+            }
 //               }
 //            }
         } catch {

@@ -122,9 +122,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     $0.name = "Video Frames"
                     $0.status = false
                     $0.parameter = [SensorParameterProto.with {
-                        $0.key = "Quality"
+                        $0.key = "Resolution"
                         $0.value = SensorParameterValueProto.with {
-                            $0.doubleValue = 1080
+                            $0.doubleValue = 0
                         }
                         }, SensorParameterProto.with {
                             $0.key = "Compression"

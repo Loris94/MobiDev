@@ -16,6 +16,8 @@
 		1D0D6E6E22BA78B600594A75 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1D0D6E6C22BA78B600594A75 /* LaunchScreen.storyboard */; };
 		1D0D6E7922BA78B600594A75 /* MDProjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D0D6E7822BA78B600594A75 /* MDProjectTests.swift */; };
 		1D0D6E8422BA78B600594A75 /* MDProjectUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D0D6E8322BA78B600594A75 /* MDProjectUITests.swift */; };
+		1D1B0B8F22E365CB0080590B /* SensorInfoWithSliderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D1B0B8E22E365CB0080590B /* SensorInfoWithSliderCell.swift */; };
+		1D1B0B9122E37BBB0080590B /* SensorInfoStepperCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D1B0B9022E37BBB0080590B /* SensorInfoStepperCell.swift */; };
 		1D2247A022C65D9500D90A61 /* classes.proto in Sources */ = {isa = PBXBuildFile; fileRef = 1D22479F22C65D9500D90A61 /* classes.proto */; };
 		1D2AE90B22DB37D80005771A /* RealTimeInfoCell .swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D2AE90A22DB37D80005771A /* RealTimeInfoCell .swift */; };
 		1D2F468E22BD10A60020DF56 /* SensorsInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D2F468D22BD10A60020DF56 /* SensorsInfoViewController.swift */; };
@@ -79,6 +81,8 @@
 		1D0D6E7F22BA78B600594A75 /* MDProjectUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MDProjectUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1D0D6E8322BA78B600594A75 /* MDProjectUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MDProjectUITests.swift; sourceTree = "<group>"; };
 		1D0D6E8522BA78B600594A75 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1D1B0B8E22E365CB0080590B /* SensorInfoWithSliderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorInfoWithSliderCell.swift; sourceTree = "<group>"; };
+		1D1B0B9022E37BBB0080590B /* SensorInfoStepperCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorInfoStepperCell.swift; sourceTree = "<group>"; };
 		1D22479F22C65D9500D90A61 /* classes.proto */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.protobuf; path = classes.proto; sourceTree = "<group>"; };
 		1D2AE90A22DB37D80005771A /* RealTimeInfoCell .swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RealTimeInfoCell .swift"; sourceTree = "<group>"; };
 		1D2F468D22BD10A60020DF56 /* SensorsInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorsInfoViewController.swift; sourceTree = "<group>"; };
@@ -170,6 +174,8 @@
 				1DB909CD22BBD4DB009C6692 /* SensorTableCell.swift */,
 				1D72B17E22D1F8D10080FC2B /* ServerParameterInfoTableCell.swift */,
 				1D2F468F22BD22020020DF56 /* SensorInfoTableCell.swift */,
+				1D1B0B8E22E365CB0080590B /* SensorInfoWithSliderCell.swift */,
+				1D1B0B9022E37BBB0080590B /* SensorInfoStepperCell.swift */,
 				1D2AE90A22DB37D80005771A /* RealTimeInfoCell .swift */,
 				1D00718222C791B70033F2FD /* classes.pb.swift */,
 				1D22479F22C65D9500D90A61 /* classes.proto */,
@@ -445,10 +451,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1D1B0B8F22E365CB0080590B /* SensorInfoWithSliderCell.swift in Sources */,
 				C148446122D100490018A0A9 /* SocketController.swift in Sources */,
 				1DB909CE22BBD4DB009C6692 /* SensorTableCell.swift in Sources */,
 				1D44606222CA3F6A00D965C4 /* Sensor.swift in Sources */,
 				1D579F5122C4C6DB00D04F57 /* Buffer.swift in Sources */,
+				1D1B0B9122E37BBB0080590B /* SensorInfoStepperCell.swift in Sources */,
 				1DB909D222BBDD95009C6692 /* SensorsViewController.swift in Sources */,
 				1D2AE90B22DB37D80005771A /* RealTimeInfoCell .swift in Sources */,
 				1D0D6E6622BA78B500594A75 /* ViewController.swift in Sources */,
