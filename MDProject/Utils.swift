@@ -65,18 +65,20 @@ class Utils {
     }
     
     
-    static func arFrameToProto(elem: ARFrame, compression: CGFloat) -> ImageProto2 {
+    static func arFrameToProto(elem: ARFrame, compression: CGFloat, arKitPoses: Bool, planes: Bool, pointClouds: Bool) -> ImageProto2 {
         let jpeg = UIImage(pixelBuffer: elem.capturedImage)?.jpegData(compressionQuality: compression)
-        var pointsCloud: [PointCloudDataProto] = []
-        if elem.rawFeaturePoints != nil {
+        var pointsCloudProto: [PointCloudDataProto] = []
+        
+        if elem.rawFeaturePoints != nil && pointClouds {
             for point in elem.rawFeaturePoints!.points {
-                pointsCloud.append(PointCloudDataProto.with{
+                pointsCloudProto.append(PointCloudDataProto.with{
                     $0.x = point.x
                     $0.y = point.y
                     $0.z = point.z
                 })
             }
         }
+        
         var trackingState: String
         switch elem.camera.trackingState {
         case ARCamera.TrackingState.normal:
@@ -87,10 +89,46 @@ class Utils {
             trackingState = "NotAvailable"
         }
         
+        var arKitPosesProto: ArKit6dPosesDataProto = ArKit6dPosesDataProto()
+        if arKitPoses {
+            arKitPosesProto = ArKit6dPosesDataProto.with {
+                $0.eulerAngles = eulerAnglesToProto(sim3vecctor: elem.camera.eulerAngles)
+                $0.transformPoses = transformationMatrixToProto(transformMatrix: elem.camera.transform)
+            }
+        }
+        
         return ImageProto2.with{
             $0.jpegImage = jpeg!
             $0.trackingState = trackingState
-            $0.pointsCloud = pointsCloud
+            $0.pointsCloud = pointsCloudProto
+            $0.arKitPoses = arKitPosesProto
+        }
+    }
+    
+    static func transformationMatrixToProto(transformMatrix: simd_float4x4) -> TransformationMatrixDataProto {
+        return TransformationMatrixDataProto.with {
+            $0.firstColumn = transformationVectorToProto(transformationVector: transformMatrix.columns.0)
+            $0.secondColumn = transformationVectorToProto(transformationVector: transformMatrix.columns.1)
+            $0.thirdColumn = transformationVectorToProto(transformationVector: transformMatrix.columns.2)
+            $0.fourthColumn = transformationVectorToProto(transformationVector: transformMatrix.columns.3)
+            
+        }
+    }
+    
+    static func transformationVectorToProto(transformationVector: simd_float4) -> TransformationVectorDataProto{
+        return TransformationVectorDataProto.with {
+            $0.x = transformationVector.x
+            $0.y = transformationVector.y
+            $0.z = transformationVector.z
+            $0.w = transformationVector.w
+        }
+    }
+    
+    static func eulerAnglesToProto(sim3vecctor: simd_float3) -> EulerAnglesDataProto {
+        return EulerAnglesDataProto.with {
+            $0.pitch = sim3vecctor.x
+            $0.yaw = sim3vecctor.y
+            $0.roll = sim3vecctor.z
         }
     }
     

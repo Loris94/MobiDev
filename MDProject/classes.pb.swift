@@ -192,15 +192,35 @@ struct ImageProto2 {
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
 
-  var jpegImage: Data = SwiftProtobuf.Internal.emptyData
+  var jpegImage: Data {
+    get {return _storage._jpegImage}
+    set {_uniqueStorage()._jpegImage = newValue}
+  }
 
-  var trackingState: String = String()
+  var trackingState: String {
+    get {return _storage._trackingState}
+    set {_uniqueStorage()._trackingState = newValue}
+  }
 
-  var pointsCloud: [PointCloudDataProto] = []
+  var arKitPoses: ArKit6dPosesDataProto {
+    get {return _storage._arKitPoses ?? ArKit6dPosesDataProto()}
+    set {_uniqueStorage()._arKitPoses = newValue}
+  }
+  /// Returns true if `arKitPoses` has been explicitly set.
+  var hasArKitPoses: Bool {return _storage._arKitPoses != nil}
+  /// Clears the value of `arKitPoses`. Subsequent reads from it will return its default value.
+  mutating func clearArKitPoses() {_uniqueStorage()._arKitPoses = nil}
+
+  var pointsCloud: [PointCloudDataProto] {
+    get {return _storage._pointsCloud}
+    set {_uniqueStorage()._pointsCloud = newValue}
+  }
 
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
   init() {}
+
+  fileprivate var _storage = _StorageClass.defaultInstance
 }
 
 struct PointCloudDataProto {
@@ -249,6 +269,118 @@ struct CompassDataProto {
   var trueHeading: Double = 0
 
   var magneticHeading: Double = 0
+
+  var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  init() {}
+}
+
+struct ArKit6dPosesDataProto {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  var transformPoses: TransformationMatrixDataProto {
+    get {return _storage._transformPoses ?? TransformationMatrixDataProto()}
+    set {_uniqueStorage()._transformPoses = newValue}
+  }
+  /// Returns true if `transformPoses` has been explicitly set.
+  var hasTransformPoses: Bool {return _storage._transformPoses != nil}
+  /// Clears the value of `transformPoses`. Subsequent reads from it will return its default value.
+  mutating func clearTransformPoses() {_uniqueStorage()._transformPoses = nil}
+
+  var eulerAngles: EulerAnglesDataProto {
+    get {return _storage._eulerAngles ?? EulerAnglesDataProto()}
+    set {_uniqueStorage()._eulerAngles = newValue}
+  }
+  /// Returns true if `eulerAngles` has been explicitly set.
+  var hasEulerAngles: Bool {return _storage._eulerAngles != nil}
+  /// Clears the value of `eulerAngles`. Subsequent reads from it will return its default value.
+  mutating func clearEulerAngles() {_uniqueStorage()._eulerAngles = nil}
+
+  var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  init() {}
+
+  fileprivate var _storage = _StorageClass.defaultInstance
+}
+
+struct TransformationMatrixDataProto {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  var firstColumn: TransformationVectorDataProto {
+    get {return _storage._firstColumn ?? TransformationVectorDataProto()}
+    set {_uniqueStorage()._firstColumn = newValue}
+  }
+  /// Returns true if `firstColumn` has been explicitly set.
+  var hasFirstColumn: Bool {return _storage._firstColumn != nil}
+  /// Clears the value of `firstColumn`. Subsequent reads from it will return its default value.
+  mutating func clearFirstColumn() {_uniqueStorage()._firstColumn = nil}
+
+  var secondColumn: TransformationVectorDataProto {
+    get {return _storage._secondColumn ?? TransformationVectorDataProto()}
+    set {_uniqueStorage()._secondColumn = newValue}
+  }
+  /// Returns true if `secondColumn` has been explicitly set.
+  var hasSecondColumn: Bool {return _storage._secondColumn != nil}
+  /// Clears the value of `secondColumn`. Subsequent reads from it will return its default value.
+  mutating func clearSecondColumn() {_uniqueStorage()._secondColumn = nil}
+
+  var thirdColumn: TransformationVectorDataProto {
+    get {return _storage._thirdColumn ?? TransformationVectorDataProto()}
+    set {_uniqueStorage()._thirdColumn = newValue}
+  }
+  /// Returns true if `thirdColumn` has been explicitly set.
+  var hasThirdColumn: Bool {return _storage._thirdColumn != nil}
+  /// Clears the value of `thirdColumn`. Subsequent reads from it will return its default value.
+  mutating func clearThirdColumn() {_uniqueStorage()._thirdColumn = nil}
+
+  var fourthColumn: TransformationVectorDataProto {
+    get {return _storage._fourthColumn ?? TransformationVectorDataProto()}
+    set {_uniqueStorage()._fourthColumn = newValue}
+  }
+  /// Returns true if `fourthColumn` has been explicitly set.
+  var hasFourthColumn: Bool {return _storage._fourthColumn != nil}
+  /// Clears the value of `fourthColumn`. Subsequent reads from it will return its default value.
+  mutating func clearFourthColumn() {_uniqueStorage()._fourthColumn = nil}
+
+  var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  init() {}
+
+  fileprivate var _storage = _StorageClass.defaultInstance
+}
+
+struct TransformationVectorDataProto {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  var x: Float = 0
+
+  var y: Float = 0
+
+  var z: Float = 0
+
+  var w: Float = 0
+
+  var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  init() {}
+}
+
+struct EulerAnglesDataProto {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  var yaw: Float = 0
+
+  var pitch: Float = 0
+
+  var roll: Float = 0
 
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -804,37 +936,81 @@ extension ImageProto2: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementati
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "JpegImage"),
     2: .same(proto: "TrackingState"),
-    3: .same(proto: "PointsCloud"),
+    3: .same(proto: "arKitPoses"),
+    4: .same(proto: "PointsCloud"),
   ]
 
+  fileprivate class _StorageClass {
+    var _jpegImage: Data = SwiftProtobuf.Internal.emptyData
+    var _trackingState: String = String()
+    var _arKitPoses: ArKit6dPosesDataProto? = nil
+    var _pointsCloud: [PointCloudDataProto] = []
+
+    static let defaultInstance = _StorageClass()
+
+    private init() {}
+
+    init(copying source: _StorageClass) {
+      _jpegImage = source._jpegImage
+      _trackingState = source._trackingState
+      _arKitPoses = source._arKitPoses
+      _pointsCloud = source._pointsCloud
+    }
+  }
+
+  fileprivate mutating func _uniqueStorage() -> _StorageClass {
+    if !isKnownUniquelyReferenced(&_storage) {
+      _storage = _StorageClass(copying: _storage)
+    }
+    return _storage
+  }
+
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
-    while let fieldNumber = try decoder.nextFieldNumber() {
-      switch fieldNumber {
-      case 1: try decoder.decodeSingularBytesField(value: &self.jpegImage)
-      case 2: try decoder.decodeSingularStringField(value: &self.trackingState)
-      case 3: try decoder.decodeRepeatedMessageField(value: &self.pointsCloud)
-      default: break
+    _ = _uniqueStorage()
+    try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
+      while let fieldNumber = try decoder.nextFieldNumber() {
+        switch fieldNumber {
+        case 1: try decoder.decodeSingularBytesField(value: &_storage._jpegImage)
+        case 2: try decoder.decodeSingularStringField(value: &_storage._trackingState)
+        case 3: try decoder.decodeSingularMessageField(value: &_storage._arKitPoses)
+        case 4: try decoder.decodeRepeatedMessageField(value: &_storage._pointsCloud)
+        default: break
+        }
       }
     }
   }
 
   func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
-    if !self.jpegImage.isEmpty {
-      try visitor.visitSingularBytesField(value: self.jpegImage, fieldNumber: 1)
-    }
-    if !self.trackingState.isEmpty {
-      try visitor.visitSingularStringField(value: self.trackingState, fieldNumber: 2)
-    }
-    if !self.pointsCloud.isEmpty {
-      try visitor.visitRepeatedMessageField(value: self.pointsCloud, fieldNumber: 3)
+    try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
+      if !_storage._jpegImage.isEmpty {
+        try visitor.visitSingularBytesField(value: _storage._jpegImage, fieldNumber: 1)
+      }
+      if !_storage._trackingState.isEmpty {
+        try visitor.visitSingularStringField(value: _storage._trackingState, fieldNumber: 2)
+      }
+      if let v = _storage._arKitPoses {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 3)
+      }
+      if !_storage._pointsCloud.isEmpty {
+        try visitor.visitRepeatedMessageField(value: _storage._pointsCloud, fieldNumber: 4)
+      }
     }
     try unknownFields.traverse(visitor: &visitor)
   }
 
   static func ==(lhs: ImageProto2, rhs: ImageProto2) -> Bool {
-    if lhs.jpegImage != rhs.jpegImage {return false}
-    if lhs.trackingState != rhs.trackingState {return false}
-    if lhs.pointsCloud != rhs.pointsCloud {return false}
+    if lhs._storage !== rhs._storage {
+      let storagesAreEqual: Bool = withExtendedLifetime((lhs._storage, rhs._storage)) { (_args: (_StorageClass, _StorageClass)) in
+        let _storage = _args.0
+        let rhs_storage = _args.1
+        if _storage._jpegImage != rhs_storage._jpegImage {return false}
+        if _storage._trackingState != rhs_storage._trackingState {return false}
+        if _storage._arKitPoses != rhs_storage._arKitPoses {return false}
+        if _storage._pointsCloud != rhs_storage._pointsCloud {return false}
+        return true
+      }
+      if !storagesAreEqual {return false}
+    }
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
@@ -970,6 +1146,248 @@ extension CompassDataProto: SwiftProtobuf.Message, SwiftProtobuf._MessageImpleme
     if lhs.z != rhs.z {return false}
     if lhs.trueHeading != rhs.trueHeading {return false}
     if lhs.magneticHeading != rhs.magneticHeading {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension ArKit6dPosesDataProto: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = "ArKit6dPosesDataProto"
+  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    1: .same(proto: "transformPoses"),
+    2: .same(proto: "eulerAngles"),
+  ]
+
+  fileprivate class _StorageClass {
+    var _transformPoses: TransformationMatrixDataProto? = nil
+    var _eulerAngles: EulerAnglesDataProto? = nil
+
+    static let defaultInstance = _StorageClass()
+
+    private init() {}
+
+    init(copying source: _StorageClass) {
+      _transformPoses = source._transformPoses
+      _eulerAngles = source._eulerAngles
+    }
+  }
+
+  fileprivate mutating func _uniqueStorage() -> _StorageClass {
+    if !isKnownUniquelyReferenced(&_storage) {
+      _storage = _StorageClass(copying: _storage)
+    }
+    return _storage
+  }
+
+  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    _ = _uniqueStorage()
+    try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
+      while let fieldNumber = try decoder.nextFieldNumber() {
+        switch fieldNumber {
+        case 1: try decoder.decodeSingularMessageField(value: &_storage._transformPoses)
+        case 2: try decoder.decodeSingularMessageField(value: &_storage._eulerAngles)
+        default: break
+        }
+      }
+    }
+  }
+
+  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
+      if let v = _storage._transformPoses {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 1)
+      }
+      if let v = _storage._eulerAngles {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 2)
+      }
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  static func ==(lhs: ArKit6dPosesDataProto, rhs: ArKit6dPosesDataProto) -> Bool {
+    if lhs._storage !== rhs._storage {
+      let storagesAreEqual: Bool = withExtendedLifetime((lhs._storage, rhs._storage)) { (_args: (_StorageClass, _StorageClass)) in
+        let _storage = _args.0
+        let rhs_storage = _args.1
+        if _storage._transformPoses != rhs_storage._transformPoses {return false}
+        if _storage._eulerAngles != rhs_storage._eulerAngles {return false}
+        return true
+      }
+      if !storagesAreEqual {return false}
+    }
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension TransformationMatrixDataProto: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = "TransformationMatrixDataProto"
+  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    1: .same(proto: "firstColumn"),
+    2: .same(proto: "secondColumn"),
+    3: .same(proto: "thirdColumn"),
+    4: .same(proto: "fourthColumn"),
+  ]
+
+  fileprivate class _StorageClass {
+    var _firstColumn: TransformationVectorDataProto? = nil
+    var _secondColumn: TransformationVectorDataProto? = nil
+    var _thirdColumn: TransformationVectorDataProto? = nil
+    var _fourthColumn: TransformationVectorDataProto? = nil
+
+    static let defaultInstance = _StorageClass()
+
+    private init() {}
+
+    init(copying source: _StorageClass) {
+      _firstColumn = source._firstColumn
+      _secondColumn = source._secondColumn
+      _thirdColumn = source._thirdColumn
+      _fourthColumn = source._fourthColumn
+    }
+  }
+
+  fileprivate mutating func _uniqueStorage() -> _StorageClass {
+    if !isKnownUniquelyReferenced(&_storage) {
+      _storage = _StorageClass(copying: _storage)
+    }
+    return _storage
+  }
+
+  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    _ = _uniqueStorage()
+    try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
+      while let fieldNumber = try decoder.nextFieldNumber() {
+        switch fieldNumber {
+        case 1: try decoder.decodeSingularMessageField(value: &_storage._firstColumn)
+        case 2: try decoder.decodeSingularMessageField(value: &_storage._secondColumn)
+        case 3: try decoder.decodeSingularMessageField(value: &_storage._thirdColumn)
+        case 4: try decoder.decodeSingularMessageField(value: &_storage._fourthColumn)
+        default: break
+        }
+      }
+    }
+  }
+
+  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
+      if let v = _storage._firstColumn {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 1)
+      }
+      if let v = _storage._secondColumn {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 2)
+      }
+      if let v = _storage._thirdColumn {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 3)
+      }
+      if let v = _storage._fourthColumn {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 4)
+      }
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  static func ==(lhs: TransformationMatrixDataProto, rhs: TransformationMatrixDataProto) -> Bool {
+    if lhs._storage !== rhs._storage {
+      let storagesAreEqual: Bool = withExtendedLifetime((lhs._storage, rhs._storage)) { (_args: (_StorageClass, _StorageClass)) in
+        let _storage = _args.0
+        let rhs_storage = _args.1
+        if _storage._firstColumn != rhs_storage._firstColumn {return false}
+        if _storage._secondColumn != rhs_storage._secondColumn {return false}
+        if _storage._thirdColumn != rhs_storage._thirdColumn {return false}
+        if _storage._fourthColumn != rhs_storage._fourthColumn {return false}
+        return true
+      }
+      if !storagesAreEqual {return false}
+    }
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension TransformationVectorDataProto: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = "TransformationVectorDataProto"
+  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    1: .same(proto: "x"),
+    2: .same(proto: "y"),
+    3: .same(proto: "z"),
+    4: .same(proto: "w"),
+  ]
+
+  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      switch fieldNumber {
+      case 1: try decoder.decodeSingularFloatField(value: &self.x)
+      case 2: try decoder.decodeSingularFloatField(value: &self.y)
+      case 3: try decoder.decodeSingularFloatField(value: &self.z)
+      case 4: try decoder.decodeSingularFloatField(value: &self.w)
+      default: break
+      }
+    }
+  }
+
+  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if self.x != 0 {
+      try visitor.visitSingularFloatField(value: self.x, fieldNumber: 1)
+    }
+    if self.y != 0 {
+      try visitor.visitSingularFloatField(value: self.y, fieldNumber: 2)
+    }
+    if self.z != 0 {
+      try visitor.visitSingularFloatField(value: self.z, fieldNumber: 3)
+    }
+    if self.w != 0 {
+      try visitor.visitSingularFloatField(value: self.w, fieldNumber: 4)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  static func ==(lhs: TransformationVectorDataProto, rhs: TransformationVectorDataProto) -> Bool {
+    if lhs.x != rhs.x {return false}
+    if lhs.y != rhs.y {return false}
+    if lhs.z != rhs.z {return false}
+    if lhs.w != rhs.w {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension EulerAnglesDataProto: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = "EulerAnglesDataProto"
+  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    1: .same(proto: "yaw"),
+    2: .same(proto: "pitch"),
+    3: .same(proto: "roll"),
+  ]
+
+  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      switch fieldNumber {
+      case 1: try decoder.decodeSingularFloatField(value: &self.yaw)
+      case 2: try decoder.decodeSingularFloatField(value: &self.pitch)
+      case 3: try decoder.decodeSingularFloatField(value: &self.roll)
+      default: break
+      }
+    }
+  }
+
+  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if self.yaw != 0 {
+      try visitor.visitSingularFloatField(value: self.yaw, fieldNumber: 1)
+    }
+    if self.pitch != 0 {
+      try visitor.visitSingularFloatField(value: self.pitch, fieldNumber: 2)
+    }
+    if self.roll != 0 {
+      try visitor.visitSingularFloatField(value: self.roll, fieldNumber: 3)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  static func ==(lhs: EulerAnglesDataProto, rhs: EulerAnglesDataProto) -> Bool {
+    if lhs.yaw != rhs.yaw {return false}
+    if lhs.pitch != rhs.pitch {return false}
+    if lhs.roll != rhs.roll {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }

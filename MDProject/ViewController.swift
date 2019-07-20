@@ -413,28 +413,14 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
             print("Socket is currently disconnected")
             sleep(1)
         }
-        
+        // TODO can be nil here if we stop and then stop, the segue causes the socket and the buffer to go nil hence the while clause will go on and fatal error here, (will only happen if we're disconnected)
         let imageBuffer = self.buffer!.flushBuffer(type: "image")
-        self.bufferDispatchQueue.async {
+        //self.bufferDispatchQueue.async {
             DispatchQueue.global().sync {
                 print("DEBUG ", Thread.current)
                 self.flushImageBufferOneAtTime(imageBuffer: imageBuffer, index: 0)
             }
-        }
-        
-            
-        
-        
-//        self.bufferDispatchQueue.async {
-//            DispatchQueue.global().sync {
-//                let imageBuffer = self.buffer?.flushBufferWithNoAck(type: "image")
-//                for (elem,timestamp) in imageBuffer! {
-//                    let elemAsArray: [Data] = [elem]
-//                    self.socketController?.sendSensorUpdateNoAck(samples: elemAsArray)
-//                    self.buffer!.removeSamplesFromBuffer(type: "image", timestamp: timestamp)
-//                }
-//            }
-//        }
+        //}
 
         let sensorBuffer = self.buffer!.flushBuffer(type: "sensor")
         if sensorBuffer.count > 0 {
@@ -732,12 +718,12 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
         print("location x: ", locationManager.heading!.x, " y: ", locationManager.heading!.y, " z: ", locationManager.heading!.z, " heading: ", locationManager.heading!.trueHeading)
         self.buffer?.addProbe(type: "sensor", elem: newHeading)
         self.updateCompassCell(compassData: newHeading)
-//        locationManager.heading!.trueHeading
-//        locationManager.heading!.x
-//        locationManager.heading!.magneticHeading
     }
     
+    
+    
     func session(_: ARSession, didUpdate: ARFrame) {
+
         self.bufferDispatchQueue.async {
             DispatchQueue.global().sync {
                 //TODO move fps and fehms in viewdidload
@@ -753,8 +739,11 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
                 
                 if self.videoFrame % frameEveryHowManySecs == 0 {
                     //let compression = self.profile.sensorList.getByName(name: "Video Frames")?.parameters["Compression"] as? Double
-                    var compres: CGFloat = CGFloat(0)
-                    self.buffer!.addProbe(type: "image", elem: (didUpdate, compres))
+                    let compres: CGFloat = CGFloat(0)
+                    let arKitPoses = self.profile.sensorList.getByName(name: "ARkit 6d poses")?.status
+                    let planes = self.profile.sensorList.getByName(name: "Planes")?.status
+                    let pointClouds = self.profile.sensorList.getByName(name: "Point cloud")?.status
+                    self.buffer!.addProbe(type: "image", elem: (didUpdate, compres, arKitPoses, planes, pointClouds))
                 }
                 
                 if self.videoFrame == 60 {
@@ -781,6 +770,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
             motionManager.stopDeviceMotionUpdates()
             print("Device Motion stopped")
         }
+        locationManager.stopUpdatingHeading()
         if self.arSession != nil {
             print("ARSession paused")
             self.arSession?.pause()

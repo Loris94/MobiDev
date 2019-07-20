@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n\rclasses.proto\"l\n\x0cProfileProto\x12\x15\n\rserverAddress\x18\x01 \x01(\t\x12\x12\n\nserverPort\x18\x02 \x01(\r\x12\x13\n\x0bsessionName\x18\x03 \x01(\t\x12\x1c\n\x06sensor\x18\x04 \x03(\x0b\x32\x0c.SensorProto\"U\n\x0bSensorProto\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0e\n\x06status\x18\x02 \x01(\x08\x12(\n\tparameter\x18\x03 \x03(\x0b\x32\x15.SensorParameterProto\"N\n\x14SensorParameterProto\x12\x0b\n\x03key\x18\x01 \x01(\t\x12)\n\x05value\x18\x02 \x01(\x0b\x32\x1a.SensorParameterValueProto\"B\n\x19SensorParameterValueProto\x12\x13\n\x0b\x64oubleValue\x18\x01 \x01(\x01\x12\x10\n\x08strValue\x18\x02 \x01(\t\"K\n\x15\x41\x63\x63\x65lerationDataProto\x12\t\n\x01x\x18\x01 \x01(\x01\x12\t\n\x01y\x18\x02 \x01(\x01\x12\t\n\x01z\x18\x03 \x01(\x01\x12\x11\n\ttimestamp\x18\x04 \x01(\x01\"C\n\rGyroDataProto\x12\t\n\x01x\x18\x01 \x01(\x01\x12\t\n\x01y\x18\x02 \x01(\x01\x12\t\n\x01z\x18\x03 \x01(\x01\x12\x11\n\ttimestamp\x18\x04 \x01(\x01\"_\n\tDataProto\x12\x30\n\x10\x61\x63\x63\x65lerationData\x18\x01 \x03(\x0b\x32\x16.AccelerationDataProto\x12 \n\x08gyroData\x18\x02 \x03(\x0b\x32\x0e.GyroDataProto\"1\n\x0eGyroDataProto2\x12\t\n\x01x\x18\x01 \x01(\x01\x12\t\n\x01y\x18\x02 \x01(\x01\x12\t\n\x01z\x18\x03 \x01(\x01\"9\n\x16\x41\x63\x63\x65lerationDataProto2\x12\t\n\x01x\x18\x01 \x01(\x01\x12\t\n\x01y\x18\x02 \x01(\x01\x12\t\n\x01z\x18\x03 \x01(\x01\"\x1c\n\nImageProto\x12\x0e\n\x06\x62\x61se64\x18\x01 \x01(\t\"b\n\x0bImageProto2\x12\x11\n\tJpegImage\x18\x01 \x01(\x0c\x12\x15\n\rTrackingState\x18\x02 \x01(\t\x12)\n\x0bPointsCloud\x18\x03 \x03(\x0b\x32\x14.PointCloudDataProto\"6\n\x13PointCloudDataProto\x12\t\n\x01x\x18\x01 \x01(\x02\x12\t\n\x01y\x18\x02 \x01(\x02\x12\t\n\x01z\x18\x03 \x01(\x02\"8\n\x15MagnetometerDataProto\x12\t\n\x01x\x18\x01 \x01(\x01\x12\t\n\x01y\x18\x02 \x01(\x01\x12\t\n\x01z\x18\x03 \x01(\x01\"a\n\x10\x43ompassDataProto\x12\t\n\x01x\x18\x01 \x01(\x01\x12\t\n\x01y\x18\x02 \x01(\x01\x12\t\n\x01z\x18\x03 \x01(\x01\x12\x13\n\x0btrueHeading\x18\x04 \x01(\x01\x12\x17\n\x0fmagneticHeading\x18\x05 \x01(\x01\"P\n\x0ePlaneDataProto\x12\r\n\x05width\x18\x01 \x01(\x02\x12\x0e\n\x06height\x18\x02 \x01(\x02\x12\t\n\x01x\x18\x03 \x01(\x02\x12\t\n\x01y\x18\x04 \x01(\x02\x12\t\n\x01z\x18\x05 \x01(\x02\"\xd5\x02\n\x0cSensorUpdate\x12\x11\n\ttimestamp\x18\x01 \x01(\x01\x12\x0f\n\x07session\x18\x02 \x01(\t\x12\x0c\n\x04type\x18\x03 \x01(\t\x12\x31\n\x10\x61\x63\x63\x65lerationData\x18\x04 \x01(\x0b\x32\x17.AccelerationDataProto2\x12!\n\x08gyroData\x18\x05 \x01(\x0b\x32\x0f.GyroDataProto2\x12\x1e\n\tImageData\x18\x06 \x01(\x0b\x32\x0b.ImageProto\x12\x1f\n\tJpegImage\x18\x07 \x01(\x0b\x32\x0c.ImageProto2\x12\"\n\tplaneData\x18\x08 \x01(\x0b\x32\x0f.PlaneDataProto\x12\x30\n\x10magnetometerData\x18\t \x01(\x0b\x32\x16.MagnetometerDataProto\x12&\n\x0b\x63ompassData\x18\n \x01(\x0b\x32\x11.CompassDataProtob\x06proto3')
+  serialized_pb=_b('\n\rclasses.proto\"l\n\x0cProfileProto\x12\x15\n\rserverAddress\x18\x01 \x01(\t\x12\x12\n\nserverPort\x18\x02 \x01(\r\x12\x13\n\x0bsessionName\x18\x03 \x01(\t\x12\x1c\n\x06sensor\x18\x04 \x03(\x0b\x32\x0c.SensorProto\"U\n\x0bSensorProto\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0e\n\x06status\x18\x02 \x01(\x08\x12(\n\tparameter\x18\x03 \x03(\x0b\x32\x15.SensorParameterProto\"N\n\x14SensorParameterProto\x12\x0b\n\x03key\x18\x01 \x01(\t\x12)\n\x05value\x18\x02 \x01(\x0b\x32\x1a.SensorParameterValueProto\"B\n\x19SensorParameterValueProto\x12\x13\n\x0b\x64oubleValue\x18\x01 \x01(\x01\x12\x10\n\x08strValue\x18\x02 \x01(\t\"K\n\x15\x41\x63\x63\x65lerationDataProto\x12\t\n\x01x\x18\x01 \x01(\x01\x12\t\n\x01y\x18\x02 \x01(\x01\x12\t\n\x01z\x18\x03 \x01(\x01\x12\x11\n\ttimestamp\x18\x04 \x01(\x01\"C\n\rGyroDataProto\x12\t\n\x01x\x18\x01 \x01(\x01\x12\t\n\x01y\x18\x02 \x01(\x01\x12\t\n\x01z\x18\x03 \x01(\x01\x12\x11\n\ttimestamp\x18\x04 \x01(\x01\"_\n\tDataProto\x12\x30\n\x10\x61\x63\x63\x65lerationData\x18\x01 \x03(\x0b\x32\x16.AccelerationDataProto\x12 \n\x08gyroData\x18\x02 \x03(\x0b\x32\x0e.GyroDataProto\"1\n\x0eGyroDataProto2\x12\t\n\x01x\x18\x01 \x01(\x01\x12\t\n\x01y\x18\x02 \x01(\x01\x12\t\n\x01z\x18\x03 \x01(\x01\"9\n\x16\x41\x63\x63\x65lerationDataProto2\x12\t\n\x01x\x18\x01 \x01(\x01\x12\t\n\x01y\x18\x02 \x01(\x01\x12\t\n\x01z\x18\x03 \x01(\x01\"\x1c\n\nImageProto\x12\x0e\n\x06\x62\x61se64\x18\x01 \x01(\t\"\x8e\x01\n\x0bImageProto2\x12\x11\n\tJpegImage\x18\x01 \x01(\x0c\x12\x15\n\rTrackingState\x18\x02 \x01(\t\x12*\n\narKitPoses\x18\x03 \x01(\x0b\x32\x16.ArKit6dPosesDataProto\x12)\n\x0bPointsCloud\x18\x04 \x03(\x0b\x32\x14.PointCloudDataProto\"6\n\x13PointCloudDataProto\x12\t\n\x01x\x18\x01 \x01(\x02\x12\t\n\x01y\x18\x02 \x01(\x02\x12\t\n\x01z\x18\x03 \x01(\x02\"8\n\x15MagnetometerDataProto\x12\t\n\x01x\x18\x01 \x01(\x01\x12\t\n\x01y\x18\x02 \x01(\x01\x12\t\n\x01z\x18\x03 \x01(\x01\"a\n\x10\x43ompassDataProto\x12\t\n\x01x\x18\x01 \x01(\x01\x12\t\n\x01y\x18\x02 \x01(\x01\x12\t\n\x01z\x18\x03 \x01(\x01\x12\x13\n\x0btrueHeading\x18\x04 \x01(\x01\x12\x17\n\x0fmagneticHeading\x18\x05 \x01(\x01\"{\n\x15\x41rKit6dPosesDataProto\x12\x36\n\x0etransformPoses\x18\x01 \x01(\x0b\x32\x1e.TransformationMatrixDataProto\x12*\n\x0b\x65ulerAngles\x18\x02 \x01(\x0b\x32\x15.EulerAnglesDataProto\"\xf5\x01\n\x1dTransformationMatrixDataProto\x12\x33\n\x0b\x66irstColumn\x18\x01 \x01(\x0b\x32\x1e.TransformationVectorDataProto\x12\x34\n\x0csecondColumn\x18\x02 \x01(\x0b\x32\x1e.TransformationVectorDataProto\x12\x33\n\x0bthirdColumn\x18\x03 \x01(\x0b\x32\x1e.TransformationVectorDataProto\x12\x34\n\x0c\x66ourthColumn\x18\x04 \x01(\x0b\x32\x1e.TransformationVectorDataProto\"K\n\x1dTransformationVectorDataProto\x12\t\n\x01x\x18\x01 \x01(\x02\x12\t\n\x01y\x18\x02 \x01(\x02\x12\t\n\x01z\x18\x03 \x01(\x02\x12\t\n\x01w\x18\x04 \x01(\x02\"@\n\x14\x45ulerAnglesDataProto\x12\x0b\n\x03yaw\x18\x01 \x01(\x02\x12\r\n\x05pitch\x18\x02 \x01(\x02\x12\x0c\n\x04roll\x18\x03 \x01(\x02\"P\n\x0ePlaneDataProto\x12\r\n\x05width\x18\x01 \x01(\x02\x12\x0e\n\x06height\x18\x02 \x01(\x02\x12\t\n\x01x\x18\x03 \x01(\x02\x12\t\n\x01y\x18\x04 \x01(\x02\x12\t\n\x01z\x18\x05 \x01(\x02\"\xd5\x02\n\x0cSensorUpdate\x12\x11\n\ttimestamp\x18\x01 \x01(\x01\x12\x0f\n\x07session\x18\x02 \x01(\t\x12\x0c\n\x04type\x18\x03 \x01(\t\x12\x31\n\x10\x61\x63\x63\x65lerationData\x18\x04 \x01(\x0b\x32\x17.AccelerationDataProto2\x12!\n\x08gyroData\x18\x05 \x01(\x0b\x32\x0f.GyroDataProto2\x12\x1e\n\tImageData\x18\x06 \x01(\x0b\x32\x0b.ImageProto\x12\x1f\n\tJpegImage\x18\x07 \x01(\x0b\x32\x0c.ImageProto2\x12\"\n\tplaneData\x18\x08 \x01(\x0b\x32\x0f.PlaneDataProto\x12\x30\n\x10magnetometerData\x18\t \x01(\x0b\x32\x16.MagnetometerDataProto\x12&\n\x0b\x63ompassData\x18\n \x01(\x0b\x32\x11.CompassDataProtob\x06proto3')
 )
 
 
@@ -484,8 +484,15 @@ _IMAGEPROTO2 = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='PointsCloud', full_name='ImageProto2.PointsCloud', index=2,
-      number=3, type=11, cpp_type=10, label=3,
+      name='arKitPoses', full_name='ImageProto2.arKitPoses', index=2,
+      number=3, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='PointsCloud', full_name='ImageProto2.PointsCloud', index=3,
+      number=4, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -502,8 +509,8 @@ _IMAGEPROTO2 = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=745,
-  serialized_end=843,
+  serialized_start=746,
+  serialized_end=888,
 )
 
 
@@ -547,8 +554,8 @@ _POINTCLOUDDATAPROTO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=845,
-  serialized_end=899,
+  serialized_start=890,
+  serialized_end=944,
 )
 
 
@@ -592,8 +599,8 @@ _MAGNETOMETERDATAPROTO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=901,
-  serialized_end=957,
+  serialized_start=946,
+  serialized_end=1002,
 )
 
 
@@ -651,8 +658,195 @@ _COMPASSDATAPROTO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=959,
-  serialized_end=1056,
+  serialized_start=1004,
+  serialized_end=1101,
+)
+
+
+_ARKIT6DPOSESDATAPROTO = _descriptor.Descriptor(
+  name='ArKit6dPosesDataProto',
+  full_name='ArKit6dPosesDataProto',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='transformPoses', full_name='ArKit6dPosesDataProto.transformPoses', index=0,
+      number=1, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='eulerAngles', full_name='ArKit6dPosesDataProto.eulerAngles', index=1,
+      number=2, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1103,
+  serialized_end=1226,
+)
+
+
+_TRANSFORMATIONMATRIXDATAPROTO = _descriptor.Descriptor(
+  name='TransformationMatrixDataProto',
+  full_name='TransformationMatrixDataProto',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='firstColumn', full_name='TransformationMatrixDataProto.firstColumn', index=0,
+      number=1, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='secondColumn', full_name='TransformationMatrixDataProto.secondColumn', index=1,
+      number=2, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='thirdColumn', full_name='TransformationMatrixDataProto.thirdColumn', index=2,
+      number=3, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='fourthColumn', full_name='TransformationMatrixDataProto.fourthColumn', index=3,
+      number=4, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1229,
+  serialized_end=1474,
+)
+
+
+_TRANSFORMATIONVECTORDATAPROTO = _descriptor.Descriptor(
+  name='TransformationVectorDataProto',
+  full_name='TransformationVectorDataProto',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='x', full_name='TransformationVectorDataProto.x', index=0,
+      number=1, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='y', full_name='TransformationVectorDataProto.y', index=1,
+      number=2, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='z', full_name='TransformationVectorDataProto.z', index=2,
+      number=3, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='w', full_name='TransformationVectorDataProto.w', index=3,
+      number=4, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1476,
+  serialized_end=1551,
+)
+
+
+_EULERANGLESDATAPROTO = _descriptor.Descriptor(
+  name='EulerAnglesDataProto',
+  full_name='EulerAnglesDataProto',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='yaw', full_name='EulerAnglesDataProto.yaw', index=0,
+      number=1, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='pitch', full_name='EulerAnglesDataProto.pitch', index=1,
+      number=2, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='roll', full_name='EulerAnglesDataProto.roll', index=2,
+      number=3, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1553,
+  serialized_end=1617,
 )
 
 
@@ -710,8 +904,8 @@ _PLANEDATAPROTO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1058,
-  serialized_end=1138,
+  serialized_start=1619,
+  serialized_end=1699,
 )
 
 
@@ -804,8 +998,8 @@ _SENSORUPDATE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1141,
-  serialized_end=1482,
+  serialized_start=1702,
+  serialized_end=2043,
 )
 
 _PROFILEPROTO.fields_by_name['sensor'].message_type = _SENSORPROTO
@@ -813,7 +1007,14 @@ _SENSORPROTO.fields_by_name['parameter'].message_type = _SENSORPARAMETERPROTO
 _SENSORPARAMETERPROTO.fields_by_name['value'].message_type = _SENSORPARAMETERVALUEPROTO
 _DATAPROTO.fields_by_name['accelerationData'].message_type = _ACCELERATIONDATAPROTO
 _DATAPROTO.fields_by_name['gyroData'].message_type = _GYRODATAPROTO
+_IMAGEPROTO2.fields_by_name['arKitPoses'].message_type = _ARKIT6DPOSESDATAPROTO
 _IMAGEPROTO2.fields_by_name['PointsCloud'].message_type = _POINTCLOUDDATAPROTO
+_ARKIT6DPOSESDATAPROTO.fields_by_name['transformPoses'].message_type = _TRANSFORMATIONMATRIXDATAPROTO
+_ARKIT6DPOSESDATAPROTO.fields_by_name['eulerAngles'].message_type = _EULERANGLESDATAPROTO
+_TRANSFORMATIONMATRIXDATAPROTO.fields_by_name['firstColumn'].message_type = _TRANSFORMATIONVECTORDATAPROTO
+_TRANSFORMATIONMATRIXDATAPROTO.fields_by_name['secondColumn'].message_type = _TRANSFORMATIONVECTORDATAPROTO
+_TRANSFORMATIONMATRIXDATAPROTO.fields_by_name['thirdColumn'].message_type = _TRANSFORMATIONVECTORDATAPROTO
+_TRANSFORMATIONMATRIXDATAPROTO.fields_by_name['fourthColumn'].message_type = _TRANSFORMATIONVECTORDATAPROTO
 _SENSORUPDATE.fields_by_name['accelerationData'].message_type = _ACCELERATIONDATAPROTO2
 _SENSORUPDATE.fields_by_name['gyroData'].message_type = _GYRODATAPROTO2
 _SENSORUPDATE.fields_by_name['ImageData'].message_type = _IMAGEPROTO
@@ -835,6 +1036,10 @@ DESCRIPTOR.message_types_by_name['ImageProto2'] = _IMAGEPROTO2
 DESCRIPTOR.message_types_by_name['PointCloudDataProto'] = _POINTCLOUDDATAPROTO
 DESCRIPTOR.message_types_by_name['MagnetometerDataProto'] = _MAGNETOMETERDATAPROTO
 DESCRIPTOR.message_types_by_name['CompassDataProto'] = _COMPASSDATAPROTO
+DESCRIPTOR.message_types_by_name['ArKit6dPosesDataProto'] = _ARKIT6DPOSESDATAPROTO
+DESCRIPTOR.message_types_by_name['TransformationMatrixDataProto'] = _TRANSFORMATIONMATRIXDATAPROTO
+DESCRIPTOR.message_types_by_name['TransformationVectorDataProto'] = _TRANSFORMATIONVECTORDATAPROTO
+DESCRIPTOR.message_types_by_name['EulerAnglesDataProto'] = _EULERANGLESDATAPROTO
 DESCRIPTOR.message_types_by_name['PlaneDataProto'] = _PLANEDATAPROTO
 DESCRIPTOR.message_types_by_name['SensorUpdate'] = _SENSORUPDATE
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
@@ -936,6 +1141,34 @@ CompassDataProto = _reflection.GeneratedProtocolMessageType('CompassDataProto', 
   # @@protoc_insertion_point(class_scope:CompassDataProto)
   })
 _sym_db.RegisterMessage(CompassDataProto)
+
+ArKit6dPosesDataProto = _reflection.GeneratedProtocolMessageType('ArKit6dPosesDataProto', (_message.Message,), {
+  'DESCRIPTOR' : _ARKIT6DPOSESDATAPROTO,
+  '__module__' : 'classes_pb2'
+  # @@protoc_insertion_point(class_scope:ArKit6dPosesDataProto)
+  })
+_sym_db.RegisterMessage(ArKit6dPosesDataProto)
+
+TransformationMatrixDataProto = _reflection.GeneratedProtocolMessageType('TransformationMatrixDataProto', (_message.Message,), {
+  'DESCRIPTOR' : _TRANSFORMATIONMATRIXDATAPROTO,
+  '__module__' : 'classes_pb2'
+  # @@protoc_insertion_point(class_scope:TransformationMatrixDataProto)
+  })
+_sym_db.RegisterMessage(TransformationMatrixDataProto)
+
+TransformationVectorDataProto = _reflection.GeneratedProtocolMessageType('TransformationVectorDataProto', (_message.Message,), {
+  'DESCRIPTOR' : _TRANSFORMATIONVECTORDATAPROTO,
+  '__module__' : 'classes_pb2'
+  # @@protoc_insertion_point(class_scope:TransformationVectorDataProto)
+  })
+_sym_db.RegisterMessage(TransformationVectorDataProto)
+
+EulerAnglesDataProto = _reflection.GeneratedProtocolMessageType('EulerAnglesDataProto', (_message.Message,), {
+  'DESCRIPTOR' : _EULERANGLESDATAPROTO,
+  '__module__' : 'classes_pb2'
+  # @@protoc_insertion_point(class_scope:EulerAnglesDataProto)
+  })
+_sym_db.RegisterMessage(EulerAnglesDataProto)
 
 PlaneDataProto = _reflection.GeneratedProtocolMessageType('PlaneDataProto', (_message.Message,), {
   'DESCRIPTOR' : _PLANEDATAPROTO,

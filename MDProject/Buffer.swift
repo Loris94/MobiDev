@@ -86,9 +86,10 @@ class Buffer {
                 let data = elem as! CLHeading
                 dataProto.compassData = Utils.compassToProto(elem: data)
                 dataProto.timestamp = NSDate().timeIntervalSince1970
-            case is (ARFrame, CGFloat):
-                let data = elem as! (ARFrame, CGFloat)
-                dataProto.jpegImage = Utils.arFrameToProto(elem: data.0, compression: data.1)
+            // Frame, Compression, 6dposes, planes, pointcloud
+            case is (ARFrame, CGFloat, Bool, Bool, Bool):
+                let data = elem as! (ARFrame, CGFloat, Bool, Bool, Bool)
+                dataProto.jpegImage = Utils.arFrameToProto(elem: data.0, compression: data.1, arKitPoses: data.2, planes: data.3, pointClouds: data.4)
                 dataProto.timestamp = NSDate().timeIntervalSince1970
             case is ARPlaneAnchor:
                 let data = elem as! ARPlaneAnchor

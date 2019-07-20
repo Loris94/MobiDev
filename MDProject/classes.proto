@@ -61,7 +61,8 @@ message ImageProto {
 message ImageProto2 {
     bytes JpegImage = 1;
     string TrackingState = 2;
-    repeated PointCloudDataProto PointsCloud = 3;
+    ArKit6dPosesDataProto arKitPoses = 3;
+    repeated PointCloudDataProto PointsCloud = 4;
     
 }
 
@@ -83,6 +84,31 @@ message CompassDataProto {
     double z = 3;
     double trueHeading = 4;
     double magneticHeading = 5;
+}
+
+message ArKit6dPosesDataProto {
+    TransformationMatrixDataProto transformPoses = 1;
+    EulerAnglesDataProto eulerAngles = 2;
+}
+
+message TransformationMatrixDataProto {
+    TransformationVectorDataProto firstColumn = 1;
+    TransformationVectorDataProto secondColumn = 2;
+    TransformationVectorDataProto thirdColumn = 3;
+    TransformationVectorDataProto fourthColumn = 4;
+}
+
+message TransformationVectorDataProto {
+    float x = 1;
+    float y = 2;
+    float z = 3;
+    float w = 4;
+}
+
+message EulerAnglesDataProto {
+    float yaw = 1;
+    float pitch = 2;
+    float roll = 3;
 }
 
 message PlaneDataProto {
