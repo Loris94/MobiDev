@@ -9,11 +9,17 @@
 import Foundation
 import UIKit
 
-class SensorInfoWithSliderTableCell: UITableViewCell{
+class SensorInfoWithSliderCell: UITableViewCell{
     
     
     @IBAction func sliderValueChanged(_ sender: Any) {
-        valueLabel.text = String(Int(slider.value))
+        if infoLabel.text == "FPS" {
+            valueLabel.text = String(Int(slider.value))
+        } else if infoLabel.text == "Compression" {
+            
+            valueLabel.text = String( round(slider.value*10)/10  )
+        }
+        
     }
     
     

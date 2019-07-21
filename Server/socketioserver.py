@@ -89,8 +89,8 @@ def storeSensorUpdate(sid, sensor_update):
     collection.insert_one(data)
 #print("Storing sensor Update: ", data)
 
-
-eventlet.wsgi.server(eventlet.listen(('0.0.0.0', 9099)), app)
+def startServer(port=9099, mogoDBport=27017):
+    eventlet.wsgi.server(eventlet.listen(('0.0.0.0', port)), app)
 
 
 

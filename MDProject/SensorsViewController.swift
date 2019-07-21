@@ -24,7 +24,7 @@ extension UIViewController {
 }
 
 
-@available(iOS 11.0, *)
+@available(iOS 11.3, *)
 class SensorsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     
@@ -205,32 +205,6 @@ class SensorsViewController: UIViewController, UITableViewDelegate, UITableViewD
     func writeProfile(profileName: String) {
         
     }
-    
-//    func askSessionName() {
-//        var alert = UIAlertController(title: "Session name", message: "Enter a session name", preferredStyle: .alert)
-//        //2. Add the text field. You can configure it however you need.
-//        alert.addTextField(configurationHandler: { (textField) -> Void in
-//            textField.text = self.sessionName
-//        })
-//
-//
-//        //3. Grab the value from the text field, and print it when the user clicks OK.
-//        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (action) -> Void in
-//            let textField = alert!.textFields![0] as UITextField
-//            self.sessionName = textField.text!
-//            print("Session name: \(textField.text)")
-//            self.performSegue(withIdentifier: "goToStart", sender: self.startButton)
-//
-//        }))
-//
-//        alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: { [weak alert] (action) -> Void in
-//            print("Cancelled start action")
-//
-//        }))
-//
-//        //4. Present the alert.
-//        self.present(alert, animated: true, completion: nil)
-//    }
     
     //TODO REPLACE WITH A SEGUE IN THE STORYBOARD
     @IBAction func startGather(_ sender: Any) {

@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import ARKit
 
-@available(iOS 11.311.3, *)
+@available(iOS 11.3, *)
 class SensorssInfoViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate  {
     
     var profile: Profile = Profile()
@@ -65,7 +65,7 @@ class SensorssInfoViewController: UIViewController, UITableViewDelegate, UITable
             let sortedDictionary = Array(self.profile.sensorList.getByName(name: sensorTitle)!.parameters.keys).sorted()
             let key = sortedDictionary[indexPath[1]]
             if key == "FPS"{
-                if let cell = tableView.dequeueReusableCell(withIdentifier: "SensorInfoSliderCell", for: indexPath) as? SensorInfoWithSliderTableCell{
+                if let cell = tableView.dequeueReusableCell(withIdentifier: "SensorInfoSliderCell", for: indexPath) as? SensorInfoWithSliderCell{
                     cell.infoLabel.text = "FPS"
                     cell.valueLabel.text = String( Int (self.profile.sensorList.getByName(name: sensorTitle)!.parameters[key] as! Double ) )
                     cell.slider.maximumValue = 60
@@ -75,15 +75,33 @@ class SensorssInfoViewController: UIViewController, UITableViewDelegate, UITable
                     return cell
                 }
             } else if key == "Resolution" {
-                if let cell = tableView.dequeueReusableCell(withIdentifier: "SensorInfoSliderCell", for: indexPath) as? SensorInfoStepperCell{
+                if let cell = tableView.dequeueReusableCell(withIdentifier: "SensorInfoStepperCell", for: indexPath) as? SensorInfoStepperCell{
+                    
+                    var resolutionsArray = ARWorldTrackingConfiguration.supportedVideoFormats
+                    resolutionsArray.reverse()
                     
                     cell.infoLabel.text = "Resolution"
                     let value = Int(self.profile.sensorList.getByName(name: "Video Frames")?.parameters["Resolution"] as! Double)
-                    let h = Int(ARWorldTrackingConfiguration.supportedVideoFormats[value].imageResolution.height)
-                    let w = Int(ARWorldTrackingConfiguration.supportedVideoFormats[value].imageResolution.width)
-                    cell.valueLabel.text = String(h) + "x" + String(w)
                     
+                    let h = Int(resolutionsArray[value].imageResolution.height)
+                    let w = Int(resolutionsArray[value].imageResolution.width)
+                    cell.valueLabel.text = String(w) + "x" + String(h)
+                    cell.stepper.tag = indexPath[1]
+                    cell.stepper.minimumValue = 0
+                    cell.stepper.maximumValue = Double(resolutionsArray.count-1)
+                    cell.stepper.value = Double(value)
+                    return cell
+                }
+            } else if key == "Compression" {
+                if let cell = tableView.dequeueReusableCell(withIdentifier: "SensorInfoSliderCell", for: indexPath) as? SensorInfoWithSliderCell{
                     
+                    cell.infoLabel.text = "Compression"
+                    let value = self.profile.sensorList.getByName(name: "Video Frames")?.parameters["Compression"] as! Double
+                    cell.valueLabel.text = String(round(value*10)/10)
+                    cell.slider.tag = indexPath[1]
+                    cell.slider.minimumValue = 0
+                    cell.slider.maximumValue = 1
+                    cell.slider.setValue(Float( value ), animated: true)
                     return cell
                 }
             }
@@ -103,22 +121,42 @@ class SensorssInfoViewController: UIViewController, UITableViewDelegate, UITable
                 return cell
             }
         }
-            
-            
-        
-        
         return UITableViewCell()
     }
     
     
     @IBAction func sliderValueChanged(_ sender: Any) {
         let slider = sender as! UISlider
+        print(slider.value)
         let sortedDictionary = Array(self.profile.sensorList.getByName(name: sensorTitle)!.parameters.keys).sorted()
         let arrayindex = sortedDictionary[slider.tag]
-        self.profile.sensorList.getByName(name: self.sensorTitle)?.parameters[arrayindex] = Double(slider.value)
+        
+        let cell = self.infoTable.cellForRow(at: [0,slider.tag]) as? SensorInfoWithSliderCell
+        if cell?.infoLabel.text == "Compression"{
+            self.profile.sensorList.getByName(name: self.sensorTitle)?.parameters[arrayindex] = Double( round(slider.value*10)/10 )
+        } else if cell?.infoLabel.text == "FPS" {
+            self.profile.sensorList.getByName(name: self.sensorTitle)?.parameters[arrayindex] = Double(slider.value)
+        }
     }
     
     
+    @IBAction func stepperValueChanged(_ sender: Any) {
+        let stepper = sender as! UIStepper
+        print(stepper.value)
+        let sortedDictionary = Array(self.profile.sensorList.getByName(name: sensorTitle)!.parameters.keys).sorted()
+        let arrayindex = sortedDictionary[stepper.tag]
+        
+        self.profile.sensorList.getByName(name: self.sensorTitle)?.parameters[arrayindex] = Double(stepper.value)
+        
+        let cell = self.infoTable.cellForRow(at: [0,stepper.tag]) as? SensorInfoStepperCell
+        if cell?.infoLabel.text == "Resolution"{
+            var resolutionsArray = ARWorldTrackingConfiguration.supportedVideoFormats
+            resolutionsArray.reverse()
+            let h = Int(resolutionsArray[Int(stepper.value)].imageResolution.height)
+            let w = Int(resolutionsArray[Int(stepper.value)].imageResolution.width)
+            cell?.valueLabel.text = String(w) + "x" + String(h)
+        }
+    }
     
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
