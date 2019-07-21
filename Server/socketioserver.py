@@ -61,12 +61,12 @@ def getLastTimestamp(sid):
 
 @sio.event
 def sensorUpdate(sid, buffer):
-    #print("Sensor data received", buffer)
+    print("Sensor data received", buffer)
     print("Data array quantity received: ", len(buffer))
     for data in buffer:
         # Received a sensor data update
         #print("Sample:" , data)
-        print("len sensor update: ", len(data))
+        #print("len sensor update: ", len(data))
         unwrapped = classes_pb2.SensorUpdate()
         unwrapped.ParseFromString(data)
         storeSensorUpdate(sid, unwrapped)
@@ -89,8 +89,12 @@ def storeSensorUpdate(sid, sensor_update):
     collection.insert_one(data)
 #print("Storing sensor Update: ", data)
 
-def startServer(port=9099, mogoDBport=27017):
-    eventlet.wsgi.server(eventlet.listen(('0.0.0.0', port)), app)
+def startServer(port=9099, mongoDBport=27017):
+    if isinstance(port, int) and isinstance(mongoDBport,int):
+        eventlet.wsgi.server(eventlet.listen(('0.0.0.0', port)), app)
+    else:
+        print 'Parameters error'
+        return
 
 
 

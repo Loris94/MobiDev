@@ -431,12 +431,16 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
             if index >= imageBuffer.count {
                 return
             } else {
+                print("ABC sent image: ", index)
                 self.socketController?.sendSensorUpdateWithAck(samples: [imageBuffer[index]], callback: { error, timestamp in
+                    
                     if !error {
+                        print("ABC received ack for: ", index)
                         self.buffer!.removeSamplesFromBuffer(type: "image", timestamp: timestamp)
                         self.flushImageBufferOneAtTime(imageBuffer: imageBuffer, index: index+1)
                     } else {
                         DispatchQueue.global(qos: .background).async {
+                            print("ABC error for: ", index)
                             sleep(1)
                             self.flushImageBufferOneAtTime(imageBuffer: imageBuffer, index: index)
                         }
@@ -452,6 +456,24 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
         }
     }
     
+    func flushSensorBuffer(sensorBuffer: [Data]) {
+        if self.socketController == nil {
+            return
+        } else if self.socketController?.isConnected() ?? false {
+            self.socketController?.sendSensorUpdateWithAck(samples: sensorBuffer, callback: { error, timestamp in
+                if !error {
+                    self.buffer?.bufferSize["sensor"] = 0
+                } else {
+                    DispatchQueue.global(qos: .background).async {
+                        sleep(1)
+                        self.flushSensorBuffer(sensorBuffer: sensorBuffer)
+                    }
+                    
+                }
+            })
+        }
+    }
+    
     
     func closingThread() {
         while self.socketController?.isConnected() == false {
@@ -461,32 +483,36 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
         if self.socketController == nil {
             return 
         }
-        // TODO can be nil here if we stop and then stop, the segue causes the socket and the buffer to go nil hence the while clause will go on and fatal error here, (will only happen if we're disconnected)
         let imageBuffer = self.buffer!.flushBuffer(type: "image")
         //self.bufferDispatchQueue.async {
-            DispatchQueue.global().sync {
-                print("DEBUG ", Thread.current)
-                self.flushImageBufferOneAtTime(imageBuffer: imageBuffer, index: 0)
-            }
+        DispatchQueue.global().sync {
+            self.flushImageBufferOneAtTime(imageBuffer: imageBuffer, index: 0)
+        }
         //}
 
         
+//        self.bufferDispatchQueue.async {
+//            DispatchQueue.global().sync {
+//                let sensorBuffer = self.buffer!.flushBuffer(type: "sensor")
+//                if sensorBuffer.count > 0 {
+//                    self.socketController?.sendSensorUpdateWithAck(samples: sensorBuffer, callback: { error, timestamp in
+//                        //TODO: edge case, cosa fare quando sto flushando ma il socket non è connesso? la richiesta va in timeout, quindi bisognerebbe chiamare questa funzione ricorsivamente (o trovare una soluzione migliore)
+//                        if (!error) {
+//                            print("Done flushing sensor buffer, can close")
+//                            self.buffer!.removeSamplesFromBuffer(type: "sensor", timestamp: timestamp)
+//                        } else {
+//                            print("Cannot finish sensor upload, not connected.")
+//                        }
+//                    })
+//                }
+//            }
+//        }
         self.bufferDispatchQueue.async {
             DispatchQueue.global().sync {
-                let sensorBuffer = self.buffer!.flushBuffer(type: "sensor")
-                if sensorBuffer.count > 0 {
-                self.socketController?.sendSensorUpdateWithAck(samples: sensorBuffer, callback: { error, timestamp in
-                    //TODO: edge case, cosa fare quando sto flushando ma il socket non è connesso? la richiesta va in timeout, quindi bisognerebbe chiamare questa funzione ricorsivamente (o trovare una soluzione migliore)
-                    if (!error) {
-                        print("Done flushing sensor buffer, can close")
-                        self.buffer!.removeSamplesFromBuffer(type: "sensor", timestamp: timestamp)
-                    } else {
-                        print("Cannot finish sensor upload, not connected.")
-                    }
-                })
-                }
+                self.flushSensorBuffer(sensorBuffer: self.buffer!.flushBuffer(type: "sensor"))
             }
         }
+        
         
         
     }
@@ -686,10 +712,13 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
             // min: 0.01
             motionManager.accelerometerUpdateInterval = self.profile.sensorList.getByName(name: "Accelerometer")?.parameters["Update Interval"] as! TimeInterval
             motionManager.startAccelerometerUpdates(to: self.operationQueue) { data, error  in
+                self.bufferDispatchQueue.async {
+                    DispatchQueue.global().sync {
+                        self.buffer!.addProbe(type: "sensor", elem: data!)
+                        self.updateAccelerometerCell(accData: data!)
+                    }
+                }
                 
-                self.buffer!.addProbe(type: "sensor", elem: data!)
-                self.updateAccelerometerCell(accData: data!)
-                print("TS1: ", data!.timestamp)
             }
         }
         
@@ -697,8 +726,12 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
         if motionManager.isGyroAvailable && self.profile.sensorList.getByName(name: "Gyroscope")!.status{
             motionManager.gyroUpdateInterval = self.profile.sensorList.getByName(name: "Gyroscope")?.parameters["Update Interval"] as! TimeInterval
             motionManager.startGyroUpdates(to: self.operationQueue) { data, error in
-                self.buffer!.addProbe(type: "sensor", elem: data!)
-                self.updateGyroscopeCell(gyroData: data!)
+                self.bufferDispatchQueue.async {
+                    DispatchQueue.global().sync {
+                        self.buffer!.addProbe(type: "sensor", elem: data!)
+                        self.updateGyroscopeCell(gyroData: data!)
+                    }
+                }
             }
         }
         
@@ -709,13 +742,18 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
         if motionManager.isMagnetometerAvailable && self.profile.sensorList.getByName(name: "Magnetometer")!.status{
             motionManager.magnetometerUpdateInterval = self.profile.sensorList.getByName(name: "Magnetometer")?.parameters["Update Interval"] as! TimeInterval
             motionManager.startMagnetometerUpdates(to: self.operationQueue) { data, error in
-                self.buffer!.addProbe(type: "sensor", elem: data!.magneticField)
-                self.updateMagnetometerCell(magnetometerData: data!.magneticField)
+                self.bufferDispatchQueue.async {
+                    DispatchQueue.global().sync {
+                        self.buffer!.addProbe(type: "sensor", elem: data!.magneticField)
+                        self.updateMagnetometerCell(magnetometerData: data!.magneticField)
+                    }
+                }
             }
         }
         
 //      COMPASS
         if CLLocationManager.locationServicesEnabled() && self.profile.sensorList.getByName(name: "Compass")!.status {
+            
             locationManager.delegate = self
             locationManager.startUpdatingHeading()
         }
@@ -771,14 +809,21 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
         
         // 6
         node.addChildNode(planeNode)
-        self.buffer?.addProbe(type: "sensor", elem: planeAnchor)
+        self.bufferDispatchQueue.async {
+            DispatchQueue.global().sync {
+                self.buffer?.addProbe(type: "sensor", elem: planeAnchor)
+            }
+        }
     }
 
     
     func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
-        print("location x: ", locationManager.heading!.x, " y: ", locationManager.heading!.y, " z: ", locationManager.heading!.z, " heading: ", locationManager.heading!.trueHeading)
-        self.buffer?.addProbe(type: "sensor", elem: newHeading)
-        self.updateCompassCell(compassData: newHeading)
+        self.bufferDispatchQueue.async {
+            DispatchQueue.global().sync {
+                self.buffer?.addProbe(type: "sensor", elem: newHeading)
+                self.updateCompassCell(compassData: newHeading)
+            }
+        }
     }
     
     

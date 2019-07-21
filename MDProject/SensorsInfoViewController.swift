@@ -38,7 +38,6 @@ class SensorssInfoViewController: UIViewController, UITableViewDelegate, UITable
             if let cell = tableView.dequeueReusableCell(withIdentifier: "SensorInfoCell", for: indexPath) as? SensorInfoTableCell{
                 cell.infoText.delegate = self
                 if indexPath[1] == 0 {
-                    
                     cell.infoLabel.text = "Address"
                     cell.infoText.text = self.profile.serverAddress
                     cell.infoText.tag = 0
@@ -161,7 +160,7 @@ class SensorssInfoViewController: UIViewController, UITableViewDelegate, UITable
     
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        // Find out what the text field will be after adding the current edit
+        
         let text = (textField.text! as NSString).replacingCharacters(in: range, with: string)
         
         if self.sensorTitle == "Server" {
@@ -176,7 +175,6 @@ class SensorssInfoViewController: UIViewController, UITableViewDelegate, UITable
             }
             return true
         } else if self.sensorTitle == "Session" {
-            // TODO - Fix if the user press ENTER. the session is not saved correctly
             self.profile.sessionName = text
             return true
         } else {

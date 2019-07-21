@@ -33,12 +33,6 @@ class SensorsViewController: UIViewController, UITableViewDelegate, UITableViewD
     @IBOutlet weak var startButton: UIButton!
     
     var profile: Profile = Profile()
-    
-    var sessionName: String = ""
-    
-    var serverAddress: String = ""
-    
-    var serverPort: Int = 0
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "ServerCell", for: indexPath) as? ServerParametersInfoTableCell{
@@ -134,17 +128,8 @@ class SensorsViewController: UIViewController, UITableViewDelegate, UITableViewD
         return ""
     }
     
-    private func tableView (tableView:UITableView , heightForHeaderInSection section:Int)->Float
-    {
-        
-        let title = self.tableView(tableView: tableView, titleForHeaderInSection: section)
-        if (title == "") {
-            return 0.0
-        }
-        return 20.0
-    }
-    
     func numberOfSections(in tableView: UITableView) -> Int {
+        // server parameters and sensors
         return 2
     }
   
@@ -152,10 +137,6 @@ class SensorsViewController: UIViewController, UITableViewDelegate, UITableViewD
         super.viewDidLoad()
         let delegate = UIApplication.shared.delegate as! AppDelegate
         self.profile = delegate.profile
-        self.profile.sensorList = self.profile.sensorList //delegate.sensorList
-        self.serverAddress = self.profile.serverAddress  //delegate.serverAddress
-        self.serverPort = self.profile.serverPort //delegate.serverPort
-        self.sessionName = self.profile.sessionName //delegate.sessionName
         print("Loaded sensorlist in controller. Number of sensors: ",profile.sensorList.sensorList.count )
         self.hideKeyboardWhenTappedAround()
         self.navigationItem.setHidesBackButton(true, animated:true);
@@ -165,35 +146,6 @@ class SensorsViewController: UIViewController, UITableViewDelegate, UITableViewD
         
     }
     
-    @IBAction func saveProfile(_ sender: Any) {
-        //1. Create the alert controller.
-        var alert = UIAlertController(title: "Save Profile", message: "Enter profile name", preferredStyle: .alert)
-        
-        //2. Add the text field. You can configure it however you need.
-        alert.addTextField(configurationHandler: { (textField) -> Void in
-            textField.text = ""
-        })
-        
-        //3. Grab the value from the text field, and print it when the user clicks OK.
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (action) -> Void in
-            let textField = alert!.textFields![0] as UITextField
-            print("Text field: \(textField.text)")
-        }))
-        
-        alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: { [weak alert] (action) -> Void in
-            let textField = alert!.textFields![0] as UITextField
-            print("Text field: \(textField.text)")
-        }))
-        
-        //4. Present the alert.
-        self.present(alert, animated: true, completion: nil)
-    }
-    
-    func writeProfile(profileName: String) {
-        
-    }
-    
-    //TODO REPLACE WITH A SEGUE IN THE STORYBOARD
     @IBAction func startGather(_ sender: Any) {
         self.performSegue(withIdentifier: "goToStart", sender: sender)
     }
@@ -202,7 +154,6 @@ class SensorsViewController: UIViewController, UITableViewDelegate, UITableViewD
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == "goToSensorsInfoViewController"{
-            // TODO AS? STRING WILL HAVE TO BE CHANGED WITH AS? [CLASS FOR THE BUTTONS STRUCTURE]
             if let sensorTapped = sender as? String{
                 if let destinationVC = segue.destination as? SensorssInfoViewController{
                         print("Sensor Tapped: ", sensorTapped)
@@ -215,15 +166,12 @@ class SensorsViewController: UIViewController, UITableViewDelegate, UITableViewD
         
             
         else if segue.identifier == "goToStart"{
-            if #available(iOS 11.3, *) {
-                if let destinationVC = segue.destination as? ViewController{
-                    destinationVC.profile = self.profile
-                    //                destinationVC.sensorList = profile.sensorList
-                    //                destinationVC.sessionName = self.sessionName
-                }
-            } else {
-                // Fallback on earlier versions
+            
+            if let destinationVC = segue.destination as? ViewController{
+                destinationVC.profile = self.profile
+        
             }
+            
         }
         
     }

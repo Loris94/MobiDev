@@ -53,10 +53,9 @@ class Buffer {
     
     @objc func autoFlushSensorBuffer() {
         let type = "sensor"
-        if self.shouldEmit[type]! || ViewController.isClosing {
+        if self.shouldEmit[type]! {
             let samples : [Data] = self.flushBuffer(type: type)
             if samples.count > 0 {
-                print("Sending data:", type)
                 NotificationCenter.default.post(name: self.enough_data_event[type]!, object: nil, userInfo: ["payload": samples, "type": type])
                 self.shouldEmit[type]? = false
             }
@@ -99,7 +98,6 @@ class Buffer {
                 print("unknown probe type")
                 return
         }
-        // TODO ELSE IF FOR EVERY TYPE OF SENSOR DATA
         do {
             let data = try dataProto.serializedData()
 //            self.dispatchQueue.async {
@@ -167,7 +165,7 @@ class Buffer {
     }
     
     func flushBufferWithNoAck(type: String) -> [(Data, Double)] {
-        //self.bufferSize[type] = 0
+        self.bufferSize[type] = 0
         let result = self.buffer[type]
         self.buffer[type] = []
         return result!
