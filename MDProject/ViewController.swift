@@ -46,7 +46,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
     
     // TODO add to profile the MTU
     var bufferDispatchQueue: DispatchQueue = DispatchQueue(label: "bufferOperationDispatchQueue")
-    weak var buffer: Buffer? = nil
+    var buffer: Buffer? = nil
     var arSession: ARSession? = nil
     
     var slides: [UIView]? = nil
@@ -109,7 +109,11 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
                 if indexPath[1] == 0 {
                     if let cell = tableView.dequeueReusableCell(withIdentifier: "ExampleCell", for: indexPath) as? RealTimeInfoCell{
                         cell.SensorInfo.text = "Connection to server"
-                        cell.InfoValue.text = "Disconnected"
+                        if self.socketController?.isConnected() ?? false {
+                            cell.InfoValue.text = "Connected"
+                        } else {
+                            cell.InfoValue.text = "Disconnected"
+                        }
                         return cell
                     }
                 }
@@ -421,7 +425,6 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
     
     
     func flushImageBufferOneAtTime(imageBuffer: [Data], index: Int){
-        print("DEBUG4 ", Thread.current)
         if self.socketController == nil {
             return
         } else if self.socketController?.isConnected() ?? false {
@@ -433,7 +436,6 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
                         self.buffer!.removeSamplesFromBuffer(type: "image", timestamp: timestamp)
                         self.flushImageBufferOneAtTime(imageBuffer: imageBuffer, index: index+1)
                     } else {
-                        print("ErrorT")
                         DispatchQueue.global(qos: .background).async {
                             sleep(1)
                             self.flushImageBufferOneAtTime(imageBuffer: imageBuffer, index: index)
@@ -684,6 +686,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
             // min: 0.01
             motionManager.accelerometerUpdateInterval = self.profile.sensorList.getByName(name: "Accelerometer")?.parameters["Update Interval"] as! TimeInterval
             motionManager.startAccelerometerUpdates(to: self.operationQueue) { data, error  in
+                
                 self.buffer!.addProbe(type: "sensor", elem: data!)
                 self.updateAccelerometerCell(accData: data!)
                 print("TS1: ", data!.timestamp)

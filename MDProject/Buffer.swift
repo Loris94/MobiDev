@@ -53,7 +53,7 @@ class Buffer {
     
     @objc func autoFlushSensorBuffer() {
         let type = "sensor"
-        if self.shouldEmit[type]! {
+        if self.shouldEmit[type]! || ViewController.isClosing {
             let samples : [Data] = self.flushBuffer(type: type)
             if samples.count > 0 {
                 print("Sending data:", type)

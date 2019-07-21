@@ -18,7 +18,7 @@ class SensorssInfoViewController: UIViewController, UITableViewDelegate, UITable
     
     
     @IBOutlet weak var infoTable: UITableView!
-    @IBOutlet weak var doneButton: UIButton!
+
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if self.sensorTitle == "Server" {
@@ -109,6 +109,7 @@ class SensorssInfoViewController: UIViewController, UITableViewDelegate, UITable
             
         } else {
             if let cell = tableView.dequeueReusableCell(withIdentifier: "SensorInfoCell", for: indexPath) as? SensorInfoTableCell{
+                cell.infoText.keyboardType = UIKeyboardType.numbersAndPunctuation
                 cell.infoText.delegate = self
                 // TODO CHANGE KEYBOARD TYPE IF THE TARGET NEEDS A STRING / ENUM
                 let sortedDictionary = Array(self.profile.sensorList.getByName(name: sensorTitle)!.parameters.keys).sorted()
@@ -199,6 +200,14 @@ class SensorssInfoViewController: UIViewController, UITableViewDelegate, UITable
         }
         
     }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+
+    
+    
     
     override func viewDidLoad() {
         

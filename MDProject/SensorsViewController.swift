@@ -86,24 +86,11 @@ class SensorsViewController: UIViewController, UITableViewDelegate, UITableViewD
                 return
             }
         } else {
-            performSegue(withIdentifier: "goToSensorsInfoViewController", sender: profile.sensorList.sensorList[indexPath[1]].name)
+            if profile.sensorList.sensorList[indexPath[1]].parameters.count > 0 {
+                performSegue(withIdentifier: "goToSensorsInfoViewController", sender: profile.sensorList.sensorList[indexPath[1]].name)
+            }
         }
         
-    }
-    
-    @objc func serverButtonAction(sender: UIButton!) {
-        performSegue(withIdentifier: "goToSensorsInfoViewController", sender: "Server")
-        print("Button tapped")
-    }
-    
-    @objc func sessionButtonAction(sender: UIButton!) {
-        performSegue(withIdentifier: "goToSensorsInfoViewController", sender: "Session")
-        print("Button tapped")
-    }
-    
-    @objc func buttonAction(sender: UIButton!) {
-        
-        print("Button tapped")
     }
     
     @objc func switchAction(sender: UISwitch!) {
@@ -147,10 +134,10 @@ class SensorsViewController: UIViewController, UITableViewDelegate, UITableViewD
         return ""
     }
     
-    func tableView (tableView:UITableView , heightForHeaderInSection section:Int)->Float
+    private func tableView (tableView:UITableView , heightForHeaderInSection section:Int)->Float
     {
         
-        var title = self.tableView(tableView: tableView, titleForHeaderInSection: section)
+        let title = self.tableView(tableView: tableView, titleForHeaderInSection: section)
         if (title == "") {
             return 0.0
         }
