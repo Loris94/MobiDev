@@ -608,7 +608,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
 
         if ((socketController == nil)) {
             // We need to initialize socketcontroller here to pass the sessionName input by user
-            socketController = SocketController(host: self.profile.serverAddress, port: 9099, session: self.profile.sessionName, uuid: self.UUID)
+            socketController = SocketController(host: self.profile.serverAddress, port: self.profile.serverPort, session: self.profile.sessionName, uuid: self.UUID)
         }
         
         // Attach listeners to socket events
