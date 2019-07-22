@@ -10,10 +10,10 @@ from protobuf_to_dict import protobuf_to_dict
 from bson import json_util
 
 
-
 # Mongo init
 mongoClient = MongoClient('localhost', 27017)
 db = mongoClient['MDsensorsDB']
+
 
 # Socket init
 sio = socketio.Server(async_mode='eventlet', ping_timeout=10, ping_interval=2) # this will give us 10 seconds +- 2 precision in the disconnect. changing these value will be reflected to the client too.
@@ -92,6 +92,7 @@ def storeSensorUpdate(sid, sensor_update):
 def startServer(port=9099, mongoDBport=27017):
     if isinstance(port, int) and isinstance(mongoDBport,int):
         eventlet.wsgi.server(eventlet.listen(('0.0.0.0', port)), app)
+        
     else:
         print 'Parameters error'
         return

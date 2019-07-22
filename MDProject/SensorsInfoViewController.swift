@@ -46,6 +46,7 @@ class SensorssInfoViewController: UIViewController, UITableViewDelegate, UITable
                     cell.infoLabel.text = "Port"
                     cell.infoText.text = String(self.profile.serverPort)
                     cell.infoText.tag = 1
+                    cell.infoText.keyboardType = UIKeyboardType.numberPad
 
                 }
                 return cell
@@ -168,10 +169,7 @@ class SensorssInfoViewController: UIViewController, UITableViewDelegate, UITable
             if textField.tag == 0 {
                 self.profile.serverAddress = text
             } else if textField.tag == 1 {
-                if Int(text) == nil {
-                    return false
-                }
-                self.profile.serverPort = Int(text)!
+                self.profile.serverPort = Int(text) ?? 9099
             }
             return true
         } else if self.sensorTitle == "Session" {
@@ -211,7 +209,7 @@ class SensorssInfoViewController: UIViewController, UITableViewDelegate, UITable
         
         super.viewDidLoad()
         self.hideKeyboardWhenTappedAround()
-        
+        self.navigationItem.setHidesBackButton(true, animated: true)
         self.infoTable.dataSource = self
         self.infoTable.delegate = self
         print("SensorsInfo view loaded: ", self.sensorTitle)

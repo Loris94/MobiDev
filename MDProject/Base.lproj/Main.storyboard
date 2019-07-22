@@ -158,7 +158,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="g6d-eb-F8B">
-                                <rect key="frame" x="0.0" y="44" width="375" height="734"/>
+                                <rect key="frame" x="0.0" y="44" width="375" height="684"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="SensorInfoCell" id="0YO-Gm-pA1" customClass="SensorInfoTableCell" customModule="MDProject" customModuleProvider="target">
@@ -282,12 +282,21 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ITK-56-bYP">
+                                <rect key="frame" x="169" y="738" width="37" height="30"/>
+                                <state key="normal" title="Done"/>
+                                <connections>
+                                    <segue destination="BYZ-38-t0r" kind="show" identifier="goToSensorsViewController" id="E4v-0B-Chl"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="g6d-eb-F8B" firstAttribute="top" secondItem="3aI-yJ-KFM" secondAttribute="top" id="6wy-ay-xBm"/>
-                            <constraint firstItem="3aI-yJ-KFM" firstAttribute="bottom" secondItem="g6d-eb-F8B" secondAttribute="bottom" id="PLl-fT-570"/>
                             <constraint firstAttribute="trailing" secondItem="g6d-eb-F8B" secondAttribute="trailing" id="Qpe-dt-biu"/>
+                            <constraint firstItem="3aI-yJ-KFM" firstAttribute="bottom" secondItem="ITK-56-bYP" secondAttribute="bottom" constant="10" id="c8h-gL-PTT"/>
+                            <constraint firstItem="ITK-56-bYP" firstAttribute="top" secondItem="g6d-eb-F8B" secondAttribute="bottom" constant="10" id="dhN-hZ-Xyq"/>
+                            <constraint firstItem="ITK-56-bYP" firstAttribute="centerX" secondItem="iSg-iZ-QCa" secondAttribute="centerX" id="dhp-hV-XZK"/>
                             <constraint firstItem="g6d-eb-F8B" firstAttribute="centerX" secondItem="iSg-iZ-QCa" secondAttribute="centerX" id="eqo-EP-Ky2"/>
                             <constraint firstItem="g6d-eb-F8B" firstAttribute="leading" secondItem="iSg-iZ-QCa" secondAttribute="leading" id="hYq-fr-ncT"/>
                         </constraints>
@@ -380,6 +389,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="UAg-Fz-rX5"/>
+        <segue reference="E4v-0B-Chl"/>
     </inferredMetricsTieBreakers>
 </document>

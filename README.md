@@ -15,7 +15,7 @@ All python dependencies all downloadable with pip:
 * pip install pymongo
 * pip install protobuf-to-dict
 
-## Use
+## Client
 
 Once the app starts the first view that will load will be a list of all the settable parameters, click on the cell to edit (if editable) and on the switch to active the data gather.
 
@@ -34,6 +34,10 @@ Update interval: how frequently the sensor is going to send the data (in seconds
 * Resolution: list of all possible frames resolution, incrementing the stepper will select a larger resolution 
 
 ARkit 6d poses, Planes and Points cloud don't have parameters
+
+## Server
+
+The library is inside the socketioserver.py file, to start the server just import the library and use the method startServer with the server port as parameter eg. in the startserver.py file
 
 ## About the data
 
