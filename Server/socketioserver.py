@@ -61,12 +61,12 @@ def getLastTimestamp(sid):
 
 @sio.event
 def sensorUpdate(sid, buffer):
-    print("Sensor data received", buffer)
+    #print("Sensor data received", buffer)
     print("Data array quantity received: ", len(buffer))
     for data in buffer:
         # Received a sensor data update
         #print("Sample:" , data)
-        #print("len sensor update: ", len(data))
+        print("sample quantity: ", len(data))
         unwrapped = classes_pb2.SensorUpdate()
         unwrapped.ParseFromString(data)
         storeSensorUpdate(sid, unwrapped)

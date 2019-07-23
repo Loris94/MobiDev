@@ -44,7 +44,6 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
     
     var socketController : SocketController? = nil
     
-    // TODO add to profile the MTU
     var bufferDispatchQueue: DispatchQueue = DispatchQueue(label: "bufferOperationDispatchQueue")
     var buffer: Buffer? = nil
     var arSession: ARSession? = nil
@@ -280,11 +279,19 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
                 }
             }
             if let cell = self.realtimeInfoTable.cellForRow(at: IndexPath(indexes:[0,1])) as? RealTimeInfoCell {
-                let value = Double(self.buffer!.bufferSize["sensor"] ?? 0)/1000
+                var value = Double(self.buffer!.bufferSize["sensor"] ?? 0)/1000
+                if value < 0 {
+                    self.buffer?.calculateSize(type: "sensor")
+                    value = Double(self.buffer!.bufferSize["sensor"] ?? 0)/1000
+                }
                 cell.InfoValue.text = String(value) + "kB"
             }
             if let cell = self.realtimeInfoTable.cellForRow(at: IndexPath(indexes:[0,2])) as? RealTimeInfoCell {
-                let value = Int((self.buffer!.bufferSize["image"] ?? 0)/1000)
+                var value = Int((self.buffer!.bufferSize["image"] ?? 0)/1000)
+                if value < 0 {
+                    self.buffer?.calculateSize(type: "image")
+                    value = Int(self.buffer!.bufferSize["image"] ?? 0)/1000
+                }
                 cell.InfoValue.text = String(value) + "kB"
             }
             
@@ -650,7 +657,6 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
         let h = self.view.safeAreaLayoutGuide.layoutFrame.height
         let x = self.view.safeAreaLayoutGuide.layoutFrame.minX
         let y = self.view.safeAreaLayoutGuide.layoutFrame.minY
-        // TODO CAMBIARE LO 0 DALLA Y
         self.realtimeInfoTable.frame = CGRect(x: x, y: 0, width: w, height: h)
         //self.realtimeInfoTable.contentSize = CGSize(width: w, height: h)
     }
@@ -770,9 +776,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
             }
             
             let arConfig = ARWorldTrackingConfiguration()
-            //arConfig.isAutoFocusEnabled = true
-//            arConfig.worldAlignment = ARConfiguration.WorldAlignment(rawValue: 0)!
-            // TODO take the resolution from the profile
+            arConfig.worldAlignment = ARConfiguration.WorldAlignment.gravity
             var resolutionsArray = ARWorldTrackingConfiguration.supportedVideoFormats
             resolutionsArray.reverse()
             arConfig.videoFormat = resolutionsArray[Int(self.profile.sensorList.getByName(name: "Video Frames")?.parameters["Resolution"] as! Double)]
@@ -786,28 +790,23 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
     }
     
     func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
-        // 1
+
         guard let planeAnchor = anchor as? ARPlaneAnchor else { return }
         
-        // 2
         let width = CGFloat(planeAnchor.extent.x)
         let height = CGFloat(planeAnchor.extent.z)
         let plane = SCNPlane(width: width, height: height)
         
-        // 3
         plane.materials.first?.diffuse.contents = UIColor.lightGray
 
-        // 4
         let planeNode = SCNNode(geometry: plane)
         
-        // 5
         let x = CGFloat(planeAnchor.center.x)
         let y = CGFloat(planeAnchor.center.y)
         let z = CGFloat(planeAnchor.center.z)
         planeNode.position = SCNVector3(x,y,z)
         planeNode.eulerAngles.x = -.pi / 2
         
-        // 6
         node.addChildNode(planeNode)
         self.bufferDispatchQueue.async {
             DispatchQueue.global().sync {
@@ -885,12 +884,10 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
         if self.arSession != nil {
             print("ARSession paused")
             self.arSession?.pause()
-            // TODO reinitialize counters
         }
     }
     
 
-    // TODO SPOSTARE IN SENSORVIEWCONTROLLER
     func checkPermissions() {
         
         //check position permission for compass

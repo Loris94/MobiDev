@@ -28,6 +28,7 @@ class Buffer {
         "sensor": 0,
         "image": 0,
     ]
+    
     var buffer = [
         "sensor": [(Data, Double)](),
         "image": [(Data, Double)](),
