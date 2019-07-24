@@ -65,15 +65,18 @@ class Utils {
     }
     
     
-    static func arFrameToProto(elem: ARFrame, compression: CGFloat, arKitPoses: Bool, planes: Bool, pointClouds: Bool) -> ImageProto2 {
+    static func arFrameToProto(elem: ARFrame, compression: CGFloat, videoFrames: Bool, arKitPoses: Bool, planes: Bool, pointClouds: Bool) -> ImageProto2 {
         
         var jpeg : Data? = nil
         var jpegImg: UIImage?
         
-        jpegImg = UIImage(pixelBuffer: elem.capturedImage)
-        DispatchQueue.main.sync {
-            jpeg = jpegImg?.jpegData(compressionQuality: compression)
+        if videoFrames {
+            jpegImg = UIImage(pixelBuffer: elem.capturedImage)
+            DispatchQueue.main.sync {
+                jpeg = jpegImg?.jpegData(compressionQuality: compression)
+            }
         }
+        
         
         //jpeg = UIImage(pixelBuffer: elem.capturedImage)?.jpegData(compressionQuality: compression)
         
@@ -109,7 +112,7 @@ class Utils {
         }
         
         return ImageProto2.with{
-            $0.jpegImage = jpeg!
+            $0.jpegImage = jpeg ?? Data()
             $0.trackingState = trackingState
             $0.pointsCloud = pointsCloudProto
             $0.arKitPoses = arKitPosesProto

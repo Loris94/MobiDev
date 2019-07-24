@@ -94,8 +94,36 @@ class SensorsViewController: UIViewController, UITableViewDelegate, UITableViewD
             //sender!.isOn = false
             sender!.setOn(false, animated: true)
             self.arkitNotAvailableAlert()
+        } else if (sensorName == "Planes" || sensorName == "Point cloud") && !self.profile.sensorList.getByName(name: "Video Frames")!.status {
+            if let cell = self.SensorsTable.cellForRow(at: [1,4]) as? SensorTableCell {
+                cell.SensorSwitch.setOn(true, animated: true)
+                self.profile.sensorList.getByName(name: "Video Frames")!.status = true
+                toggleSwitch(sender: sender)
+            }
+        } else if sensorName == "Video Frames" && sensorStatus == true {
+            if self.profile.sensorList.getByName(name: "Point cloud")!.status {
+                if let cell = self.SensorsTable.cellForRow(at: [1,7]) as? SensorTableCell {
+                    self.profile.sensorList.getByName(name: "Point cloud")!.status = false
+                    cell.SensorSwitch.setOn(false, animated: true)
+                }
+            }
+            
+            if self.profile.sensorList.getByName(name: "Planes")!.status {
+                if let cell = self.SensorsTable.cellForRow(at: [1,6]) as? SensorTableCell {
+                    self.profile.sensorList.getByName(name: "Planes")!.status = false
+                    cell.SensorSwitch.setOn(false, animated: true)
+                }
+            }
+            toggleSwitch(sender: sender)
+        } else {
+            toggleSwitch(sender: sender)
         }
-        else if sensorStatus {
+        
+    }
+    
+    func toggleSwitch(sender: UISwitch!) {
+        let sensorStatus = self.profile.sensorList.sensorList[sender.tag].status
+        if sensorStatus {
             self.profile.sensorList.sensorList[sender.tag].status = false
         } else {
             self.profile.sensorList.sensorList[sender.tag].status = true

@@ -766,7 +766,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
         
 //      AR
         print("is AR supported: ", ARConfiguration.isSupported)
-        if ARConfiguration.isSupported && self.profile.sensorList.getByName(name: "Video Frames")!.status {
+        if ARConfiguration.isSupported && ( self.profile.sensorList.getByName(name: "Video Frames")!.status || self.profile.sensorList.getByName(name: "ARkit 6d poses")!.status ){
             
             self.arSession = ARSession()
             self.arSession?.delegate = self
@@ -789,6 +789,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
         }
     }
     
+    // ARKIT view renderer to show the planes, this method will be called only if planes are toggled
     func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
 
         guard let planeAnchor = anchor as? ARPlaneAnchor else { return }
@@ -851,7 +852,8 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
                     }
                     let planes = self.profile.sensorList.getByName(name: "Planes")?.status
                     let pointClouds = self.profile.sensorList.getByName(name: "Point cloud")?.status
-                    self.buffer?.addProbe(type: "image", elem: (didUpdate, compression, arKitPoses, planes, pointClouds))
+                    let videoFrames = self.profile.sensorList.getByName(name: "Video Frames")?.status
+                    self.buffer?.addProbe(type: "image", elem: (didUpdate, compression, videoFrames, arKitPoses, planes, pointClouds))
                     
                 }
 
