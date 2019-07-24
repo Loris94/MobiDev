@@ -9,7 +9,7 @@ the receiving data
 * Python 2.7 on the server
 * MongoDB on the server
 
-All python dependencies all downloadable with pip:
+All python dependencies are downloadable with pip:
 * pip install python-socketio
 * pip install eventlet
 * pip install pymongo
@@ -17,12 +17,12 @@ All python dependencies all downloadable with pip:
 
 ## Client
 
-Once the app starts the first view that will load will be a list of all the settable parameters, click on the cell to edit (if editable) and on the switch to active the data gather.
+Once the app starts, the first view that loads is a list of all the settable parameters. Click on the cell to edit (if editable) and on the switch to toggle the data gather.
 
 ### Server
 Server address and port
 
-### Session 
+### Session (optional)
 Session name (see later for explanation) 
 
 ### Accelerometer/Gyroscope/Magnetometer/Compass 
@@ -33,11 +33,12 @@ Update interval: how frequently the sensor is going to send the data (in seconds
 * FPS: how many frames are taken per seconds. Lowest: 1, Highest: 60
 * Resolution: list of all possible frames resolution, incrementing the stepper will select a larger resolution 
 
-ARkit 6d poses, Planes and Points cloud don't have parameters
+### ARkit 6d poses/ Planes / Points cloud 
+don't have parameters
 
 ## Server
 
-The library is inside the socketioserver.py file, to start the server just import the library and use the method startServer with the server port as parameter eg. in the startserver.py file
+The library is inside the socketioserver.py file, to start the server just import the library and use the method startServer with the server port as parameter. An example is in the startserver.py file
 
 ## About the data
 
@@ -59,7 +60,7 @@ CoreMotion is used for the accelerometer, gyroscope, magnetometer and CoreLocati
 Video Frames, arkit poses, planes and points clouds are taken with the arkit library
 
 
-
+examples
 
 
 
