@@ -17,6 +17,9 @@ class ServerParametersInfoTableCell: UITableViewCell{
     
     @IBOutlet weak var valueLabel: UILabel!
     
+    
+    @IBOutlet weak var infoButton: UIButton!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
     }

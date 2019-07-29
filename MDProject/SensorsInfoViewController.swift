@@ -117,6 +117,7 @@ class SensorssInfoViewController: UIViewController, UITableViewDelegate, UITable
                 cell.infoLabel.text = sortedDictionary[indexPath[1]]
                 let value = self.profile.sensorList.getByName(name: sensorTitle)!.parameters[sortedDictionary[indexPath[1]]] as! Double
                 cell.infoText.text = String(value)
+                
                 cell.infoText.tag = indexPath[1]
             
                 return cell

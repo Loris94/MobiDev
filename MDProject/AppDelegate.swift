@@ -86,7 +86,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 $0.name = "Accelerometer"
                 $0.status = true
                 $0.parameter = [SensorParameterProto.with {
-                    $0.key = "Update Interval"
+                    $0.key = "Update Interval (in seconds)"
                     $0.value = SensorParameterValueProto.with {
                         $0.doubleValue = 0.1
                     }
@@ -95,7 +95,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     $0.name = "Gyroscope"
                     $0.status = false
                     $0.parameter = [SensorParameterProto.with {
-                        $0.key = "Update Interval"
+                        $0.key = "Update Interval (in seconds)"
                         $0.value = SensorParameterValueProto.with {
                             $0.doubleValue = 0.1
                         }
@@ -104,7 +104,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     $0.name = "Magnetometer"
                     $0.status = false
                     $0.parameter = [SensorParameterProto.with {
-                        $0.key = "Update Interval"
+                        $0.key = "Update Interval (in seconds)"
                         $0.value = SensorParameterValueProto.with {
                             $0.doubleValue = 0.1
                         }
@@ -113,7 +113,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     $0.name = "Compass"
                     $0.status = false
                     $0.parameter = [SensorParameterProto.with {
-                        $0.key = "Update Interval"
+                        $0.key = "Update Interval (in seconds)"
                         $0.value = SensorParameterValueProto.with {
                             $0.doubleValue = 40
                         }

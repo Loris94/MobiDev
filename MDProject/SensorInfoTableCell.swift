@@ -15,6 +15,7 @@ class SensorInfoTableCell: UITableViewCell{
     @IBOutlet weak var infoLabel: UILabel!
     
     @IBOutlet weak var infoText: UITextField!
+
     
     override func awakeFromNib() {
         super.awakeFromNib()
