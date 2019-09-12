@@ -53,6 +53,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
     @IBOutlet weak var uiScrollView: UIScrollView!
     
     
+    @IBOutlet weak var pageController: UIPageControl!
     // first page of the scroll view arkit camera, will appear only if the user wants ardata
     var arscnView: ARSCNView? = nil
     
@@ -287,12 +288,12 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
                 cell.InfoValue.text = String(value) + "kB"
             }
             if let cell = self.realtimeInfoTable.cellForRow(at: IndexPath(indexes:[0,2])) as? RealTimeInfoCell {
-                var value = Int((self.buffer!.bufferSize["image"] ?? 0)/1000)
+                var value = Int((self.buffer!.bufferSize["image"] ?? 0)/1000000)
                 if value < 0 {
                     self.buffer?.calculateSize(type: "image")
-                    value = Int(self.buffer!.bufferSize["image"] ?? 0)/1000
+                    value = Int(self.buffer!.bufferSize["image"] ?? 0)/1000000
                 }
-                cell.InfoValue.text = String(value) + "kB"
+                cell.InfoValue.text = String(value) + "MB"
             }
             
             
@@ -589,6 +590,9 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
         } else {
             self.slides = [self.sensorInfoUIScrollView]
         }
+        self.pageController.numberOfPages = self.slides!.count
+        self.pageController.currentPage = 0
+        view.bringSubviewToFront(self.pageController)
         self.uiScrollView.delegate = self
         self.checkPermissions()
         self.hideKeyboardWhenTappedAround()
@@ -611,6 +615,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
                 }
                 
             }
+            self.view.bringSubviewToFront(self.pageController)
         }
 
         if ((socketController == nil)) {
@@ -716,7 +721,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
 //      ACCELEROMETER
         if motionManager.isAccelerometerAvailable && self.profile.sensorList.getByName(name: "Accelerometer")!.status {
             // min: 0.01
-            motionManager.accelerometerUpdateInterval = self.profile.sensorList.getByName(name: "Accelerometer")?.parameters["Update Interval"] as! TimeInterval
+            motionManager.accelerometerUpdateInterval = self.profile.sensorList.getByName(name: "Accelerometer")?.parameters["Update Interval (in seconds)"] as! TimeInterval
             motionManager.startAccelerometerUpdates(to: self.operationQueue) { data, error  in
                 self.bufferDispatchQueue.async {
                     DispatchQueue.global().sync {
@@ -730,7 +735,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
         
 //      GYROSCOPE
         if motionManager.isGyroAvailable && self.profile.sensorList.getByName(name: "Gyroscope")!.status{
-            motionManager.gyroUpdateInterval = self.profile.sensorList.getByName(name: "Gyroscope")?.parameters["Update Interval"] as! TimeInterval
+            motionManager.gyroUpdateInterval = self.profile.sensorList.getByName(name: "Gyroscope")?.parameters["Update Interval (in seconds)"] as! TimeInterval
             motionManager.startGyroUpdates(to: self.operationQueue) { data, error in
                 self.bufferDispatchQueue.async {
                     DispatchQueue.global().sync {
@@ -746,7 +751,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
 //      data!.rotationRate. GOING TO USE ARKIT 6D INSTEAD OF THIS
 //      data!.attitude.pitch SAME
         if motionManager.isMagnetometerAvailable && self.profile.sensorList.getByName(name: "Magnetometer")!.status{
-            motionManager.magnetometerUpdateInterval = self.profile.sensorList.getByName(name: "Magnetometer")?.parameters["Update Interval"] as! TimeInterval
+            motionManager.magnetometerUpdateInterval = self.profile.sensorList.getByName(name: "Magnetometer")?.parameters["Update Interval (in seconds)"] as! TimeInterval
             motionManager.startMagnetometerUpdates(to: self.operationQueue) { data, error in
                 self.bufferDispatchQueue.async {
                     DispatchQueue.global().sync {

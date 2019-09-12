@@ -80,7 +80,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func createDefaultProfile() -> ProfileProto {
         let defaultProfile = ProfileProto.with {
             $0.sessionName = "DefaultSession"
-            $0.serverAddress = "192.168.43.14"
+            $0.serverAddress = "192.168.1.58"
             $0.serverPort = 9099
             $0.sensor = [ SensorProto.with {
                 $0.name = "Accelerometer"
