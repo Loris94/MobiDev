@@ -27,7 +27,7 @@ extension UIImage {
 
 
 @available(iOS 11.3, *)
-class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate,ARSessionDelegate, ARSCNViewDelegate {
+class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate, ARSessionDelegate, ARSCNViewDelegate {
     
     var videoFrame: Int = 0
 
@@ -587,12 +587,13 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
                 self.arscnView!.delegate = self
             }
             self.slides = [self.arscnView!, self.sensorInfoUIScrollView]
+            self.pageController.numberOfPages = self.slides!.count
+            self.pageController.currentPage = 0
+            view.bringSubviewToFront(self.pageController)
         } else {
             self.slides = [self.sensorInfoUIScrollView]
         }
-        self.pageController.numberOfPages = self.slides!.count
-        self.pageController.currentPage = 0
-        view.bringSubviewToFront(self.pageController)
+        
         self.uiScrollView.delegate = self
         self.checkPermissions()
         self.hideKeyboardWhenTappedAround()
@@ -600,6 +601,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
         let backItem = UIBarButtonItem(title: "Stop", style: UIBarButtonItem.Style.plain, target: self,action: #selector(self.backAction))
         self.navigationItem.leftBarButtonItem = backItem
         
+        self.uiScrollView.showsHorizontalScrollIndicator = false
         
         self.updateCellsTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(updateBufferSizeView), userInfo: nil, repeats: true)
         
@@ -716,6 +718,55 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
         print("Geom parameters: ", x, y, w, h)
     }
     
+    /*
+     * default function called when view is scolled. In order to enable callback
+     * when scrollview is scrolled, the below code needs to be called:
+     * slideScrollView.delegate = self or
+     */
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let pageIndex = round(scrollView.contentOffset.x/view.frame.width)
+        pageController.currentPage = Int(pageIndex)
+        
+        let maximumHorizontalOffset: CGFloat = scrollView.contentSize.width - scrollView.frame.width
+        let currentHorizontalOffset: CGFloat = scrollView.contentOffset.x
+        
+        // vertical
+        let maximumVerticalOffset: CGFloat = scrollView.contentSize.height - scrollView.frame.height
+        let currentVerticalOffset: CGFloat = scrollView.contentOffset.y
+        
+        let percentageHorizontalOffset: CGFloat = currentHorizontalOffset / maximumHorizontalOffset
+        let percentageVerticalOffset: CGFloat = currentVerticalOffset / maximumVerticalOffset
+        
+        
+        /*
+         * below code changes the background color of view on paging the scrollview
+         */
+        //        self.scrollView(scrollView, didScrollToPercentageOffset: percentageHorizontalOffset)
+        
+        
+        /*
+         * below code scales the imageview on paging the scrollview
+         */
+//        let percentOffset: CGPoint = CGPoint(x: percentageHorizontalOffset, y: percentageVerticalOffset)
+//
+//        if(percentOffset.x > 0 && percentOffset.x <= 0.25) {
+//            slides![0].transform = CGAffineTransform(scaleX: (0.25-percentOffset.x)/0.25, y: (0.25-percentOffset.x)/0.25)
+//            slides![1].transform = CGAffineTransform(scaleX: percentOffset.x/0.25, y: percentOffset.x/0.25)
+//
+//        } else if(percentOffset.x > 0.25 && percentOffset.x <= 0.50) {
+//            slides![1].transform = CGAffineTransform(scaleX: (0.50-percentOffset.x)/0.25, y: (0.50-percentOffset.x)/0.25)
+//            slides![2].transform = CGAffineTransform(scaleX: percentOffset.x/0.50, y: percentOffset.x/0.50)
+//
+//        } else if(percentOffset.x > 0.50 && percentOffset.x <= 0.75) {
+//            slides![2].transform = CGAffineTransform(scaleX: (0.75-percentOffset.x)/0.25, y: (0.75-percentOffset.x)/0.25)
+//            slides![3].transform = CGAffineTransform(scaleX: percentOffset.x/0.75, y: percentOffset.x/0.75)
+//
+//        } else if(percentOffset.x > 0.75 && percentOffset.x <= 1) {
+//            slides![3].transform = CGAffineTransform(scaleX: (1-percentOffset.x)/0.25, y: (1-percentOffset.x)/0.25)
+//            slides![4].transform = CGAffineTransform(scaleX: percentOffset.x, y: percentOffset.x)
+//        }
+    }
+    
     func startSensorGather() {
         
 //      ACCELEROMETER
@@ -783,8 +834,11 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
             let arConfig = ARWorldTrackingConfiguration()
             arConfig.worldAlignment = ARConfiguration.WorldAlignment.gravity
             var resolutionsArray = ARWorldTrackingConfiguration.supportedVideoFormats
+            print("Res", ARWorldTrackingConfiguration.supportedVideoFormats)
             resolutionsArray.reverse()
-            arConfig.videoFormat = resolutionsArray[Int(self.profile.sensorList.getByName(name: "Video Frames")?.parameters["Resolution"] as! Double)]
+//          TODO Remove temp
+//            arConfig.videoFormat = resolutionsArray[Int(self.profile.sensorList.getByName(name: "Video Frames")?.parameters["Resolution"] as! Double)]
+            
             if self.profile.sensorList.getByName(name: "Planes")!.status{
                 arConfig.planeDetection = .horizontal
             }
