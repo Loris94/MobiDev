@@ -52,6 +52,8 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
     
     @IBOutlet weak var uiScrollView: UIScrollView!
     
+    let connecitonPng = UIImage(named: "connection-on.png")
+    let connectionDot = UIBarButtonItem(image: UIImage(named: "connection_dot.png"), style: .plain, target: self, action: nil)
     
     @IBOutlet weak var pageController: UIPageControl!
     // first page of the scroll view arkit camera, will appear only if the user wants ardata
@@ -264,6 +266,12 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
             
             if let cell = self.realtimeInfoTable.cellForRow(at: IndexPath(indexes:[0,0])) as? RealTimeInfoCell {
                 cell.InfoValue.text = status
+                if cell.InfoValue.text == "Connected" {
+                    self.navigationItem.rightBarButtonItem?.tintColor = .green
+                } else {
+                    self.navigationItem.rightBarButtonItem?.tintColor = .red
+                }
+                
             }
             
         }
@@ -592,6 +600,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
             view.bringSubviewToFront(self.pageController)
         } else {
             self.slides = [self.sensorInfoUIScrollView]
+            self.pageController.isHidden = true
         }
         
         self.uiScrollView.delegate = self
@@ -600,7 +609,8 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
         self.navigationItem.setHidesBackButton(true, animated:true);
         let backItem = UIBarButtonItem(title: "Stop", style: UIBarButtonItem.Style.plain, target: self,action: #selector(self.backAction))
         self.navigationItem.leftBarButtonItem = backItem
-        
+        self.navigationItem.rightBarButtonItem = self.connectionDot
+        self.navigationItem.rightBarButtonItem?.tintColor = .red
         self.uiScrollView.showsHorizontalScrollIndicator = false
         
         self.updateCellsTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(updateBufferSizeView), userInfo: nil, repeats: true)
@@ -836,8 +846,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegat
             var resolutionsArray = ARWorldTrackingConfiguration.supportedVideoFormats
             print("Res", ARWorldTrackingConfiguration.supportedVideoFormats)
             resolutionsArray.reverse()
-//          TODO Remove temp
-//            arConfig.videoFormat = resolutionsArray[Int(self.profile.sensorList.getByName(name: "Video Frames")?.parameters["Resolution"] as! Double)]
+            arConfig.videoFormat = resolutionsArray[Int(self.profile.sensorList.getByName(name: "Video Frames")?.parameters["Resolution"] as! Double)]
             
             if self.profile.sensorList.getByName(name: "Planes")!.status{
                 arConfig.planeDetection = .horizontal
