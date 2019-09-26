@@ -73,6 +73,6 @@ All the sensors data gathered from the device is taken using Apple libraries and
 CoreMotion is used for the accelerometer, gyroscope, magnetometer and CoreLocation for the compass.
 Video Frames, arkit poses, planes and points clouds are taken with the arkit library
 
-<img src="./ReadMeImages/image7.png" width="75%" height="25%">
-<img src="./ReadMeImages/image8.png" width="75%" height="25%">
+<img src="./ReadMeImages/image7.png" width="100%" height="25%">
+<img src="./ReadMeImages/image8.png" width="100%" height="25%">
 
