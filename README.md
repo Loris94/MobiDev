@@ -36,8 +36,10 @@ Update interval: how frequently the sensor is going to send the data (in seconds
 ### ARkit 6d poses/ Planes / Points cloud 
 Don't have parameters, moreover planes and points cloud depend directly from the video frames ( activacting these will also activate video frames ) 
 
-<img src="./ReadMeImages/Image1.jpg" width="10%" height="10%">
-
+<img src="./ReadMeImages/Image1.jpg" width="25%" height="25%">
+<img src="./ReadMeImages/Image2.jpg" width="25%" height="25%">
+<img src="./ReadMeImages/Image3.jpg" width="25%" height="25%">
+<img src="./ReadMeImages/Image4.jpg" width="25%" height="25%">
 
 ## Server
 
