@@ -80,12 +80,12 @@ The images below show an example of the data saved in the server database.
 
 <img src="./ReadMeImages/image7.png" width="100%" height="25%">
 
-Acceleration, magnetometer and gyro data are similar, they just have x/y/z coordinates. The compass also have magneticHeading and trueHeading.
+Acceleration, magnetometer and gyro data are similar: they just have x, y and z coordinates. The compass also have magneticHeading and trueHeading.
 
 <img src="./ReadMeImages/image8.png" width="100%" height="25%">
 
 The video frame data contains the image itself, the arkitposes and points cloud. 
-Note in the example in the transform poses that not every element of the matrix is shown. The "third column" has three elements while the fourth has four; this is becasuse the "w" element in the third column is 0.
+In the example at the transform poses data not every element of the matrix is shown. The third column has three elements while the fourth has four; this is because the "w" element in the third column is 0.
 
 Important: arKitPoses can work without the video feed but the data will still be recorded inside a JpegImage probe ( the JpegImage string will be empty in that case ) 
 
