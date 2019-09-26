@@ -34,7 +34,10 @@ Update interval: how frequently the sensor is going to send the data (in seconds
 * Resolution: list of all possible frames resolution, incrementing the stepper will select a larger resolution 
 
 ### ARkit 6d poses/ Planes / Points cloud 
-don't have parameters
+Don't have parameters, moreover planes and points cloud depend directly from the video frames ( activacting these will also activate video frames ) 
+
+<img src="./ReadMeImages/Image1.jpg" width="10%" height="10%">
+
 
 ## Server
 
@@ -58,10 +61,6 @@ Important: Arkit poses/Points Cloud/Tracking state if chosen are embedded inside
 All the sensors data gathered from the device is taken using Apple libraries and not edited, with the exception of video frames that are converted in jpeg.
 CoreMotion is used for the accelerometer, gyroscope, magnetometer and CoreLocation for the compass.
 Video Frames, arkit poses, planes and points clouds are taken with the arkit library
-
-
-examples
-
 
 
 
