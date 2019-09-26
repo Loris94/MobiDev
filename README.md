@@ -34,7 +34,21 @@ Update interval: how frequently the sensor is going to send the data (in seconds
 * Resolution: list of all possible frames resolution, incrementing the stepper will select a larger resolution 
 
 ### ARkit 6d poses/ Planes / Points cloud 
-don't have parameters
+Don't have parameters, moreover planes and points cloud depend directly from the video frames ( activacting these will also activate video frames ) 
+
+### Screenshots
+
+The screenshots show all the client sensors and the parameters for accelerometer/video frames
+
+<img src="./ReadMeImages/Image1.jpg" width="25%" height="25%"> <img src="./ReadMeImages/image5.jpg" width="25%" height="25%"> <img src="./ReadMeImages/image6.jpg" width="25%" height="25%">
+
+And the interface once the app starts:  
+
+<img src="./ReadMeImages/image2.png" width="25%" height="25%"> <img src="./ReadMeImages/image3.png" width="25%" height="25%"> <img src="./ReadMeImages/image4.png" width="25%" height="25%">
+
+In these example all sensors are started, the camera feed also shows point clouds and planes. By swiping on the right it'll show a table with the connection status / buffers size / sensors's status. 
+
+The connection status is also shown by a red/green dot in the upper right corner of the screen.
 
 ## Server
 
@@ -59,9 +73,19 @@ All the sensors data gathered from the device is taken using Apple libraries and
 CoreMotion is used for the accelerometer, gyroscope, magnetometer and CoreLocation for the compass.
 Video Frames, arkit poses, planes and points clouds are taken with the arkit library
 
+### Screenshots
 
-examples
+The images below show an example of the data saved in the server database.
 
 
+<img src="./ReadMeImages/image7.png" width="100%" height="25%">
 
+Acceleration, magnetometer and gyro data are similar: they just have x, y and z coordinates. The compass also have magneticHeading and trueHeading.
+
+<img src="./ReadMeImages/image8.png" width="100%" height="25%">
+
+The video frame data contains the image itself, the arkitposes and points cloud. 
+In the example at the transform poses data not every element of the matrix is shown. The third column has three elements while the fourth has four; this is because the "w" element in the third column is 0.
+
+Important: arKitPoses can work without the video feed but the data will still be recorded inside a JpegImage probe ( the JpegImage string will be empty in that case ) 
 
